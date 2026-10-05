@@ -1,18 +1,53 @@
 /* Estilos comuns a todas as páginas */
 
-/* all 1: espaçamento interno e externo do body */
+/* dew_14 all 3: zera a margin do body (o espaçamento passa para header, main e footer) */
 body {
-  padding: 20px;
-  margin: 20px;
+  margin: 0;
+  padding: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* all 2: efeito hover nos links */
-a:hover {
-  opacity: 0.5;
+/* dew_14 all 2: cabeçalho acompanha a rolagem, largura total e cor de fundo */
+/* dew_16 all-1: padding de 20px */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #1e3a5f;
 }
 
-/* pd 1: banner com imagem de fundo centralizada e sem repetição */
+/* dew_12 pd 3 + dew_14 all 2: links de navegação lado a lado */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* dew_14 all 4 + dew_16 all-1: espaçamento interno do main */
+main {
+  padding: 20px;
+}
+
+/* dew_15 all 2 + dew_16 all-1: rodapé com cor de fundo e padding */
+footer {
+  padding: 20px;
+  background-color: #dfe6ee;
+  text-align: center;
+}
+
+/* dew_12 pd 1: banner com imagem de fundo centralizada e sem repetição */
 .banner {
   padding: 60px 20px;
   background-color: #1e3a5f;
@@ -23,16 +58,40 @@ a:hover {
   text-align: center;
 }
 
-/* pd 2: remove o elemento da tela */
+/* dew_12 pd 2: remove o elemento da tela */
 .hide {
   display: none;
 }
 
-/* pd 3: navegação fixa no topo e na camada mais superficial */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 10px;
-  background-color: #ffffff;
+/* dew_16 all-2: inputs com bordas arredondadas */
+input {
+  padding: 6px;
+  border: 1px solid #8a9bb0;
+  border-radius: 6px;
+}
+
+/* dew_12 all 2 + dew_16 all-3: opacidade no hover dos links com atraso de 0.8s */
+a {
+  transition: opacity 0.3s ease 0.8s;
+}
+
+a:hover {
+  opacity: 0.5;
+}
+
+/* dew_16 all-4: imagens aumentam 50% no hover */
+img {
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.5);
+}
+
+/* dew_15 all 1: oculta cabeçalho e rodapé ao imprimir */
+@media print {
+  header,
+  footer {
+    display: none;
+  }
 }

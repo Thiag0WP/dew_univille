@@ -5,83 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Categoria de Produtos - TVs</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/category_tvs.css">
 </head>
 <body>
 
-  <h1>Categoria de produtos</h1>
-  <h2>Tvs</h2>
+  <header>
+    <nav>
+      <ul class="nav">
+        <li><a href="products.html">Início</a></li>
+        <li><a href="category_tvs.html">TVs</a></li>
+        <li><a href="category_acessories.html">Acessórios</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Imagem</th>
-        <th>Produto</th>
-        <th>Valor à vista</th>
-        <th>Valor parcelado</th>
-        <th>Link</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <picture>
-            <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
-            <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
-            <img src="https://placehold.co/300x200?text=Samsung+Crystal+UHD+55" alt="TV Samsung Crystal UHD 55 polegadas">
-          </picture>
-        </td>
-        <td>Samsung Crystal UHD 55" CU7700</td>
-        <td>R$ 2699,00</td>
-        <td>R$ 269,90 em 10 vezes</td>
-        <td><a href="https://www.samsung.com/br/" target="_blank" rel="noopener noreferrer">Detalhes</a></td>
-      </tr>
-      <tr>
-        <td>
-          <picture>
-            <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=LG+UHD+50" type="image/webp">
-            <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=LG+UHD+50" type="image/webp">
-            <img src="https://placehold.co/300x200?text=LG+UHD+50" alt="TV LG UHD 50 polegadas">
-          </picture>
-        </td>
-        <td>LG UHD 50" UR8750</td>
-        <td>R$ 2399,00</td>
-        <td>R$ 239,90 em 10 vezes</td>
-        <td><a href="https://www.lg.com/br" target="_blank" rel="noopener noreferrer">Detalhes</a></td>
-      </tr>
-    </tbody>
-  </table>
+  <main>
+    <h1>Categoria de produtos</h1>
+    <h2 class="products-title">Tvs</h2>
 
-  <h2>Solicite sua televisão</h2>
+    <ul class="products-list">
+      <li class="product">
+        <picture>
+          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
+          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
+          <img src="https://placehold.co/300x200?text=Samsung+Crystal+UHD+55" alt="TV Samsung Crystal UHD 55 polegadas">
+        </picture>
+        <h3>Samsung Crystal UHD 55" CU7700</h3>
+        <h4>Valor à vista: R$ 2699,00</h4>
+        <h5>Valor parcelado: R$ 269,90 em 10 vezes</h5>
+        <a href="https://www.samsung.com/br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
+      </li>
+      <li class="product">
+        <picture>
+          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=LG+UHD+50" type="image/webp">
+          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=LG+UHD+50" type="image/webp">
+          <img src="https://placehold.co/300x200?text=LG+UHD+50" alt="TV LG UHD 50 polegadas">
+        </picture>
+        <h3>LG UHD 50" UR8750</h3>
+        <h4>Valor à vista: R$ 2399,00</h4>
+        <h5>Valor parcelado: R$ 239,90 em 10 vezes</h5>
+        <a href="https://www.lg.com/br" target="_blank" rel="noopener noreferrer">Detalhes</a>
+      </li>
+      <li class="product">
+        <picture>
+          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=TCL+QLED+65" type="image/webp">
+          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=TCL+QLED+65" type="image/webp">
+          <img src="https://placehold.co/300x200?text=TCL+QLED+65" alt="TV TCL QLED 65 polegadas">
+        </picture>
+        <h3>TCL QLED 65" C655</h3>
+        <h4>Valor à vista: R$ 3499,00</h4>
+        <h5>Valor parcelado: R$ 349,90 em 10 vezes</h5>
+        <a href="https://www.tcl.com/br/pt" target="_blank" rel="noopener noreferrer">Detalhes</a>
+      </li>
+    </ul>
 
-  <form>
-    <label for="name">Nome</label>
-    <input type="text" id="name" name="name" required>
+    <h2>Solicite sua televisão</h2>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
+    <form class="products-form" id="products-form">
+      <div class="col">
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="name" required>
 
-    <label for="brand">Marca de tv desejada</label>
-    <input type="text" id="brand" name="brand" list="brands">
-    <datalist id="brands">
-      <option value="LG"></option>
-      <option value="Samsung"></option>
-    </datalist>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
 
-    <button type="reset">Limpar campos</button>
-    <button type="submit">Enviar</button>
-  </form>
+      <div class="col">
+        <label for="brand">Marca de tv desejada</label>
+        <input type="text" id="brand" name="brand" list="brands">
+        <datalist id="brands">
+          <option value="LG"></option>
+          <option value="Samsung"></option>
+        </datalist>
+      </div>
 
-  <h2>Perguntas mais frequentes</h2>
+      <div class="products-form-buttons">
+        <button type="reset">Limpar campos</button>
+        <button type="submit">Enviar</button>
+      </div>
+    </form>
 
-  <details>
-    <summary>Qual o prazo de entrega?</summary>
-    <p>O prazo de entrega é de 5 a 10 dias úteis, dependendo da sua região.</p>
-  </details>
+    <p id="form-message" hidden></p>
 
-  <details>
-    <summary>As TVs possuem garantia?</summary>
-    <p>Sim, todas as TVs possuem 1 ano de garantia do fabricante.</p>
-  </details>
+    <h2>Perguntas mais frequentes</h2>
 
+    <details>
+      <summary>Qual o prazo de entrega?</summary>
+      <p>O prazo de entrega é de 5 a 10 dias úteis, dependendo da sua região.</p>
+    </details>
+
+    <details>
+      <summary>As TVs possuem garantia?</summary>
+      <p>Sim, todas as TVs possuem 1 ano de garantia do fabricante.</p>
+    </details>
+  </main>
+
+  <footer>
+    <p>Produtos e acessórios para TVs &copy; 2026</p>
+  </footer>
+
+  <script src="js/category_tvs.js"></script>
 </body>
 </html>
