@@ -5,6 +5,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
+  /* rodapé sempre no fim da tela, mesmo em páginas curtas */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* dew_14 all 2: cabeçalho acompanha a rolagem, largura total e cor de fundo */
@@ -35,8 +39,19 @@ header {
   font-weight: bold;
 }
 
+/* página atual destacada no menu */
+.nav a.active {
+  border-bottom: 2px solid #ffffff;
+}
+
+/* evita que o cabeçalho fixo cubra o destino de links com # */
+[id] {
+  scroll-margin-top: 90px;
+}
+
 /* dew_14 all 4 + dew_16 all-1: espaçamento interno do main */
 main {
+  flex: 1;
   padding: 20px;
 }
 
@@ -45,6 +60,80 @@ footer {
   padding: 20px;
   background-color: #dfe6ee;
   text-align: center;
+}
+
+/* links de navegação no rodapé */
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-nav a {
+  color: #1e3a5f;
+}
+
+/* cards de categorias da página inicial */
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category a {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+}
+
+.category img {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .categories {
+    flex-direction: row;
+  }
+
+  .category {
+    flex: 1;
+  }
+}
+
+/* seção "Continue navegando" no fim das páginas */
+.next-steps {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 1px solid #cccccc;
+}
+
+.next-steps ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.next-link {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background-color: #1e3a5f;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 /* dew_12 pd 1: banner com imagem de fundo centralizada e sem repetição */

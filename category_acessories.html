@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Categoria de Produtos - Acessórios</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/category_tvs.css">
 </head>
 <body>
 
@@ -13,17 +14,17 @@
       <ul class="nav">
         <li><a href="products.html">Início</a></li>
         <li><a href="category_tvs.html">TVs</a></li>
-        <li><a href="category_acessories.html">Acessórios</a></li>
+        <li><a href="category_acessories.html" class="active" aria-current="page">Acessórios</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <h1>Categoria de produtos</h1>
-    <h2>Acessórios</h2>
+    <h2 class="products-title">Acessórios</h2>
 
-    <ul>
-      <li>
+    <ul class="products-list">
+      <li class="product">
         <picture>
           <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Soundbar+JBL+Bar+2.1" type="image/webp">
           <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Soundbar+JBL+Bar+2.1" type="image/webp">
@@ -34,7 +35,7 @@
         <h5>Valor parcelado: R$ 89,90 em 10 vezes</h5>
         <a href="https://www.jbl.com/br-pt/" target="_blank" rel="noopener noreferrer">Detalhes</a>
       </li>
-      <li>
+      <li class="product">
         <picture>
           <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Suporte+de+Parede" type="image/webp">
           <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Suporte+de+Parede" type="image/webp">
@@ -45,10 +46,38 @@
         <h5>Valor parcelado: R$ 43,00 em 3 vezes</h5>
         <a href="https://www.multivisaosuportes.com.br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
       </li>
+      <li class="product">
+        <picture>
+          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Cabo+HDMI+2.1" type="image/webp">
+          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Cabo+HDMI+2.1" type="image/webp">
+          <img src="https://placehold.co/300x200?text=Cabo+HDMI+2.1" alt="Cabo HDMI 2.1">
+        </picture>
+        <h3>Cabo HDMI 2.1 8K 2 metros</h3>
+        <h4>Valor à vista: R$ 79,00</h4>
+        <h5>Valor parcelado: R$ 39,50 em 2 vezes</h5>
+        <a href="https://www.multilaser.com.br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
+      </li>
     </ul>
+
+    <section class="next-steps">
+      <h2>Continue navegando</h2>
+      <ul>
+        <li><a class="next-link" href="category_tvs.html">Veja também as TVs</a></li>
+        <li><a class="next-link" href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        <li><a class="next-link" href="products.html">Voltar para o início</a></li>
+      </ul>
+    </section>
   </main>
 
   <footer>
+    <nav>
+      <ul class="footer-nav">
+        <li><a href="products.html">Início</a></li>
+        <li><a href="category_tvs.html">TVs</a></li>
+        <li><a href="category_acessories.html">Acessórios</a></li>
+        <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+      </ul>
+    </nav>
     <p>Produtos e acessórios para TVs &copy; 2026</p>
   </footer>
 
