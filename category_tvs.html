@@ -2,29 +2,86 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Categoria de Produtos - TVs</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <h1>Categoria de produtos</h1>
   <h2>Tvs</h2>
 
-  <ul>
-    <li>
-      <img src="https://placehold.co/300x200?text=Samsung+Crystal+UHD+55" alt="TV Samsung Crystal UHD 55 polegadas">
-      <h3>Samsung Crystal UHD 55" CU7700</h3>
-      <h4>Valor à vista: R$ 2699,00</h4>
-      <h5>Valor parcelado: R$ 269,90 em 10 vezes</h5>
-      <a href="https://www.samsung.com/br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
-    </li>
-    <li>
-      <img src="https://placehold.co/300x200?text=LG+UHD+50" alt="TV LG UHD 50 polegadas">
-      <h3>LG UHD 50" UR8750</h3>
-      <h4>Valor à vista: R$ 2399,00</h4>
-      <h5>Valor parcelado: R$ 239,90 em 10 vezes</h5>
-      <a href="https://www.lg.com/br" target="_blank" rel="noopener noreferrer">Detalhes</a>
-    </li>
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Imagem</th>
+        <th>Produto</th>
+        <th>Valor à vista</th>
+        <th>Valor parcelado</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
+            <img src="https://placehold.co/300x200?text=Samsung+Crystal+UHD+55" alt="TV Samsung Crystal UHD 55 polegadas">
+          </picture>
+        </td>
+        <td>Samsung Crystal UHD 55" CU7700</td>
+        <td>R$ 2699,00</td>
+        <td>R$ 269,90 em 10 vezes</td>
+        <td><a href="https://www.samsung.com/br/" target="_blank" rel="noopener noreferrer">Detalhes</a></td>
+      </tr>
+      <tr>
+        <td>
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=LG+UHD+50" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=LG+UHD+50" type="image/webp">
+            <img src="https://placehold.co/300x200?text=LG+UHD+50" alt="TV LG UHD 50 polegadas">
+          </picture>
+        </td>
+        <td>LG UHD 50" UR8750</td>
+        <td>R$ 2399,00</td>
+        <td>R$ 239,90 em 10 vezes</td>
+        <td><a href="https://www.lg.com/br" target="_blank" rel="noopener noreferrer">Detalhes</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Solicite sua televisão</h2>
+
+  <form>
+    <label for="name">Nome</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="brand">Marca de tv desejada</label>
+    <input type="text" id="brand" name="brand" list="brands">
+    <datalist id="brands">
+      <option value="LG"></option>
+      <option value="Samsung"></option>
+    </datalist>
+
+    <button type="reset">Limpar campos</button>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <h2>Perguntas mais frequentes</h2>
+
+  <details>
+    <summary>Qual o prazo de entrega?</summary>
+    <p>O prazo de entrega é de 5 a 10 dias úteis, dependendo da sua região.</p>
+  </details>
+
+  <details>
+    <summary>As TVs possuem garantia?</summary>
+    <p>Sim, todas as TVs possuem 1 ano de garantia do fabricante.</p>
+  </details>
 
 </body>
 </html>
