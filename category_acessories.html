@@ -3,83 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Categoria de Produtos - Acessórios</title>
+  <title>TelaMax - Acessórios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/category_tvs.css">
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
-  <header>
-    <nav>
-      <ul class="nav">
-        <li><a href="products.html">Início</a></li>
-        <li><a href="category_tvs.html">TVs</a></li>
-        <li><a href="category_acessories.html" class="active" aria-current="page">Acessórios</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="products.html" class="logo">Tela<span>Max</span></a>
+
+      <nav id="main-nav" class="main-nav">
+        <ul class="nav">
+          <li><a href="products.html">Início</a></li>
+          <li><a href="category_tvs.html">TVs</a></li>
+          <li><a href="category_acessories.html" class="active" aria-current="page">Acessórios</a></li>
+          <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg>
+          <span class="cart-count" hidden>0</span>
+        </button>
+        <button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
   </header>
 
   <main>
+    <nav class="breadcrumb" aria-label="Você está em">
+      <a href="products.html">Início</a> <span>/</span> Acessórios
+    </nav>
+
     <h1>Categoria de produtos</h1>
     <h2 class="products-title">Acessórios</h2>
 
+    <div class="products-toolbar">
+      <label class="search">
+        <span class="visually-hidden">Buscar produto</span>
+        <input type="search" class="products-search" placeholder="Buscar produto...">
+      </label>
+      <label class="sort">
+        <span>Ordenar por</span>
+        <select class="products-sort">
+          <option value="default">Relevância</option>
+          <option value="price-asc">Menor preço</option>
+          <option value="price-desc">Maior preço</option>
+          <option value="name">Nome (A-Z)</option>
+        </select>
+      </label>
+      <p class="products-count">6 produtos</p>
+    </div>
+
     <ul class="products-list">
-      <li class="product">
-        <picture>
-          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Soundbar+JBL+Bar+2.1" type="image/webp">
-          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Soundbar+JBL+Bar+2.1" type="image/webp">
-          <img src="https://placehold.co/300x200?text=Soundbar+JBL+Bar+2.1" alt="Soundbar JBL Bar 2.1">
-        </picture>
+      <li class="product" data-id="ac-soundbar-jbl" data-name="Soundbar JBL Bar 2.1" data-price="899.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Soundbar+JBL">
+        <span class="badge">Mais vendido</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Soundbar+JBL" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Soundbar+JBL" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Soundbar+JBL" alt="Soundbar JBL Bar 2.1" loading="lazy">
+          </picture>
+        </div>
         <h3>Soundbar JBL Bar 2.1</h3>
-        <h4>Valor à vista: R$ 899,00</h4>
-        <h5>Valor parcelado: R$ 89,90 em 10 vezes</h5>
-        <a href="https://www.jbl.com/br-pt/" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        <h4>R$ 899,00 <small>à vista</small></h4>
+        <h5>ou R$ 89,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.jbl.com/br-pt/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
       </li>
-      <li class="product">
-        <picture>
-          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Suporte+de+Parede" type="image/webp">
-          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Suporte+de+Parede" type="image/webp">
-          <img src="https://placehold.co/300x200?text=Suporte+de+Parede" alt="Suporte de parede para TV">
-        </picture>
+      <li class="product" data-id="ac-suporte-parede" data-name="Suporte de Parede Multivisão Fixo" data-price="129.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Suporte+de+Parede">
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Suporte+de+Parede" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Suporte+de+Parede" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Suporte+de+Parede" alt="Suporte de Parede Multivisão Fixo" loading="lazy">
+          </picture>
+        </div>
         <h3>Suporte de Parede Multivisão Fixo</h3>
-        <h4>Valor à vista: R$ 129,00</h4>
-        <h5>Valor parcelado: R$ 43,00 em 3 vezes</h5>
-        <a href="https://www.multivisaosuportes.com.br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        <h4>R$ 129,00 <small>à vista</small></h4>
+        <h5>ou R$ 43,00 em 3 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.multivisaosuportes.com.br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
       </li>
-      <li class="product">
-        <picture>
-          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Cabo+HDMI+2.1" type="image/webp">
-          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Cabo+HDMI+2.1" type="image/webp">
-          <img src="https://placehold.co/300x200?text=Cabo+HDMI+2.1" alt="Cabo HDMI 2.1">
-        </picture>
+      <li class="product" data-id="ac-cabo-hdmi" data-name="Cabo HDMI 2.1 8K 2 metros" data-price="79.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Cabo+HDMI+2.1">
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Cabo+HDMI+2.1" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Cabo+HDMI+2.1" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Cabo+HDMI+2.1" alt="Cabo HDMI 2.1 8K 2 metros" loading="lazy">
+          </picture>
+        </div>
         <h3>Cabo HDMI 2.1 8K 2 metros</h3>
-        <h4>Valor à vista: R$ 79,00</h4>
-        <h5>Valor parcelado: R$ 39,50 em 2 vezes</h5>
-        <a href="https://www.multilaser.com.br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        <h4>R$ 79,00 <small>à vista</small></h4>
+        <h5>ou R$ 39,50 em 2 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.multilaser.com.br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
+      </li>
+      <li class="product" data-id="ac-chromecast" data-name="Chromecast com Google TV" data-price="349.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Chromecast">
+        <span class="badge">Novo</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Chromecast" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Chromecast" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Chromecast" alt="Chromecast com Google TV" loading="lazy">
+          </picture>
+        </div>
+        <h3>Chromecast com Google TV</h3>
+        <h4>R$ 349,00 <small>à vista</small></h4>
+        <h5>ou R$ 69,80 em 5 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://store.google.com/br" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
+      </li>
+      <li class="product" data-id="ac-controle" data-name="Controle Remoto Universal" data-price="59.90" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Controle+Remoto">
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Controle+Remoto" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Controle+Remoto" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Controle+Remoto" alt="Controle Remoto Universal" loading="lazy">
+          </picture>
+        </div>
+        <h3>Controle Remoto Universal</h3>
+        <h4>R$ 59,90 <small>à vista</small></h4>
+        <h5>ou R$ 29,95 em 2 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.multilaser.com.br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
+      </li>
+      <li class="product" data-id="ac-filtro-linha" data-name="Filtro de Linha 8 Tomadas" data-price="89.90" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Filtro+de+Linha">
+        <span class="badge">Oferta</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Filtro+de+Linha" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Filtro+de+Linha" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Filtro+de+Linha" alt="Filtro de Linha 8 Tomadas" loading="lazy">
+          </picture>
+        </div>
+        <h3>Filtro de Linha 8 Tomadas</h3>
+        <h4>R$ 89,90 <small>à vista</small></h4>
+        <h5>ou R$ 29,97 em 3 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.intelbras.com/pt-br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
       </li>
     </ul>
+
+    <p class="products-empty" hidden>Nenhum produto encontrado.</p>
 
     <section class="next-steps">
       <h2>Continue navegando</h2>
       <ul>
-        <li><a class="next-link" href="category_tvs.html">Veja também as TVs</a></li>
-        <li><a class="next-link" href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
-        <li><a class="next-link" href="products.html">Voltar para o início</a></li>
+        <li><a class="btn btn-primary" href="category_tvs.html">Veja também as TVs</a></li>
+        <li><a class="btn btn-primary" href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        <li><a class="btn btn-primary" href="products.html">Voltar para o início</a></li>
       </ul>
     </section>
   </main>
 
   <footer>
-    <nav>
-      <ul class="footer-nav">
-        <li><a href="products.html">Início</a></li>
-        <li><a href="category_tvs.html">TVs</a></li>
-        <li><a href="category_acessories.html">Acessórios</a></li>
-        <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
-      </ul>
-    </nav>
-    <p>Produtos e acessórios para TVs &copy; 2026</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="products.html" class="logo">Tela<span>Max</span></a>
+        <p>TVs e acessórios para transformar a sua sala em um cinema.</p>
+      </div>
+      <nav aria-label="Rodapé">
+        <ul class="footer-nav">
+          <li><a href="products.html">Início</a></li>
+          <li><a href="category_tvs.html">TVs</a></li>
+          <li><a href="category_acessories.html">Acessórios</a></li>
+          <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="copyright">Produtos e acessórios para TVs &copy; 2026</p>
   </footer>
 
+  <div class="overlay" hidden></div>
+
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true">
+    <div class="cart-header">
+      <h2>Seu carrinho</h2>
+      <button type="button" class="icon-button cart-close" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <ul class="cart-items"></ul>
+    <p class="cart-empty">Seu carrinho está vazio.</p>
+    <div class="cart-footer">
+      <p class="cart-total">Total: <strong>R$ 0,00</strong></p>
+      <button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button>
+    </div>
+  </aside>
+
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </button>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

@@ -3,123 +3,278 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Categoria de Produtos - TVs</title>
+  <title>TelaMax - TVs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/category_tvs.css">
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
-  <header>
-    <nav>
-      <ul class="nav">
-        <li><a href="products.html">Início</a></li>
-        <li><a href="category_tvs.html" class="active" aria-current="page">TVs</a></li>
-        <li><a href="category_acessories.html">Acessórios</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="products.html" class="logo">Tela<span>Max</span></a>
+
+      <nav id="main-nav" class="main-nav">
+        <ul class="nav">
+          <li><a href="products.html">Início</a></li>
+          <li><a href="category_tvs.html" class="active" aria-current="page">TVs</a></li>
+          <li><a href="category_acessories.html">Acessórios</a></li>
+          <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg>
+          <span class="cart-count" hidden>0</span>
+        </button>
+        <button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
   </header>
 
   <main>
+    <nav class="breadcrumb" aria-label="Você está em">
+      <a href="products.html">Início</a> <span>/</span> TVs
+    </nav>
+
     <h1>Categoria de produtos</h1>
     <h2 class="products-title">Tvs</h2>
 
+    <div class="products-toolbar">
+      <label class="search">
+        <span class="visually-hidden">Buscar produto</span>
+        <input type="search" class="products-search" placeholder="Buscar produto...">
+      </label>
+      <label class="sort">
+        <span>Ordenar por</span>
+        <select class="products-sort">
+          <option value="default">Relevância</option>
+          <option value="price-asc">Menor preço</option>
+          <option value="price-desc">Maior preço</option>
+          <option value="name">Nome (A-Z)</option>
+        </select>
+      </label>
+      <p class="products-count">6 produtos</p>
+    </div>
+
     <ul class="products-list">
-      <li class="product">
-        <picture>
-          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
-          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=Samsung+Crystal+UHD+55" type="image/webp">
-          <img src="https://placehold.co/300x200?text=Samsung+Crystal+UHD+55" alt="TV Samsung Crystal UHD 55 polegadas">
-        </picture>
+      <li class="product" data-id="tv-samsung-55" data-name="Samsung Crystal UHD 55&quot; CU7700" data-price="2699.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Samsung+55">
+        <span class="badge">Mais vendido</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Samsung+55" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Samsung+55" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Samsung+55" alt="Samsung Crystal UHD 55&quot; CU7700" loading="lazy">
+          </picture>
+        </div>
         <h3>Samsung Crystal UHD 55" CU7700</h3>
-        <h4>Valor à vista: R$ 2699,00</h4>
-        <h5>Valor parcelado: R$ 269,90 em 10 vezes</h5>
-        <a href="https://www.samsung.com/br/" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        <h4>R$ 2.699,00 <small>à vista</small></h4>
+        <h5>ou R$ 269,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.samsung.com/br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
       </li>
-      <li class="product">
-        <picture>
-          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=LG+UHD+50" type="image/webp">
-          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=LG+UHD+50" type="image/webp">
-          <img src="https://placehold.co/300x200?text=LG+UHD+50" alt="TV LG UHD 50 polegadas">
-        </picture>
+      <li class="product" data-id="tv-lg-50" data-name="LG UHD 50&quot; UR8750" data-price="2399.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=LG+50">
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=LG+50" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=LG+50" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=LG+50" alt="LG UHD 50&quot; UR8750" loading="lazy">
+          </picture>
+        </div>
         <h3>LG UHD 50" UR8750</h3>
-        <h4>Valor à vista: R$ 2399,00</h4>
-        <h5>Valor parcelado: R$ 239,90 em 10 vezes</h5>
-        <a href="https://www.lg.com/br" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        <h4>R$ 2.399,00 <small>à vista</small></h4>
+        <h5>ou R$ 239,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.lg.com/br" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
       </li>
-      <li class="product">
-        <picture>
-          <source media="(max-width: 767px)" srcset="https://placehold.co/200x133.webp?text=TCL+QLED+65" type="image/webp">
-          <source media="(max-width: 1339px)" srcset="https://placehold.co/250x167.webp?text=TCL+QLED+65" type="image/webp">
-          <img src="https://placehold.co/300x200?text=TCL+QLED+65" alt="TV TCL QLED 65 polegadas">
-        </picture>
+      <li class="product" data-id="tv-tcl-65" data-name="TCL QLED 65&quot; C655" data-price="3499.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=TCL+65">
+        <span class="badge">Novo</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=TCL+65" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=TCL+65" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=TCL+65" alt="TCL QLED 65&quot; C655" loading="lazy">
+          </picture>
+        </div>
         <h3>TCL QLED 65" C655</h3>
-        <h4>Valor à vista: R$ 3499,00</h4>
-        <h5>Valor parcelado: R$ 349,90 em 10 vezes</h5>
-        <a href="https://www.tcl.com/br/pt" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        <h4>R$ 3.499,00 <small>à vista</small></h4>
+        <h5>ou R$ 349,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.tcl.com/br/pt" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
+      </li>
+      <li class="product" data-id="tv-samsung-neo-65" data-name="Samsung Neo QLED 65&quot; QN85C" data-price="6999.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Neo+QLED+65">
+        <span class="badge">Premium</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Neo+QLED+65" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Neo+QLED+65" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Neo+QLED+65" alt="Samsung Neo QLED 65&quot; QN85C" loading="lazy">
+          </picture>
+        </div>
+        <h3>Samsung Neo QLED 65" QN85C</h3>
+        <h4>R$ 6.999,00 <small>à vista</small></h4>
+        <h5>ou R$ 699,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.samsung.com/br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
+      </li>
+      <li class="product" data-id="tv-lg-oled-55" data-name="LG OLED 55&quot; C3" data-price="5999.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=LG+OLED+55">
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=LG+OLED+55" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=LG+OLED+55" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=LG+OLED+55" alt="LG OLED 55&quot; C3" loading="lazy">
+          </picture>
+        </div>
+        <h3>LG OLED 55" C3</h3>
+        <h4>R$ 5.999,00 <small>à vista</small></h4>
+        <h5>ou R$ 599,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.lg.com/br" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
+      </li>
+      <li class="product" data-id="tv-philips-50" data-name="Philips Ambilight 50&quot; PUG7908" data-price="2299.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Philips+50">
+        <span class="badge">Oferta</span>
+        <div class="product-image">
+          <picture>
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Philips+50" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Philips+50" type="image/webp">
+            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Philips+50" alt="Philips Ambilight 50&quot; PUG7908" loading="lazy">
+          </picture>
+        </div>
+        <h3>Philips Ambilight 50" PUG7908</h3>
+        <h4>R$ 2.299,00 <small>à vista</small></h4>
+        <h5>ou R$ 229,90 em 10 vezes sem juros</h5>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary add-to-cart">Adicionar ao carrinho</button>
+          <a href="https://www.philips.com.br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
+        </div>
       </li>
     </ul>
 
-    <h2 id="solicitacao">Solicite sua televisão</h2>
+    <p class="products-empty" hidden>Nenhum produto encontrado.</p>
 
-    <form class="products-form" id="products-form">
-      <div class="col">
-        <label for="name">Nome</label>
-        <input type="text" id="name" name="name" required>
+    <section class="form-section">
+      <h2 id="solicitacao">Solicite sua televisão</h2>
+      <p>Não encontrou o modelo que procura? Conte para a gente e entraremos em contato.</p>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
+      <form class="products-form" id="products-form" novalidate>
+        <div class="col">
+          <label for="name">Nome</label>
+          <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+          <span class="field-error" id="name-error"></span>
 
-      <div class="col">
-        <label for="brand">Marca de tv desejada</label>
-        <input type="text" id="brand" name="brand" list="brands">
-        <datalist id="brands">
-          <option value="LG"></option>
-          <option value="Samsung"></option>
-        </datalist>
-      </div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="voce@email.com" required>
+          <span class="field-error" id="email-error"></span>
+        </div>
 
-      <div class="products-form-buttons">
-        <button type="reset">Limpar campos</button>
-        <button type="submit">Enviar</button>
-      </div>
-    </form>
+        <div class="col">
+          <label for="brand">Marca de tv desejada</label>
+          <input type="text" id="brand" name="brand" list="brands" placeholder="Ex.: LG">
+          <datalist id="brands">
+            <option value="LG"></option>
+            <option value="Samsung"></option>
+          </datalist>
 
-    <p id="form-message" hidden></p>
+          <label for="details">Observações</label>
+          <textarea id="details" name="details" rows="3" placeholder="Tamanho, tecnologia, faixa de preço..."></textarea>
+        </div>
 
-    <h2>Perguntas mais frequentes</h2>
+        <div class="products-form-buttons">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button type="reset" class="btn btn-ghost">Limpar campos</button>
+        </div>
+      </form>
+    </section>
 
-    <details>
-      <summary>Qual o prazo de entrega?</summary>
-      <p>O prazo de entrega é de 5 a 10 dias úteis, dependendo da sua região.</p>
-    </details>
+    <section class="faq">
+      <h2>Perguntas mais frequentes</h2>
 
-    <details>
-      <summary>As TVs possuem garantia?</summary>
-      <p>Sim, todas as TVs possuem 1 ano de garantia do fabricante.</p>
-    </details>
+      <details>
+        <summary>Qual o prazo de entrega?</summary>
+        <p>O prazo de entrega é de 5 a 10 dias úteis, dependendo da sua região.</p>
+      </details>
+
+      <details>
+        <summary>As TVs possuem garantia?</summary>
+        <p>Sim, todas as TVs possuem 1 ano de garantia do fabricante.</p>
+      </details>
+
+      <details>
+        <summary>Posso parcelar sem juros?</summary>
+        <p>Sim, todas as compras podem ser parceladas em até 10x sem juros no cartão.</p>
+      </details>
+    </section>
 
     <section class="next-steps">
       <h2>Continue navegando</h2>
       <ul>
-        <li><a class="next-link" href="category_acessories.html">Veja também os acessórios para TV</a></li>
-        <li><a class="next-link" href="products.html">Voltar para o início</a></li>
+        <li><a class="btn btn-primary" href="category_acessories.html">Veja também os acessórios para TV</a></li>
+        <li><a class="btn btn-primary" href="products.html">Voltar para o início</a></li>
       </ul>
     </section>
   </main>
 
   <footer>
-    <nav>
-      <ul class="footer-nav">
-        <li><a href="products.html">Início</a></li>
-        <li><a href="category_tvs.html">TVs</a></li>
-        <li><a href="category_acessories.html">Acessórios</a></li>
-        <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
-      </ul>
-    </nav>
-    <p>Produtos e acessórios para TVs &copy; 2026</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="products.html" class="logo">Tela<span>Max</span></a>
+        <p>TVs e acessórios para transformar a sua sala em um cinema.</p>
+      </div>
+      <nav aria-label="Rodapé">
+        <ul class="footer-nav">
+          <li><a href="products.html">Início</a></li>
+          <li><a href="category_tvs.html">TVs</a></li>
+          <li><a href="category_acessories.html">Acessórios</a></li>
+          <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="copyright">Produtos e acessórios para TVs &copy; 2026</p>
   </footer>
 
+  <div class="overlay" hidden></div>
+
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true">
+    <div class="cart-header">
+      <h2>Seu carrinho</h2>
+      <button type="button" class="icon-button cart-close" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <ul class="cart-items"></ul>
+    <p class="cart-empty">Seu carrinho está vazio.</p>
+    <div class="cart-footer">
+      <p class="cart-total">Total: <strong>R$ 0,00</strong></p>
+      <button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button>
+    </div>
+  </aside>
+
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </button>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
   <script src="js/category_tvs.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

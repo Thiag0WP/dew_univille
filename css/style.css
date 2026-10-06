@@ -1,15 +1,193 @@
 /* Estilos comuns a todas as páginas */
 
-/* dew_14 all 3: zera a margin do body (o espaçamento passa para header, main e footer) */
+/* ---------- Cores e medidas ---------- */
+:root {
+  --primary: #1e3a5f;
+  --primary-hover: #2a4f80;
+  --accent: #f5a524;
+  --bg: #f4f6fa;
+  --surface: #ffffff;
+  --surface-alt: #e8eef7;
+  --text: #1c2330;
+  --text-muted: #5c6677;
+  --border: #dde3ec;
+  --success: #1f9d55;
+  --danger: #d64545;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(20, 35, 60, 0.08);
+  --shadow-hover: 0 10px 24px rgba(20, 35, 60, 0.16);
+  --header-height: 70px;
+}
+
+[data-theme="dark"] {
+  --primary: #5b8fd6;
+  --primary-hover: #77a5e6;
+  --bg: #0f1520;
+  --surface: #182131;
+  --surface-alt: #223049;
+  --text: #e6ebf3;
+  --text-muted: #9aa6b8;
+  --border: #2c3a52;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Base ---------- */
+
+/* dew_14 all 3: zera a margin do body (o espaçamento fica no header, main e footer) */
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--bg);
   /* rodapé sempre no fim da tela, mesmo em páginas curtas */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.25;
+}
+
+/* evita que o cabeçalho fixo cubra o destino de links com # */
+[id] {
+  scroll-margin-top: calc(var(--header-height) + 20px);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* dew_12 all 2 + dew_16 all-3: opacidade no hover dos links com atraso de 0.8s */
+a {
+  color: var(--primary);
+  transition: opacity 0.3s ease 0.8s;
+}
+
+a:hover {
+  opacity: 0.5;
+}
+
+/* dew_16 all-4: imagens aumentam 50% no hover */
+img {
+  transition: transform 0.4s ease;
+}
+
+img:hover {
+  transform: scale(1.5);
+}
+
+/* dew_16 all-2: inputs com bordas arredondadas */
+input,
+select,
+textarea {
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(91, 143, 214, 0.25);
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, opacity 0.3s ease 0.8s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  color: #ffffff;
+  background-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-ghost {
+  color: var(--primary);
+  background-color: transparent;
+  border-color: var(--primary);
+}
+
+.btn-light {
+  color: #1e3a5f;
+  background-color: #ffffff;
+}
+
+.btn-outline-light {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.icon-button svg,
+.back-to-top svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Cabeçalho ---------- */
 
 /* dew_14 all 2: cabeçalho acompanha a rolagem, largura total e cor de fundo */
 /* dew_16 all-1: padding de 20px */
@@ -19,62 +197,205 @@ header {
   z-index: 10;
   width: 100%;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 0 20px;
+  color: #ffffff;
   background-color: #1e3a5f;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* dew_12 pd 3 + dew_14 all 2: links de navegação lado a lado */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1200px;
+  height: var(--header-height);
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cart-count {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 18px;
+  color: #1e3a5f;
+  background-color: var(--accent);
+  border-radius: 999px;
+}
+
+.cart-count.bump {
+  animation: bump 0.4s ease;
+}
+
+@keyframes bump {
+  50% { transform: scale(1.4); }
+}
+
+/* dew_12 pd 3 + dew_14 all 2: links de navegação */
+/* mobile first: no celular o menu abre como lista abaixo do cabeçalho */
+.main-nav {
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  max-height: 0;
+  overflow: hidden;
+  background-color: #1e3a5f;
+  transition: max-height 0.3s ease;
+}
+
+.main-nav.open {
+  max-height: 320px;
+}
+
 .nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .nav a {
+  display: block;
+  padding: 14px 20px;
   color: #ffffff;
+  font-weight: 500;
   text-decoration: none;
-  font-weight: bold;
 }
 
 /* página atual destacada no menu */
 .nav a.active {
-  border-bottom: 2px solid #ffffff;
+  color: var(--accent);
 }
 
-/* evita que o cabeçalho fixo cubra o destino de links com # */
-[id] {
-  scroll-margin-top: 90px;
-}
+/* ---------- Conteúdo ---------- */
 
 /* dew_14 all 4 + dew_16 all-1: espaçamento interno do main */
 main {
   flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+  margin: 0 auto;
   padding: 20px;
 }
 
-/* dew_15 all 2 + dew_16 all-1: rodapé com cor de fundo e padding */
-footer {
-  padding: 20px;
-  background-color: #dfe6ee;
+section {
+  margin-top: 40px;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+
+.breadcrumb {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.breadcrumb span {
+  margin: 0 6px;
+}
+
+/* dew_12 pd 1: banner com imagem de fundo centralizada e sem repetição */
+.banner {
+  padding: 50px 24px;
+  color: #ffffff;
   text-align: center;
+  background-color: #1e3a5f;
+  background-image:
+    linear-gradient(135deg, rgba(30, 58, 95, 0.92), rgba(42, 79, 128, 0.75)),
+    url("https://placehold.co/1200x400/1e3a5f/2f5d8f/png?text=TVs");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: var(--radius);
 }
 
-/* links de navegação no rodapé */
-.footer-nav {
+.banner h1 {
+  margin: 10px 0;
+  font-size: 2rem;
+}
+
+.banner-tag {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  background-color: var(--accent);
+  border-radius: 999px;
+}
+
+.banner-text {
+  margin: 0 0 24px;
+  opacity: 0.9;
+}
+
+.banner-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px 20px;
+  gap: 12px;
+}
+
+/* dew_12 pd 2: remove o elemento da tela */
+.hide {
+  display: none;
+}
+
+/* vantagens da loja */
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.footer-nav a {
-  color: #1e3a5f;
+.feature {
+  padding: 20px;
+  background-color: var(--surface);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.feature h3 {
+  margin: 0 0 4px;
+}
+
+.feature p {
+  margin: 0;
+  color: var(--text-muted);
 }
 
 /* cards de categorias da página inicial */
@@ -91,18 +412,433 @@ footer {
   display: block;
   height: 100%;
   box-sizing: border-box;
-  padding: 10px;
-  border: 1px solid #cccccc;
+  padding: 16px;
   color: inherit;
+  text-decoration: none;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s ease 0.8s;
+}
+
+.category a:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.category h3 {
+  margin: 16px 0 4px;
+}
+
+.category p {
+  margin: 0 0 12px;
+  color: var(--text-muted);
+}
+
+.category-link {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ---------- Listagem de produtos ---------- */
+.products-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.search {
+  flex: 1 1 240px;
+}
+
+.search input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.products-count {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* dew_15 ct-tvs 1 e 2: container grid (1 coluna no celular) */
+.products-list {
+  display: grid;
+  gap: 10px 20px;
+  grid-auto-flow: row;
+  grid-template-columns: 1fr;
+  /* dew_15 ct-tvs 3: alinhamentos */
+  justify-items: center;
+  align-items: stretch;
+  align-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* dew_15 ct-tvs 5: evita quebra da listagem */
+  overflow: hidden;
+}
+
+/* dew_14 ct 3: itens com texto centralizado */
+.product {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 16px;
   text-align: center;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* o display flex acima anularia o atributo hidden usado na busca */
+.product[hidden] {
+  display: none;
+}
+
+.product:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.product h3 {
+  flex: 1;
+  margin: 16px 0 8px;
+  font-size: 1.05rem;
+}
+
+.product h4 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+.product h4 small {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.product h5 {
+  margin: 4px 0 16px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.badge {
+  position: absolute;
+  top: 26px;
+  left: 26px;
+  z-index: 1;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  background-color: var(--accent);
+  border-radius: 999px;
+}
+
+/* a imagem aumenta no hover, mas fica recortada dentro da moldura */
+.product-image {
+  overflow: hidden;
+  background-color: var(--surface-alt);
+  border-radius: 8px;
+}
+
+/* dew_14 ct 4: imagens responsivas */
+.product-image img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 240px;
+  object-fit: cover;
+}
+
+.product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-to-cart.added {
+  background-color: var(--success);
+}
+
+.products-empty {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ---------- Continue navegando ---------- */
+.next-steps {
+  padding: 24px;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.next-steps h2 {
+  margin-top: 0;
+}
+
+.next-steps ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Rodapé ---------- */
+
+/* dew_15 all 2 + dew_16 all-1: rodapé com cor de fundo e padding */
+footer {
+  margin-top: 40px;
+  padding: 20px;
+  color: #c9d3e3;
+  background-color: #14263f;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand p {
+  margin: 8px 0 0;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-nav a {
+  color: #ffffff;
   text-decoration: none;
 }
 
-.category img {
-  max-width: 100%;
+.copyright {
+  max-width: 1200px;
+  margin: 20px auto 0;
+  padding-top: 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* ---------- Carrinho lateral ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  width: min(380px, 100%);
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: var(--surface);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.cart-drawer.open {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-header h2 {
+  margin: 0;
+}
+
+.cart-header .icon-button:hover {
+  background-color: var(--surface-alt);
+}
+
+.cart-items {
+  flex: 1;
+  margin: 16px 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-item img {
+  width: 64px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cart-item img:hover {
+  transform: none;
+}
+
+.cart-item-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.cart-item-price {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.cart-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-qty button {
+  width: 26px;
+  height: 26px;
+  font: inherit;
+  color: var(--text);
+  background-color: var(--surface-alt);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cart-empty {
+  flex: 1;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.cart-footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+.cart-checkout {
+  width: 100%;
+}
+
+/* ---------- Voltar ao topo e avisos ---------- */
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  color: #ffffff;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow-hover);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 40;
+  max-width: calc(100% - 40px);
+  padding: 12px 20px;
+  color: #ffffff;
+  background-color: #1c2330;
+  border-radius: 999px;
+  box-shadow: var(--shadow-hover);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------- Tablets (a partir de 768px) ---------- */
 @media (min-width: 768px) {
+  .banner {
+    padding: 80px 40px;
+  }
+
+  .banner h1 {
+    font-size: 2.6rem;
+  }
+
+  .features {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .categories {
     flex-direction: row;
   }
@@ -110,77 +846,63 @@ footer {
   .category {
     flex: 1;
   }
+
+  /* dew_15 ct-tvs 6: 2 colunas */
+  .products-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
-/* seção "Continue navegando" no fim das páginas */
-.next-steps {
-  margin-top: 30px;
-  padding-top: 10px;
-  border-top: 1px solid #cccccc;
-}
+/* ---------- Telas grandes (a partir de 1024px) ---------- */
+@media (min-width: 1024px) {
+  /* menu volta a ficar lado a lado no cabeçalho */
+  .main-nav {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    background: none;
+  }
 
-.next-steps ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 0;
-  list-style: none;
-}
+  .nav {
+    flex-direction: row;
+    gap: 8px;
+  }
 
-.next-link {
-  display: inline-block;
-  padding: 10px 16px;
-  border-radius: 6px;
-  background-color: #1e3a5f;
-  color: #ffffff;
-  text-decoration: none;
-}
+  .nav a {
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
 
-/* dew_12 pd 1: banner com imagem de fundo centralizada e sem repetição */
-.banner {
-  padding: 60px 20px;
-  background-color: #1e3a5f;
-  background-image: url("https://placehold.co/1200x300/1e3a5f/2f5d8f/png?text=TVs");
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #ffffff;
-  text-align: center;
-}
+  .nav a.active {
+    color: #1e3a5f;
+    background-color: var(--accent);
+  }
 
-/* dew_12 pd 2: remove o elemento da tela */
-.hide {
-  display: none;
-}
+  .menu-toggle {
+    display: none;
+  }
 
-/* dew_16 all-2: inputs com bordas arredondadas */
-input {
-  padding: 6px;
-  border: 1px solid #8a9bb0;
-  border-radius: 6px;
-}
-
-/* dew_12 all 2 + dew_16 all-3: opacidade no hover dos links com atraso de 0.8s */
-a {
-  transition: opacity 0.3s ease 0.8s;
-}
-
-a:hover {
-  opacity: 0.5;
-}
-
-/* dew_16 all-4: imagens aumentam 50% no hover */
-img {
-  transition: transform 0.3s ease;
-}
-
-img:hover {
-  transform: scale(1.5);
+  /* dew_15 ct-tvs 6: 3 colunas */
+  .products-list {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    /* dew_15 ct-tvs 4: teste com áreas de template */
+    grid-template-areas: "produto1 produto2 produto3";
+  }
 }
 
 /* dew_15 all 1: oculta cabeçalho e rodapé ao imprimir */
 @media print {
   header,
-  footer {
+  footer,
+  .back-to-top,
+  .cart-drawer {
     display: none;
   }
 }

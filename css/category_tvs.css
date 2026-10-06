@@ -2,8 +2,8 @@
 
 /* dew_16 ct-tv 7: desloca o título principal */
 @keyframes slide-title {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0%); }
+  0% { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0%); opacity: 1; }
 }
 
 /* dew_16 ct-tv 6: rotaciona o título de produtos */
@@ -14,43 +14,32 @@
 }
 
 h1 {
-  animation: slide-title 1.5s ease-out;
+  margin: 0;
+  animation: slide-title 1s ease-out;
 }
 
 .products-title {
-  animation: rotate-title 3s ease-in-out 0.5s infinite;
+  display: inline-block;
+  margin: 4px 0 20px;
+  color: var(--primary);
+  animation: rotate-title 1.5s ease-in-out 0.5s;
 }
 
-/* dew_15 ct-tvs 1 e 2: container grid (1 coluna no celular) */
-.products-list {
-  display: grid;
-  gap: 10px 20px;
-  grid-auto-flow: row;
-  grid-template-columns: 1fr;
-  /* dew_15 ct-tvs 3: alinhamentos */
-  justify-items: center;
-  align-items: stretch;
-  align-content: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  /* dew_15 ct-tvs 5: evita quebra da listagem */
-  overflow: hidden;
+/* ---------- Formulário de solicitação ---------- */
+.form-section {
+  padding: 24px;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-/* dew_14 ct 3: itens com texto centralizado e borda */
-.product {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  border: 1px solid #cccccc;
-  text-align: center;
+.form-section h2 {
+  margin-top: 0;
 }
 
-/* dew_14 ct 4: imagens responsivas */
-.product img {
-  max-width: 100%;
-  max-height: 200px;
+.form-section > p {
+  margin-top: 0;
+  color: var(--text-muted);
 }
 
 /* dew_16 ct-tv 4 e 5: colunas do formulário em flex (coluna no celular) */
@@ -68,28 +57,66 @@ h1 {
   flex: 1;
 }
 
+.products-form label {
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.products-form textarea {
+  resize: vertical;
+}
+
+.products-form .invalid {
+  border-color: var(--danger);
+}
+
+.field-error {
+  min-height: 1.2em;
+  font-size: 0.8rem;
+  color: var(--danger);
+}
+
 /* dew_16 ct-tv 2 e 3: botões centralizados em coluna, com 80% de largura */
 .products-form-buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  margin-top: 12px;
   text-align: center;
 }
 
-.products-form-buttons button {
+.products-form-buttons .btn {
   flex-basis: 80%;
   width: 80%;
-  padding: 8px;
+}
+
+/* ---------- Perguntas frequentes ---------- */
+.faq details {
+  margin-bottom: 10px;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.faq summary {
+  padding: 16px 20px;
+  font-weight: 500;
   cursor: pointer;
 }
 
-/* dew_15 ct-tvs 6: tablets (a partir de 768px) com 2 colunas e formulário em linha */
-@media (min-width: 768px) {
-  .products-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.faq details[open] summary {
+  color: var(--primary);
+}
 
+.faq details p {
+  margin: 0;
+  padding: 0 20px 16px;
+  color: var(--text-muted);
+}
+
+/* tablets (a partir de 768px): formulário em linha */
+@media (min-width: 768px) {
   .products-form {
     flex-direction: row;
     flex-wrap: wrap;
@@ -97,16 +124,12 @@ h1 {
 
   .products-form-buttons {
     flex-basis: 100%;
+    flex-direction: row;
+    justify-content: center;
   }
-}
 
-/* dew_15 ct-tvs 6: telas grandes (a partir de 1024px) com 3 colunas em 1 linha */
-@media (min-width: 1024px) {
-  .products-list {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
-    /* dew_15 ct-tvs 4: teste com áreas de template */
-    grid-template-areas: "produto1 produto2 produto3";
-    min-height: 400px;
+  .products-form-buttons .btn {
+    flex-basis: 200px;
+    width: auto;
   }
 }
