@@ -1,50 +1,56 @@
 /* Estilos comuns a todas as páginas */
 
 /* ---------- Cores e medidas ---------- */
+/* paleta inspirada no site da Apple: cinzas neutros e um único azul de ação */
 :root {
-  --primary: #1e3a5f;
-  --primary-hover: #2a4f80;
-  --accent: #f5a524;
-  --bg: #f4f6fa;
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
+  --link: #0066cc;
+  --accent: #bf4800;
+  --bg: #f5f5f7;
   --surface: #ffffff;
-  --surface-alt: #e8eef7;
-  --text: #1c2330;
-  --text-muted: #5c6677;
-  --border: #dde3ec;
-  --success: #1f9d55;
-  --danger: #d64545;
-  --radius: 12px;
-  --shadow: 0 1px 2px rgba(20, 35, 60, 0.04), 0 4px 16px rgba(20, 35, 60, 0.06);
-  --shadow-hover: 0 2px 4px rgba(20, 35, 60, 0.04), 0 16px 40px rgba(20, 35, 60, 0.14);
-  --header-height: 64px;
+  --surface-alt: #f5f5f7;
+  --text: #1d1d1f;
+  --text-muted: #6e6e73;
+  --border: #d2d2d7;
+  --success: #1d8f4e;
+  --danger: #e30000;
+  --radius: 18px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.04), 0 18px 48px rgba(0, 0, 0, 0.1);
+  --header-height: 52px;
+  --header-bg: rgba(250, 250, 252, 0.78);
   /* curva de animação suave ("cremosa"): começa rápido e desacelera devagar */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  /* efeitos de fundo */
-  --blob-1: #9cc3ff;
-  --blob-2: #ffd59a;
-  --blob-3: #c4b5ff;
-  --blob-opacity: 0.5;
-  --glow: rgba(91, 143, 214, 0.14);
-  --grid-dot: rgba(30, 58, 95, 0.12);
+  /* efeitos de fundo, bem discretos */
+  --blob-1: #cfe0ff;
+  --blob-2: #ffe4cc;
+  --blob-3: #e6dcff;
+  --blob-opacity: 0.45;
+  --glow: rgba(0, 113, 227, 0.06);
+  --grid-dot: rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="dark"] {
-  --primary: #5b8fd6;
-  --primary-hover: #77a5e6;
-  --bg: #0f1520;
-  --surface: #182131;
-  --surface-alt: #223049;
-  --text: #e6ebf3;
-  --text-muted: #9aa6b8;
-  --border: #2c3a52;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
-  --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.45);
-  --blob-1: #2a5fb0;
-  --blob-2: #8a5a12;
-  --blob-3: #4b3a9c;
-  --blob-opacity: 0.35;
-  --glow: rgba(91, 143, 214, 0.12);
-  --grid-dot: rgba(255, 255, 255, 0.06);
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
+  --link: #2997ff;
+  --accent: #ff9f0a;
+  --bg: #000000;
+  --surface: #1d1d1f;
+  --surface-alt: #2c2c2e;
+  --text: #f5f5f7;
+  --text-muted: #86868b;
+  --border: #424245;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.6);
+  --header-bg: rgba(22, 22, 23, 0.78);
+  --blob-1: #0a2a5c;
+  --blob-2: #3d2408;
+  --blob-3: #24164d;
+  --blob-opacity: 0.5;
+  --glow: rgba(41, 151, 255, 0.07);
+  --grid-dot: rgba(255, 255, 255, 0.05);
 }
 
 /* ---------- Base ---------- */
@@ -56,8 +62,11 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  line-height: 1.5;
+  /* fonte do sistema: SF Pro no Mac/iPhone, Inter nos outros */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.01em;
   color: var(--text);
   background-color: var(--bg);
   /* rodapé sempre no fim da tela, mesmo em páginas curtas */
@@ -92,7 +101,9 @@ body.no-scroll {
 }
 
 h1, h2, h3, h4, h5 {
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 /* evita que o cabeçalho fixo cubra o destino de links com # */
@@ -109,7 +120,7 @@ h1, h2, h3, h4, h5 {
 }
 
 a {
-  color: var(--primary);
+  color: var(--link);
   text-underline-offset: 3px;
 }
 
@@ -146,7 +157,7 @@ textarea {
   color: var(--text);
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
 
@@ -155,7 +166,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(91, 143, 214, 0.25);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
 }
 
 /* ---------- Botões ---------- */
@@ -164,9 +175,9 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 18px;
+  padding: 9px 20px;
   font: inherit;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 0.95rem;
   text-decoration: none;
   border: 2px solid transparent;
@@ -191,28 +202,42 @@ textarea:focus {
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
-  box-shadow: 0 8px 20px rgba(30, 58, 95, 0.3);
 }
 
-.btn-ghost:hover {
-  color: #ffffff;
-  background-color: var(--primary);
-}
-
-.btn-ghost {
-  color: var(--primary);
+/* link no estilo "Saiba mais ›" */
+.btn-ghost,
+.btn-link-light {
+  padding-left: 8px;
+  padding-right: 8px;
+  color: var(--link);
   background-color: transparent;
-  border-color: var(--primary);
 }
 
-.btn-light {
-  color: #1e3a5f;
-  background-color: #ffffff;
+.btn-ghost::after,
+.btn-link-light::after {
+  content: "›";
+  font-size: 1.2em;
+  line-height: 1;
+  transition: transform 0.4s var(--ease);
 }
 
-.btn-outline-light {
-  color: #ffffff;
-  border-color: #ffffff;
+.btn-ghost:hover,
+.btn-link-light:hover {
+  transform: none;
+  text-decoration: underline;
+}
+
+.btn-ghost:hover::after,
+.btn-link-light:hover::after {
+  transform: translateX(3px);
+}
+
+.btn-link-light {
+  color: #2997ff;
+}
+
+button.btn-ghost::after {
+  content: none;
 }
 
 .icon-button {
@@ -220,8 +245,8 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   color: inherit;
   background: transparent;
@@ -236,16 +261,16 @@ textarea:focus {
 }
 
 .icon-button:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(128, 128, 128, 0.12);
 }
 
 .icon-button svg,
 .back-to-top svg {
-  width: 22px;
-  height: 22px;
+  width: 19px;
+  height: 19px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -261,17 +286,16 @@ header {
   width: 100%;
   box-sizing: border-box;
   padding: 0 20px;
-  color: #ffffff;
+  color: var(--text);
   /* vidro fosco: deixa ver o fundo desfocado atrás */
-  background-color: rgba(30, 58, 95, 0.9);
-  -webkit-backdrop-filter: saturate(160%) blur(14px);
-  backdrop-filter: saturate(160%) blur(14px);
+  background-color: var(--header-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
   transition: background-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 
 header.scrolled {
-  background-color: rgba(30, 58, 95, 0.94);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 
 /* barra de progresso da leitura */
@@ -280,8 +304,8 @@ header.scrolled {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), #ff7a59);
+  height: 2px;
+  background-color: var(--primary);
   transform: scaleX(0);
   transform-origin: left;
 }
@@ -297,14 +321,16 @@ header.scrolled {
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text);
   text-decoration: none;
 }
 
 .logo span {
-  color: var(--accent);
+  font-weight: 400;
+  color: var(--text-muted);
 }
 
 .header-actions {
@@ -324,8 +350,8 @@ header.scrolled {
   font-size: 0.7rem;
   font-weight: 700;
   line-height: 18px;
-  color: #1e3a5f;
-  background-color: var(--accent);
+  color: #ffffff;
+  background-color: var(--primary);
   border-radius: 999px;
 }
 
@@ -346,12 +372,14 @@ header.scrolled {
   right: 0;
   max-height: 0;
   overflow: hidden;
-  background-color: rgba(30, 58, 95, 0.96);
-  transition: max-height 0.5s var(--ease);
+  background-color: var(--header-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  transition: max-height 0.6s var(--ease);
 }
 
 .main-nav.open {
-  max-height: 320px;
+  max-height: 100vh;
 }
 
 .nav {
@@ -362,22 +390,25 @@ header.scrolled {
   list-style: none;
 }
 
+/* no celular os links ficam grandes, como no menu da Apple */
 .nav a {
   display: block;
-  padding: 14px 20px;
-  color: #ffffff;
-  font-weight: 500;
+  padding: 10px 28px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
   text-decoration: none;
-  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+  transition: color 0.4s var(--ease), opacity 0.4s var(--ease);
 }
 
 .nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
 }
 
 /* página atual destacada no menu */
 .nav a.active {
-  color: var(--accent);
+  color: var(--link);
 }
 
 /* ---------- Conteúdo ---------- */
@@ -397,8 +428,22 @@ section {
 }
 
 .section-title {
-  margin: 0 0 14px;
-  font-size: 1.5rem;
+  margin: 0 0 16px;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+}
+
+/* título das páginas de categoria, grande como nas páginas da Apple */
+main > h1 {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.products-title {
+  margin: 4px 0 20px;
+  font-size: 1.6rem;
+  color: var(--text-muted);
 }
 
 .breadcrumb {
@@ -412,14 +457,15 @@ section {
 }
 
 /* dew_12 pd 1: banner com imagem de fundo centralizada e sem repetição */
+/* herói preto, como as páginas de produto da Apple */
 .banner {
-  padding: 40px 20px;
-  color: #ffffff;
+  padding: 56px 20px;
+  color: #f5f5f7;
   text-align: center;
-  background-color: #1e3a5f;
+  background-color: #000000;
   background-image:
-    linear-gradient(135deg, rgba(30, 58, 95, 0.92), rgba(42, 79, 128, 0.75)),
-    url("https://placehold.co/1200x400/1e3a5f/2f5d8f/png?text=TVs");
+    radial-gradient(ellipse 70% 60% at 50% 110%, rgba(41, 151, 255, 0.35), transparent 70%),
+    url("https://placehold.co/1200x400/000000/000000/png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -427,24 +473,30 @@ section {
 }
 
 .banner h1 {
-  margin: 10px 0;
-  font-size: 2rem;
+  margin: 6px auto 10px;
+  max-width: 14ch;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  /* título com degradê no texto */
+  background: linear-gradient(180deg, #ffffff 30%, #9fb6d6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .banner-tag {
-  display: inline-block;
   margin: 0;
-  padding: 4px 14px;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: #1e3a5f;
-  background-color: var(--accent);
-  border-radius: 999px;
+  color: #ff9f0a;
 }
 
 .banner-text {
-  margin: 0 0 24px;
-  opacity: 0.9;
+  margin: 0 auto 24px;
+  max-width: 32ch;
+  font-size: 1.2rem;
+  color: #a1a1a6;
 }
 
 .banner-actions {
@@ -471,9 +523,9 @@ section {
 
 .feature {
   position: relative;
-  padding: 16px 18px;
+  padding: 22px;
+  text-align: center;
   background-color: var(--surface);
-  border-left: 4px solid var(--accent);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
@@ -485,7 +537,8 @@ section {
 }
 
 .feature h3 {
-  margin: 0 0 4px;
+  margin: 0 0 6px;
+  font-size: 1.15rem;
 }
 
 .feature p {
@@ -522,8 +575,14 @@ section {
   box-shadow: var(--shadow-hover);
 }
 
+.category a {
+  text-align: center;
+}
+
 .category h3 {
-  margin: 12px 0 2px;
+  margin: 14px 0 4px;
+  font-size: 1.6rem;
+  letter-spacing: -0.03em;
 }
 
 .category p {
@@ -532,8 +591,7 @@ section {
 }
 
 .category-link {
-  font-weight: 600;
-  color: var(--primary);
+  color: var(--link);
 }
 
 /* ---------- Listagem de produtos ---------- */
@@ -595,7 +653,6 @@ section {
   padding: 14px;
   text-align: center;
   background-color: var(--surface);
-  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
@@ -619,8 +676,8 @@ section {
 
 .product h4 {
   margin: 0;
-  font-size: 1.4rem;
-  color: var(--primary);
+  font-size: 1.2rem;
+  color: var(--text);
 }
 
 .product h4 small {
@@ -635,24 +692,32 @@ section {
   color: var(--text-muted);
 }
 
+/* selo "Novo" em laranja, como na Apple Store */
 .badge {
   position: absolute;
-  top: 24px;
-  left: 24px;
+  top: 26px;
+  left: 50%;
   z-index: 1;
-  padding: 4px 10px;
+  padding: 3px 10px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #1e3a5f;
-  background-color: var(--accent);
+  color: var(--accent);
+  background-color: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border-radius: 999px;
+  transform: translateX(-50%);
 }
 
 /* a imagem aumenta no hover, mas fica recortada dentro da moldura */
 .product-image {
   overflow: hidden;
   background-color: var(--surface-alt);
-  border-radius: 8px;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .badge {
+  background-color: rgba(29, 29, 31, 0.75);
 }
 
 /* no modo escuro as imagens claras ficam menos ofuscantes */
@@ -710,11 +775,18 @@ section {
 /* ---------- Rodapé ---------- */
 
 /* dew_15 all 2 + dew_16 all-1: rodapé com cor de fundo e padding */
+/* rodapé claro e com letras pequenas, como o da Apple */
 footer {
   margin-top: 32px;
   padding: 20px;
-  color: #c9d3e3;
-  background-color: #14263f;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background-color: var(--surface-alt);
+  border-top: 1px solid var(--border);
+}
+
+footer .logo {
+  font-size: 1rem;
 }
 
 .footer-inner {
@@ -739,7 +811,7 @@ footer {
 }
 
 .footer-nav a {
-  color: #ffffff;
+  color: var(--text);
   text-decoration: none;
 }
 
@@ -747,9 +819,8 @@ footer {
   max-width: 1200px;
   margin: 20px auto 0;
   padding-top: 16px;
-  font-size: 0.85rem;
   text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid var(--border);
 }
 
 /* ---------- Carrinho lateral ---------- */
@@ -891,9 +962,11 @@ footer {
   justify-content: center;
   width: 46px;
   height: 46px;
-  color: #ffffff;
-  background-color: var(--primary);
-  border: none;
+  color: var(--text);
+  background-color: var(--header-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--border);
   border-radius: 50%;
   box-shadow: var(--shadow-hover);
   cursor: pointer;
@@ -916,8 +989,11 @@ footer {
   z-index: 40;
   max-width: calc(100% - 40px);
   padding: 12px 20px;
-  color: #ffffff;
-  background-color: #1c2330;
+  font-size: 0.9rem;
+  color: #f5f5f7;
+  background-color: rgba(29, 29, 31, 0.88);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
   border-radius: 999px;
   box-shadow: var(--shadow-hover);
   opacity: 0;
@@ -934,11 +1010,7 @@ footer {
 /* ---------- Tablets (a partir de 768px) ---------- */
 @media (min-width: 768px) {
   .banner {
-    padding: 56px 40px;
-  }
-
-  .banner h1 {
-    font-size: 2.6rem;
+    padding: 80px 40px;
   }
 
   .features {
@@ -973,21 +1045,33 @@ footer {
     max-height: none;
     overflow: visible;
     background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .nav {
     flex-direction: row;
-    gap: 8px;
+    gap: 6px;
   }
 
   .nav a {
-    padding: 8px 14px;
-    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--text);
+    opacity: 0.8;
+  }
+
+  .nav a:hover {
+    color: var(--text);
+    opacity: 1;
   }
 
   .nav a.active {
-    color: #1e3a5f;
-    background-color: var(--accent);
+    color: var(--text);
+    opacity: 1;
+    font-weight: 600;
   }
 
   .menu-toggle {
@@ -1020,10 +1104,11 @@ footer {
   color: var(--text-muted);
 }
 
+/* no celular a TV fica por cima dos cartões, que somem antes de chegar nela */
 .story-visual {
   position: sticky;
   top: calc(var(--header-height) + 10px);
-  z-index: 1;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1060,10 +1145,10 @@ footer {
   justify-content: center;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: linear-gradient(135deg, #0d1b2e, #1e3a5f);
+  background: linear-gradient(135deg, #0a0a0c, #1d2a3f);
   background-size: 200% 200%;
-  border: 6px solid #111111;
-  border-radius: 8px;
+  border: 5px solid #1d1d1f;
+  border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: background 0.6s;
 }
@@ -1148,36 +1233,172 @@ footer {
   opacity: 0;
 }
 
+/* ---------- Passo 3: zoom nos pixels (QLED x OLED) ---------- */
+.story-visual[data-step="3"] .tv {
+  width: 88%;
+}
+
+.story-visual[data-step="3"] .tv-label {
+  opacity: 0;
+}
+
+.tv-label {
+  transition: opacity 0.5s var(--ease);
+}
+
+/* a tela vira um canvas com milhares de pixels (desenhados pelo main.js) */
+.tech-zoom {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background-color: #000000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+.story-visual[data-step="3"] .tech-zoom {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: crosshair;
+  /* deslizar o dedo na horizontal apaga pixels; na vertical continua rolando */
+  touch-action: pan-y;
+}
+
+.tech-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tech-caption,
+.tech-hint {
+  position: absolute;
+  left: 50%;
+  padding: 4px 10px;
+  font-size: clamp(0.6rem, 1.6vw, 0.8rem);
+  font-weight: 500;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 0.5s var(--ease);
+}
+
+.tech-caption {
+  bottom: 8%;
+  opacity: 0;
+}
+
+/* a legenda acompanha o modelo escolhido */
+.story-visual[data-tech="qled"] .tech-caption[data-tech="qled"],
+.story-visual[data-tech="oled"] .tech-caption[data-tech="oled"] {
+  opacity: 1;
+}
+
+/* dica no topo: some depois que a pessoa mexe nos pixels */
+.tech-hint {
+  top: 8%;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tech-zoom.touched .tech-hint {
+  opacity: 0;
+}
+
+/* seletor QLED | OLED no estilo segmentado da Apple */
+.tech-switch {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  z-index: 3;
+  display: flex;
+  padding: 3px;
+  background-color: rgba(120, 120, 128, 0.2);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 10px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.story-visual[data-step="3"] .tech-switch {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.tech-switch button {
+  padding: 6px 18px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+.tech-switch button[aria-pressed="true"] {
+  color: var(--text);
+  background-color: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
 /* bolinhas de progresso */
 .story-progress {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.story-progress li {
-  width: 10px;
-  height: 10px;
+/* cada bolinha é um botão; o padding aumenta a área de toque */
+.story-progress button {
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 6px;
   background-color: var(--border);
+  background-clip: content-box;
+  border: none;
   border-radius: 999px;
-  transition: width 0.3s, background-color 0.3s;
+  cursor: pointer;
+  transition: width 0.5s var(--ease), background-color 0.4s var(--ease);
 }
 
-.story-progress li.done {
-  background-color: var(--primary);
+.story-progress button:hover {
+  background-color: var(--text-muted);
 }
 
-.story-progress li.active {
-  width: 28px;
-  background-color: var(--accent);
+.story-progress li.done button {
+  background-color: var(--text-muted);
+}
+
+.story-progress li.active button {
+  width: 36px;
+  background-color: var(--text);
 }
 
 .story-steps {
   position: relative;
   z-index: 2;
+}
+
+/* o JS controla a opacidade do passo conforme ele chega perto da TV */
+.story-step {
+  will-change: opacity;
 }
 
 /* no celular o cartão fica na parte de baixo, sem cobrir a TV */
@@ -1358,7 +1579,7 @@ footer {
   inset: 0;
   border-radius: inherit;
   z-index: -1;
-  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(245, 165, 36, 0.16), transparent 70%);
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 113, 227, 0.07), transparent 70%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s var(--ease);

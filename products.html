@@ -6,7 +6,7 @@
   <title>TelaMax - Produtos e Acessórios para TVs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/theme.js"></script>
 </head>
@@ -46,8 +46,8 @@
       <h1>Produtos e acessórios para TVs</h1>
       <p class="banner-text">As melhores TVs 4K, QLED e OLED com até 10x sem juros.</p>
       <div class="banner-actions">
-        <a href="category_tvs.html" class="btn btn-light">Ver TVs</a>
-        <a href="category_acessories.html" class="btn btn-outline-light">Ver acessórios</a>
+        <a href="category_tvs.html" class="btn btn-primary">Ver TVs</a>
+        <a href="category_acessories.html" class="btn btn-link-light">Ver acessórios</a>
       </div>
     </div>
 
@@ -83,28 +83,28 @@
           <a href="category_tvs.html">
             <div class="product-image">
               <picture>
-                <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=TVs" type="image/webp">
-                <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=TVs" type="image/webp">
-                <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=TVs" alt="Categoria TVs" loading="lazy">
+                <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/f5f5f7/1d1d1f/webp?text=TVs" type="image/webp">
+                <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/f5f5f7/1d1d1f/webp?text=TVs" type="image/webp">
+                <img src="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=TVs" alt="Categoria TVs" loading="lazy">
               </picture>
             </div>
             <h3>TVs</h3>
             <p>Smart TVs 4K, QLED e OLED das melhores marcas.</p>
-            <span class="category-link">Ver 6 produtos &rarr;</span>
+            <span class="category-link">Ver 6 produtos ›</span>
           </a>
         </li>
         <li class="category">
           <a href="category_acessories.html">
             <div class="product-image">
               <picture>
-                <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Acessorios" type="image/webp">
-                <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Acessorios" type="image/webp">
-                <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Acessorios" alt="Categoria Acessórios" loading="lazy">
+                <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/f5f5f7/1d1d1f/webp?text=Acessorios" type="image/webp">
+                <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/f5f5f7/1d1d1f/webp?text=Acessorios" type="image/webp">
+                <img src="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=Acessorios" alt="Categoria Acessórios" loading="lazy">
               </picture>
             </div>
             <h3>Acessórios</h3>
             <p>Soundbars, suportes, cabos e tudo para a sua TV.</p>
-            <span class="category-link">Ver 6 produtos &rarr;</span>
+            <span class="category-link">Ver 6 produtos ›</span>
           </a>
         </li>
       </ul>
@@ -115,23 +115,39 @@
       <p class="story-intro">Role a página e descubra, passo a passo, como escolher o conjunto ideal.</p>
 
       <div class="story-inner">
-        <div class="story-visual" data-step="1" aria-hidden="true">
+        <div class="story-visual" data-step="1" data-tech="qled">
           <div class="story-wall">
-            <div class="tv">
+            <div class="tv" aria-hidden="true">
               <div class="tv-screen">
                 <span class="tv-label">55"</span>
+
+                <!-- passo 3: zoom nos pixels, com comparação QLED x OLED
+                     (os pixels são desenhados no canvas pelo main.js) -->
+                <div class="tech-zoom">
+                  <canvas class="tech-canvas"></canvas>
+                  <span class="tech-caption" data-tech="qled">Mini-LED · a luz vaza para o preto</span>
+                  <span class="tech-caption" data-tech="oled">OLED · cada pixel apaga sozinho</span>
+                  <span class="tech-hint">Passe o dedo ou o mouse para apagar pixels</span>
+                </div>
               </div>
               <div class="tv-stand"></div>
             </div>
-            <div class="soundbar"></div>
+            <div class="soundbar" aria-hidden="true"></div>
+
+            <div class="tech-switch" role="group" aria-label="Comparar tecnologias">
+              <button type="button" data-tech="qled" aria-pressed="true">QLED</button>
+              <button type="button" data-tech="oled" aria-pressed="false">OLED</button>
+            </div>
           </div>
-          <ol class="story-progress">
-          <li data-step="1"></li>
-          <li data-step="2"></li>
-          <li data-step="3"></li>
-          <li data-step="4"></li>
-          <li data-step="5"></li>
-          </ol>
+          <nav aria-label="Passos da história">
+            <ol class="story-progress">
+            <li data-step="1"><button type="button" aria-label="Ir para o passo 1: Escolha o tamanho certo"></button></li>
+            <li data-step="2"><button type="button" aria-label="Ir para o passo 2: Resolução 4K"></button></li>
+            <li data-step="3"><button type="button" aria-label="Ir para o passo 3: Tecnologia da tela"></button></li>
+            <li data-step="4"><button type="button" aria-label="Ir para o passo 4: Som de cinema"></button></li>
+            <li data-step="5"><button type="button" aria-label="Ir para o passo 5: Instalação na parede"></button></li>
+            </ol>
+          </nav>
         </div>
 
         <div class="story-steps">
@@ -153,7 +169,7 @@
           <div class="story-card">
             <span class="story-number">Passo 3 de 5</span>
             <h3>Tecnologia da tela</h3>
-            <p>QLED usa pontos quânticos para cores mais vivas e brilho alto. OLED acende cada pixel sozinho e entrega o preto perfeito.</p>
+            <p>Toque em QLED ou OLED na tela para comparar. O QLED usa milhares de mini-LEDs atrás do painel; no OLED cada pixel acende sozinho e entrega o preto perfeito.</p>
           </div>
         </div>
         <div class="story-step" data-step="4">
@@ -182,13 +198,13 @@
       <h2 class="section-title">Destaques da semana</h2>
 
       <ul class="products-list">
-      <li class="product" data-id="tv-samsung-55" data-name="Samsung Crystal UHD 55&quot; CU7700" data-price="2699.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Samsung+55">
+      <li class="product" data-id="tv-samsung-55" data-name="Samsung Crystal UHD 55&quot; CU7700" data-price="2699.00" data-image="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=Samsung+55">
         <span class="badge">Mais vendido</span>
         <div class="product-image">
           <picture>
-            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Samsung+55" type="image/webp">
-            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Samsung+55" type="image/webp">
-            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Samsung+55" alt="Samsung Crystal UHD 55&quot; CU7700" loading="lazy">
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/f5f5f7/1d1d1f/webp?text=Samsung+55" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/f5f5f7/1d1d1f/webp?text=Samsung+55" type="image/webp">
+            <img src="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=Samsung+55" alt="Samsung Crystal UHD 55&quot; CU7700" loading="lazy">
           </picture>
         </div>
         <h3>Samsung Crystal UHD 55" CU7700</h3>
@@ -199,13 +215,13 @@
           <a href="https://www.samsung.com/br/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
         </div>
       </li>
-      <li class="product" data-id="tv-tcl-65" data-name="TCL QLED 65&quot; C655" data-price="3499.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=TCL+65">
+      <li class="product" data-id="tv-tcl-65" data-name="TCL QLED 65&quot; C655" data-price="3499.00" data-image="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=TCL+65">
         <span class="badge">Novo</span>
         <div class="product-image">
           <picture>
-            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=TCL+65" type="image/webp">
-            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=TCL+65" type="image/webp">
-            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=TCL+65" alt="TCL QLED 65&quot; C655" loading="lazy">
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/f5f5f7/1d1d1f/webp?text=TCL+65" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/f5f5f7/1d1d1f/webp?text=TCL+65" type="image/webp">
+            <img src="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=TCL+65" alt="TCL QLED 65&quot; C655" loading="lazy">
           </picture>
         </div>
         <h3>TCL QLED 65" C655</h3>
@@ -216,13 +232,13 @@
           <a href="https://www.tcl.com/br/pt" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Detalhes</a>
         </div>
       </li>
-      <li class="product" data-id="ac-soundbar-jbl" data-name="Soundbar JBL Bar 2.1" data-price="899.00" data-image="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Soundbar+JBL">
+      <li class="product" data-id="ac-soundbar-jbl" data-name="Soundbar JBL Bar 2.1" data-price="899.00" data-image="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=Soundbar+JBL">
         <span class="badge">Mais vendido</span>
         <div class="product-image">
           <picture>
-            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/e8eef7/1e3a5f/webp?text=Soundbar+JBL" type="image/webp">
-            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/e8eef7/1e3a5f/webp?text=Soundbar+JBL" type="image/webp">
-            <img src="https://placehold.co/600x400/e8eef7/1e3a5f/png?text=Soundbar+JBL" alt="Soundbar JBL Bar 2.1" loading="lazy">
+            <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/f5f5f7/1d1d1f/webp?text=Soundbar+JBL" type="image/webp">
+            <source media="(max-width: 1339px)" srcset="https://placehold.co/500x333/f5f5f7/1d1d1f/webp?text=Soundbar+JBL" type="image/webp">
+            <img src="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=Soundbar+JBL" alt="Soundbar JBL Bar 2.1" loading="lazy">
           </picture>
         </div>
         <h3>Soundbar JBL Bar 2.1</h3>

@@ -20,8 +20,6 @@ h1 {
 
 .products-title {
   display: inline-block;
-  margin: 4px 0 20px;
-  color: var(--primary);
   animation: rotate-title 1.6s var(--ease) 0.4s;
 }
 
@@ -91,27 +89,41 @@ h1 {
   width: 80%;
 }
 
-/* ---------- Perguntas frequentes ---------- */
+/* ---------- Perguntas frequentes (linhas com "+" que gira) ---------- */
 .faq details {
-  margin-bottom: 10px;
-  background-color: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--border);
 }
 
 .faq summary {
-  padding: 16px 20px;
-  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  list-style: none;
   cursor: pointer;
 }
 
-.faq details[open] summary {
-  color: var(--primary);
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  transition: transform 0.5s var(--ease);
+}
+
+.faq details[open] summary::after {
+  transform: rotate(45deg);
 }
 
 .faq details p {
   margin: 0;
-  padding: 0 20px 16px;
+  padding: 0 0 18px;
   color: var(--text-muted);
 }
 
