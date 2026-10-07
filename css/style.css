@@ -906,3 +906,278 @@ footer {
     display: none;
   }
 }
+
+/* ---------- Scrollytelling: "Monte seu cinema em casa" ---------- */
+/* mobile first: a TV fica fixa no topo e os cartões passam por cima dela */
+.story-intro {
+  margin-top: -10px;
+  color: var(--text-muted);
+}
+
+.story-visual {
+  position: sticky;
+  top: calc(var(--header-height) + 10px);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 42vh;
+  min-height: 260px;
+}
+
+.story-wall {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  overflow: hidden;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: background-color 0.6s;
+}
+
+.tv {
+  position: relative;
+  width: 55%;
+  max-width: 520px;
+  transition: width 0.6s ease;
+}
+
+.tv-screen {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d1b2e, #1e3a5f);
+  background-size: 200% 200%;
+  border: 6px solid #111111;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: background 0.6s;
+}
+
+/* grade de pixels mostrada no passo da resolução */
+.tv-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 6px);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.tv-label {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.2rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.tv-stand {
+  width: 30%;
+  height: 10px;
+  margin: 0 auto;
+  background-color: #2a2a2a;
+  border-radius: 0 0 6px 6px;
+  transition: opacity 0.4s;
+}
+
+.soundbar {
+  width: 40%;
+  max-width: 380px;
+  height: 14px;
+  background: linear-gradient(#333333, #111111);
+  border-radius: 7px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+/* passo 2 em diante: TV maior */
+.story-visual:not([data-step="1"]) .tv {
+  width: 75%;
+}
+
+/* passo 2: pixels do 4K */
+.story-visual[data-step="2"] .tv-screen::after {
+  opacity: 1;
+}
+
+/* passo 3 em diante: cores vivas do QLED/OLED */
+.story-visual:is([data-step="3"], [data-step="4"], [data-step="5"]) .tv-screen {
+  background: linear-gradient(135deg, #ff5f6d, #f5a524, #38d39f, #4c8dff, #a970ff);
+  background-size: 300% 300%;
+  animation: screen-colors 6s ease infinite;
+}
+
+@keyframes screen-colors {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* passo 4 em diante: soundbar */
+.story-visual:is([data-step="4"], [data-step="5"]) .soundbar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* passo 5: TV na parede (parede com textura listrada) */
+.story-visual[data-step="5"] .story-wall {
+  background-color: var(--surface-alt);
+  background-image: repeating-linear-gradient(90deg, transparent 0 38px, rgba(30, 58, 95, 0.07) 38px 40px);
+}
+
+.story-visual[data-step="5"] .tv-stand {
+  opacity: 0;
+}
+
+/* bolinhas de progresso */
+.story-progress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.story-progress li {
+  width: 10px;
+  height: 10px;
+  background-color: var(--border);
+  border-radius: 999px;
+  transition: width 0.3s, background-color 0.3s;
+}
+
+.story-progress li.done {
+  background-color: var(--primary);
+}
+
+.story-progress li.active {
+  width: 28px;
+  background-color: var(--accent);
+}
+
+.story-steps {
+  position: relative;
+  z-index: 2;
+}
+
+/* no celular o cartão fica na parte de baixo, sem cobrir a TV */
+.story-step {
+  display: flex;
+  align-items: flex-end;
+  min-height: 85vh;
+  padding-bottom: 6vh;
+  box-sizing: border-box;
+}
+
+.story-card {
+  width: 100%;
+  padding: 24px;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  opacity: 0.4;
+  transform: scale(0.96);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.story-step.active .story-card {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.story-number {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.story-card h3 {
+  margin: 6px 0 8px;
+  font-size: 1.4rem;
+}
+
+.story-card p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.story-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* telas grandes: texto à esquerda e TV fixa à direita */
+@media (min-width: 1024px) {
+  .story-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+  }
+
+  .story-visual {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    top: calc(var(--header-height) + 30px);
+    height: calc(100vh - var(--header-height) - 60px);
+  }
+
+  .story-steps {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .story-step {
+    align-items: center;
+    min-height: 80vh;
+    padding-bottom: 0;
+  }
+
+  .story-card {
+    box-shadow: var(--shadow);
+  }
+}
+
+/* ---------- Seções aparecem ao rolar a página ---------- */
+/* só esconde enquanto não ficou visível, para não anular o hover dos cards */
+.reveal {
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.2s;
+}
+
+.reveal:not(.visible) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* respeita quem desativou animações no sistema */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal:not(.visible) {
+    opacity: 1;
+    transform: none;
+  }
+}

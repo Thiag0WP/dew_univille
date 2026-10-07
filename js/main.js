@@ -252,3 +252,55 @@ window.addEventListener('scroll', function () {
 backToTop.addEventListener('click', function () {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// ---------- Scrollytelling: a TV muda conforme o passo visível ----------
+const storyVisual = document.querySelector('.story-visual');
+
+if (storyVisual) {
+  const steps = document.querySelectorAll('.story-step');
+  const dots = document.querySelectorAll('.story-progress li');
+  const label = document.querySelector('.tv-label');
+  const labels = { 1: '55"', 2: '4K', 3: 'QLED · OLED', 4: '♪ Som surround', 5: 'Pronto!' };
+
+  function setStep(step) {
+    storyVisual.dataset.step = step;
+    label.textContent = labels[step];
+
+    steps.forEach(function (el) {
+      el.classList.toggle('active', el.dataset.step === step);
+    });
+    dots.forEach(function (dot) {
+      dot.classList.toggle('active', dot.dataset.step === step);
+      dot.classList.toggle('done', Number(dot.dataset.step) < Number(step));
+    });
+  }
+
+  // o passo ativo é o que está cruzando o meio da tela
+  const storyObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) setStep(entry.target.dataset.step);
+    });
+  }, { rootMargin: '-50% 0px -50% 0px' });
+
+  steps.forEach(function (step) {
+    storyObserver.observe(step);
+  });
+  setStep('1');
+}
+
+// ---------- Seções aparecem suavemente ao rolar ----------
+const revealItems = document.querySelectorAll('main > section:not(.story), .feature, .category, .product');
+
+const revealObserver = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+revealItems.forEach(function (item) {
+  item.classList.add('reveal');
+  revealObserver.observe(item);
+});
