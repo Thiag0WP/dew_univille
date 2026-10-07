@@ -15,19 +15,19 @@
 
 h1 {
   margin: 0;
-  animation: slide-title 1s ease-out;
+  animation: slide-title 1s var(--ease);
 }
 
 .products-title {
   display: inline-block;
   margin: 4px 0 20px;
   color: var(--primary);
-  animation: rotate-title 1.5s ease-in-out 0.5s;
+  animation: rotate-title 1.6s var(--ease) 0.4s;
 }
 
 /* ---------- Formulário de solicitação ---------- */
 .form-section {
-  padding: 24px;
+  padding: 20px;
   background-color: var(--surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);

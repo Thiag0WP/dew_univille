@@ -84,14 +84,14 @@ const cartTotal = document.querySelector('.cart-total strong');
 function openCart() {
   cartDrawer.classList.add('open');
   cartDrawer.setAttribute('aria-hidden', false);
-  overlay.hidden = false;
+  overlay.classList.add('show');
   document.body.classList.add('no-scroll');
 }
 
 function closeCart() {
   cartDrawer.classList.remove('open');
   cartDrawer.setAttribute('aria-hidden', true);
-  overlay.hidden = true;
+  overlay.classList.remove('show');
   document.body.classList.remove('no-scroll');
 }
 
@@ -245,9 +245,20 @@ if (searchInput && sortSelect) {
 // ---------- Voltar ao topo ----------
 const backToTop = document.querySelector('.back-to-top');
 
-window.addEventListener('scroll', function () {
+const siteHeader = document.querySelector('header');
+const scrollProgress = document.createElement('div');
+scrollProgress.className = 'scroll-progress';
+siteHeader.appendChild(scrollProgress);
+
+function onScroll() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+  siteHeader.classList.toggle('scrolled', window.scrollY > 10);
   backToTop.classList.toggle('visible', window.scrollY > 400);
-});
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
 backToTop.addEventListener('click', function () {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -294,8 +305,14 @@ const revealItems = document.querySelectorAll('main > section:not(.story), .feat
 const revealObserver = new IntersectionObserver(function (entries) {
   entries.forEach(function (entry) {
     if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
+      const item = entry.target;
+      // itens lado a lado aparecem em cascata
+      const index = Array.prototype.indexOf.call(item.parentElement.children, item) % 3;
+      item.style.transitionDelay = (index * 90) + 'ms';
+      item.classList.add('visible');
+      revealObserver.unobserve(item);
+      // tira o atraso depois, para não atrasar o hover
+      setTimeout(function () { item.style.transitionDelay = ''; }, 1200);
     }
   });
 }, { threshold: 0.1 });
@@ -303,4 +320,96 @@ const revealObserver = new IntersectionObserver(function (entries) {
 revealItems.forEach(function (item) {
   item.classList.add('reveal');
   revealObserver.observe(item);
+});
+
+// ---------- Efeitos de fundo que acompanham o mouse e a rolagem ----------
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const effects = document.createElement('div');
+effects.className = 'bg-effects';
+effects.setAttribute('aria-hidden', 'true');
+effects.innerHTML =
+  '<div class="bg-grid"></div>' +
+  '<span class="blob blob-1"></span>' +
+  '<span class="blob blob-2"></span>' +
+  '<span class="blob blob-3"></span>' +
+  '<div class="cursor-glow"></div>';
+document.body.prepend(effects);
+
+if (!reduceMotion) {
+  const blobs = effects.querySelectorAll('.blob');
+  const grid = effects.querySelector('.bg-grid');
+  const glow = effects.querySelector('.cursor-glow');
+
+  // "target" é onde o mouse está; "current" persegue o alvo aos poucos (inércia)
+  const target = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const current = { x: target.x, y: target.y };
+  let scrollCurrent = window.scrollY;
+
+  document.addEventListener('pointermove', function (event) {
+    if (event.pointerType !== 'mouse') return;
+    target.x = event.clientX;
+    target.y = event.clientY;
+    glow.classList.add('active');
+  });
+
+  document.documentElement.addEventListener('mouseleave', function () {
+    glow.classList.remove('active');
+  });
+
+  function animate() {
+    current.x += (target.x - current.x) * 0.07;
+    current.y += (target.y - current.y) * 0.07;
+    scrollCurrent += (window.scrollY - scrollCurrent) * 0.07;
+
+    const dx = current.x - window.innerWidth / 2;
+    const dy = current.y - window.innerHeight / 2;
+
+    // cada mancha se move em ritmo diferente, criando profundidade
+    blobs.forEach(function (blob, i) {
+      const depth = (i + 1) * 0.025;
+      const waveX = Math.cos(scrollCurrent / (700 + i * 150) + i) * 90;
+      const waveY = Math.sin(scrollCurrent / (500 + i * 150) + i) * 140;
+      blob.style.transform = 'translate3d(' + (dx * depth + waveX) + 'px, ' + (dy * depth + waveY) + 'px, 0)';
+    });
+
+    grid.style.backgroundPosition = '0 ' + (-scrollCurrent * 0.15) + 'px';
+    glow.style.transform = 'translate3d(' + current.x + 'px, ' + current.y + 'px, 0)';
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+
+// ---------- Luz que segue o mouse dentro dos cards ----------
+document.addEventListener('pointermove', function (event) {
+  const card = event.target.closest('.product, .category a, .feature');
+  if (!card) return;
+
+  const rect = card.getBoundingClientRect();
+  card.style.setProperty('--mx', (event.clientX - rect.left) + 'px');
+  card.style.setProperty('--my', (event.clientY - rect.top) + 'px');
+});
+
+// ---------- Transição suave entre as páginas ----------
+document.addEventListener('click', function (event) {
+  const link = event.target.closest('a');
+  if (!link || link.target || event.defaultPrevented) return;
+  if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+  const url = new URL(link.href, window.location.href);
+  const samePage = url.pathname === window.location.pathname;
+  const sameSite = url.protocol === window.location.protocol && url.host === window.location.host;
+  if (!sameSite || samePage || reduceMotion) return;
+
+  event.preventDefault();
+  document.body.classList.add('page-leave');
+  setTimeout(function () {
+    window.location.href = link.href;
+  }, 280);
+});
+
+// ao voltar pelo botão do navegador, a página não pode ficar invisível
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) document.body.classList.remove('page-leave');
 });
