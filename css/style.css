@@ -1,36 +1,74 @@
-/* Estilos comuns a todas as páginas */
+/* =====================================================================
+   style.css — estilos usados em TODAS as páginas do site
+   =====================================================================
+   Estilos comuns a todas as páginas
+
+   Como ler este arquivo:
+   - Ele é "mobile first": as regras normais valem para o celular, e os
+     blocos @media (min-width: ...) perto do fim acrescentam ajustes para
+     tablets (768px ou mais) e computadores (1024px ou mais).
+   - As cores ficam em variáveis (--primary, --text...). Assim o modo
+     escuro só precisa trocar as variáveis, e não cada regra.
+   - Os comentários "dew_XX ..." indicam qual exercício dos slides
+     (aulas 12, 14, 15 e 16) aquela regra atende.
+
+   Ordem do arquivo:
+     Cores e medidas · Base · Botões · Cabeçalho · Conteúdo (banner,
+     vantagens, categorias, produtos) · Continue navegando · Carrinho ·
+     Toast · Voltar ao topo · Rodapé · Scrollytelling (TV, pixels,
+     música) · Telas maiores (@media) · Impressão · Animação ao rolar ·
+     Efeitos de fundo · Reduzir movimento */
 
 /* ---------- Cores e medidas ---------- */
 /* paleta inspirada no site da Apple: cinzas neutros e um único azul de ação */
+/* :root é a tag <html>. Variáveis CSS começam com "--" e são usadas com
+   var(--nome). Elas "descem" para todos os elementos da página. */
 :root {
+  /* azul dos botões principais e cor do hover */
   --primary: #0071e3;
   --primary-hover: #0077ed;
+  /* azul dos links de texto */
   --link: #0066cc;
+  /* laranja de destaque (etiquetas "Novo", "Mais vendido", passo da história) */
   --accent: #bf4800;
+  /* fundo da página (cinza bem claro) */
   --bg: #f5f5f7;
+  /* fundo dos cartões e caixas */
   --surface: #ffffff;
   --surface-alt: #f5f5f7;
+  /* texto principal e texto secundário (mais apagado) */
   --text: #1d1d1f;
   --text-muted: #6e6e73;
   --border: #d2d2d7;
+  /* verde de sucesso e vermelho de erro */
   --success: #1d8f4e;
   --danger: #e30000;
+  /* arredondamento padrão dos cantos */
   --radius: 18px;
+  /* sombra normal e sombra quando passa o mouse */
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.04), 0 18px 48px rgba(0, 0, 0, 0.1);
+  /* altura do cabeçalho (usada em vários cálculos) */
   --header-height: 52px;
+  /* fundo semitransparente do cabeçalho (efeito vidro) */
   --header-bg: rgba(250, 250, 252, 0.78);
   /* curva de animação suave ("cremosa"): começa rápido e desacelera devagar */
+  /* cubic-bezier define a curva de velocidade de uma animação com 4 números */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* efeitos de fundo, bem discretos */
+  /* cores das 3 manchas coloridas do fundo e a opacidade delas */
   --blob-1: #cfe0ff;
   --blob-2: #ffe4cc;
   --blob-3: #e6dcff;
   --blob-opacity: 0.45;
+  /* cor da luz que segue o mouse e dos pontinhos da grade do fundo */
   --glow: rgba(0, 113, 227, 0.06);
   --grid-dot: rgba(0, 0, 0, 0.05);
 }
 
+/* Modo escuro: quando o <html> tem data-theme="dark" (colocado pelo
+   theme.js/main.js), estas variáveis substituem as de cima. Como todo o
+   site usa var(--...), tudo escurece de uma vez. */
 [data-theme="dark"] {
   --primary: #0071e3;
   --primary-hover: #0077ed;
@@ -54,6 +92,7 @@
 }
 
 /* ---------- Base ---------- */
+/* rolagem animada ao clicar em links com # (ex.: "Solicite sua TV") */
 html {
   scroll-behavior: smooth;
 }
@@ -63,31 +102,43 @@ body {
   margin: 0;
   padding: 0;
   /* fonte do sistema: SF Pro no Mac/iPhone, Inter nos outros */
+  /* o navegador usa a primeira fonte da lista que existir no aparelho */
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 17px;
+  /* altura da linha: 1.47 vezes o tamanho da letra (texto mais respirado) */
   line-height: 1.47;
+  /* letras levemente mais juntas, como nos textos da Apple */
   letter-spacing: -0.01em;
   color: var(--text);
   background-color: var(--bg);
   /* rodapé sempre no fim da tela, mesmo em páginas curtas */
+  /* o body vira uma coluna flex com pelo menos a altura da tela (100vh);
+     o <main> tem flex: 1 e "estica", empurrando o rodapé para baixo */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* letras mais finas e nítidas no Mac */
   -webkit-font-smoothing: antialiased;
+  /* ao trocar o tema, as cores mudam suavemente em vez de piscar */
   transition: background-color 0.5s var(--ease), color 0.5s var(--ease), opacity 0.3s var(--ease);
   /* a página entra com um fade suave */
+  /* "backwards" aplica o estado inicial (invisível) já antes de a animação
+     começar e depois deixa o elemento livre, para o .page-leave funcionar */
   animation: page-fade 0.6s var(--ease) backwards;
 }
 
+/* o conteúdo sobe um pouquinho ao abrir a página */
 main {
   animation: page-rise 0.8s var(--ease) backwards;
 }
 
 /* ao clicar em um link para outra página, a atual some antes de trocar */
+/* (a classe é colocada pelo main.js, na "Transição suave entre as páginas") */
 body.page-leave {
   opacity: 0;
 }
 
+/* só tem "from": o navegador anima do from até o estado normal do elemento */
 @keyframes page-fade {
   from { opacity: 0; }
 }
@@ -96,10 +147,12 @@ body.page-leave {
   from { opacity: 0; transform: translateY(14px); }
 }
 
+/* trava a rolagem da página enquanto o carrinho está aberto */
 body.no-scroll {
   overflow: hidden;
 }
 
+/* títulos: um pouco menos grossos e mais juntos, estilo Apple */
 h1, h2, h3, h4, h5 {
   font-weight: 600;
   line-height: 1.1;
@@ -107,10 +160,14 @@ h1, h2, h3, h4, h5 {
 }
 
 /* evita que o cabeçalho fixo cubra o destino de links com # */
+/* [id] = qualquer elemento com id. scroll-margin-top deixa um espaço
+   acima dele quando a página rola até ele. */
 [id] {
   scroll-margin-top: calc(var(--header-height) + 20px);
 }
 
+/* Esconde o texto da tela, mas leitores de tela (pessoas cegas) ainda
+   conseguem ler. Usado em rótulos que só fazem sentido para eles. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -121,11 +178,14 @@ h1, h2, h3, h4, h5 {
 
 a {
   color: var(--link);
+  /* afasta o sublinhado do texto */
   text-underline-offset: 3px;
 }
 
 /* dew_12 all 2 + dew_16 all-3: opacidade no hover dos links com atraso de 0.8s */
 /* aplicado só nos links de texto, para o menu e os botões responderem na hora */
+/* transition: propriedade duração curva atraso -> a opacidade muda em 0,3s
+   mas só começa depois de 0,8s com o mouse em cima */
 p a,
 .breadcrumb a,
 .footer-nav a {
@@ -139,6 +199,9 @@ p a:hover,
 }
 
 /* dew_16 all-4 (suavizado): zoom leve e lento, recortado dentro da moldura */
+/* toda imagem anima o transform em 1,2s; o zoom acontece no hover do card.
+   A moldura (.product-image) tem overflow: hidden, então a imagem
+   aumentada não sai para fora dela. */
 img {
   transition: transform 1.2s var(--ease);
 }
@@ -153,6 +216,8 @@ input,
 select,
 textarea {
   padding: 10px 12px;
+  /* "font: inherit" faz o campo usar a mesma fonte do site
+     (por padrão os campos usam uma fonte própria do navegador) */
   font: inherit;
   color: var(--text);
   background-color: var(--surface);
@@ -161,6 +226,8 @@ textarea {
   transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
 
+/* campo selecionado: tira o contorno padrão e põe uma borda azul com um
+   "anel" azul claro em volta (box-shadow sem desfoque, só espalhado 4px) */
 input:focus,
 select:focus,
 textarea:focus {
@@ -170,7 +237,9 @@ textarea:focus {
 }
 
 /* ---------- Botões ---------- */
+/* base de todos os botões (.btn): formato de pílula */
 .btn {
+  /* inline-flex: fica na linha do texto, mas centraliza o conteúdo */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -180,21 +249,26 @@ textarea:focus {
   font-weight: 400;
   font-size: 0.95rem;
   text-decoration: none;
+  /* borda transparente: todos os botões ficam com o mesmo tamanho */
   border: 2px solid transparent;
+  /* raio enorme = pontas totalmente redondas (pílula) */
   border-radius: 999px;
   cursor: pointer;
   transition: background-color 0.4s var(--ease), color 0.4s var(--ease), transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 
+/* mouse em cima: o botão sobe 2px */
 .btn:hover {
   transform: translateY(-2px);
 }
 
+/* clicando: o botão "afunda" (diminui um pouco), e rápido (0,1s) */
 .btn:active {
   transform: translateY(0) scale(0.97);
   transition-duration: 0.1s;
 }
 
+/* botão principal: azul com texto branco */
 .btn-primary {
   color: #ffffff;
   background-color: var(--primary);
@@ -205,6 +279,7 @@ textarea:focus {
 }
 
 /* link no estilo "Saiba mais ›" */
+/* botão sem fundo, só o texto azul com uma setinha */
 .btn-ghost,
 .btn-link-light {
   padding-left: 8px;
@@ -213,6 +288,7 @@ textarea:focus {
   background-color: transparent;
 }
 
+/* a setinha "›" depois do texto */
 .btn-ghost::after,
 .btn-link-light::after {
   content: "›";
@@ -221,26 +297,33 @@ textarea:focus {
   transition: transform 0.4s var(--ease);
 }
 
+/* no hover este botão não sobe: ganha sublinhado */
 .btn-ghost:hover,
 .btn-link-light:hover {
   transform: none;
   text-decoration: underline;
 }
 
+/* e a setinha anda 3px para a direita */
 .btn-ghost:hover::after,
 .btn-link-light:hover::after {
   transform: translateX(3px);
 }
 
+/* versão para fundo preto (no banner): azul mais claro */
 .btn-link-light {
   color: #2997ff;
 }
 
+/* botões de verdade (<button>, ex.: "Limpar") não ganham a setinha,
+   porque não levam a outra página */
 button.btn-ghost::after {
   content: none;
 }
 
+/* botões redondos só com ícone (tema, carrinho, menu) */
 .icon-button {
+  /* relative: a bolinha do contador do carrinho se posiciona em relação a ele */
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -248,9 +331,11 @@ button.btn-ghost::after {
   width: 38px;
   height: 38px;
   padding: 0;
+  /* usa a mesma cor do texto em volta */
   color: inherit;
   background: transparent;
   border: none;
+  /* 50% = círculo */
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s var(--ease), transform 0.4s var(--ease);
@@ -260,10 +345,13 @@ button.btn-ghost::after {
   transform: scale(0.9);
 }
 
+/* círculo cinza translúcido no hover (funciona no tema claro e no escuro) */
 .icon-button:hover {
   background-color: rgba(128, 128, 128, 0.12);
 }
 
+/* ícones SVG desenhados só com linhas (stroke), sem preenchimento (fill).
+   currentColor = usa a cor do texto, então o ícone muda junto com o tema. */
 .icon-button svg,
 .back-to-top svg {
   width: 19px;
@@ -279,26 +367,36 @@ button.btn-ghost::after {
 
 /* dew_14 all 2: cabeçalho acompanha a rolagem, largura total e cor de fundo */
 /* dew_16 all-1: padding de 20px */
+/* position: sticky + top: 0 = o cabeçalho rola junto até chegar no topo
+   e então "gruda" lá. z-index 10 deixa ele por cima do conteúdo. */
 header {
   position: sticky;
   top: 0;
   z-index: 10;
   width: 100%;
+  /* box-sizing: border-box = o padding fica DENTRO dos 100% de largura
+     (sem isso, 100% + 40px de padding passaria da tela) */
   box-sizing: border-box;
   padding: 0 20px;
   color: var(--text);
   /* vidro fosco: deixa ver o fundo desfocado atrás */
+  /* backdrop-filter desfoca o que está ATRÁS do elemento; o fundo é
+     semitransparente para esse desfoque aparecer. -webkit- é para o Safari. */
   background-color: var(--header-bg);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
   transition: background-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 
+/* depois de rolar (classe colocada pelo main.js): uma linha fina embaixo */
 header.scrolled {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 
 /* barra de progresso da leitura */
+/* criada pelo main.js. Ela tem a largura toda, mas começa "encolhida"
+   (scaleX(0)) a partir da esquerda (transform-origin: left); o JS aumenta
+   o scaleX conforme a página rola. */
 .scroll-progress {
   position: absolute;
   left: 0;
@@ -310,6 +408,8 @@ header.scrolled {
   transform-origin: left;
 }
 
+/* linha do cabeçalho: logo à esquerda, menu no meio e ícones à direita.
+   max-width + margin: 0 auto centralizam o conteúdo em telas largas. */
 .header-inner {
   display: flex;
   align-items: center;
@@ -320,6 +420,7 @@ header.scrolled {
   margin: 0 auto;
 }
 
+/* logo "TelaMax" */
 .logo {
   font-size: 1.2rem;
   font-weight: 600;
@@ -328,18 +429,22 @@ header.scrolled {
   text-decoration: none;
 }
 
+/* a parte "Max" do logo, mais fina e cinza */
 .logo span {
   font-weight: 400;
   color: var(--text-muted);
 }
 
+/* grupo de botões da direita (tema, carrinho, menu) */
 .header-actions {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
+/* bolinha azul com a quantidade de itens, no canto do ícone do carrinho */
 .cart-count {
+  /* absolute: posicionada em relação ao .icon-button (que é relative) */
   position: absolute;
   top: 2px;
   right: 0;
@@ -349,22 +454,28 @@ header.scrolled {
   box-sizing: border-box;
   font-size: 0.7rem;
   font-weight: 700;
+  /* line-height igual à altura centraliza o número na vertical */
   line-height: 18px;
   color: #ffffff;
   background-color: var(--primary);
   border-radius: 999px;
 }
 
+/* animação ao adicionar produto (classe colocada pelo main.js) */
 .cart-count.bump {
   animation: bump 0.4s ease;
 }
 
+/* na metade da animação a bolinha fica 40% maior e depois volta */
 @keyframes bump {
   50% { transform: scale(1.4); }
 }
 
 /* dew_12 pd 3 + dew_14 all 2: links de navegação */
 /* mobile first: no celular o menu abre como lista abaixo do cabeçalho */
+/* O menu fica logo abaixo do cabeçalho, mas com altura máxima 0 e
+   overflow: hidden (escondido). Com a classe "open" a altura máxima
+   cresce e a transição faz o menu "descer" suavemente. */
 .main-nav {
   position: absolute;
   top: var(--header-height);
@@ -382,6 +493,7 @@ header.scrolled {
   max-height: 100vh;
 }
 
+/* a lista <ul> do menu: um link embaixo do outro, sem bolinhas */
 .nav {
   display: flex;
   flex-direction: column;
@@ -392,6 +504,7 @@ header.scrolled {
 
 /* no celular os links ficam grandes, como no menu da Apple */
 .nav a {
+  /* block: a área de clique ocupa a linha inteira (melhor para o dedo) */
   display: block;
   padding: 10px 28px;
   font-size: 1.6rem;
@@ -415,18 +528,22 @@ header.scrolled {
 
 /* dew_14 all 4 + dew_16 all-1: espaçamento interno do main */
 main {
+  /* flex: 1 = ocupa todo o espaço que sobrar (empurra o rodapé para baixo) */
   flex: 1;
   width: 100%;
+  /* conteúdo com no máximo 1200px, centralizado */
   max-width: 1200px;
   box-sizing: border-box;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* espaço entre as seções */
 section {
   margin-top: 32px;
 }
 
+/* títulos das seções ("Navegue por categoria", "Destaques"...) */
 .section-title {
   margin: 0 0 16px;
   font-size: 2rem;
@@ -434,24 +551,29 @@ section {
 }
 
 /* título das páginas de categoria, grande como nas páginas da Apple */
+/* clamp(mínimo, ideal, máximo): o tamanho acompanha a largura da tela
+   (5vw = 5% da largura), mas nunca fica menor que 2.2rem nem maior que 3.2rem */
 main > h1 {
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 700;
   letter-spacing: -0.04em;
 }
 
+/* subtítulo "Tvs" / "Acessórios" */
 .products-title {
   margin: 4px 0 20px;
   font-size: 1.6rem;
   color: var(--text-muted);
 }
 
+/* "Início / TVs": mostra onde a pessoa está no site */
 .breadcrumb {
   margin-bottom: 10px;
   font-size: 0.9rem;
   color: var(--text-muted);
 }
 
+/* a barra "/" entre os links */
 .breadcrumb span {
   margin: 0 6px;
 }
@@ -463,28 +585,37 @@ main > h1 {
   color: #f5f5f7;
   text-align: center;
   background-color: #000000;
+  /* duas imagens de fundo, a primeira por cima: um brilho azul em elipse
+     saindo de baixo (radial-gradient) e a imagem do exercício */
   background-image:
     radial-gradient(ellipse 70% 60% at 50% 110%, rgba(41, 151, 255, 0.35), transparent 70%),
     url("https://placehold.co/1200x400/000000/000000/png");
+  /* o que o exercício pede: centralizada e sem repetição */
   background-position: center;
   background-repeat: no-repeat;
+  /* cover: a imagem cobre o banner inteiro, cortando o que sobrar */
   background-size: cover;
   border-radius: var(--radius);
 }
 
 .banner h1 {
+  /* margin "auto" nas laterais centraliza o título */
   margin: 6px auto 10px;
+  /* 14ch = largura de umas 14 letras, para o título quebrar em 2 linhas */
   max-width: 14ch;
   font-size: clamp(2.4rem, 7vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   /* título com degradê no texto */
+  /* truque: o fundo é um degradê, background-clip: text recorta esse fundo
+     no formato das letras e a cor do texto fica transparente para ele aparecer */
   background: linear-gradient(180deg, #ffffff 30%, #9fb6d6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
+/* "Semana do cinema em casa" em laranja, acima do título */
 .banner-tag {
   margin: 0;
   font-size: 1.05rem;
@@ -499,6 +630,8 @@ main > h1 {
   color: #a1a1a6;
 }
 
+/* botões do banner lado a lado, centralizados; flex-wrap deixa quebrar
+   para a linha de baixo se não couberem */
 .banner-actions {
   display: flex;
   flex-wrap: wrap;
@@ -507,11 +640,14 @@ main > h1 {
 }
 
 /* dew_12 pd 2: remove o elemento da tela */
+/* display: none tira o elemento da página (não ocupa espaço nem aparece) */
 .hide {
   display: none;
 }
 
 /* vantagens da loja */
+/* "Frete grátis", "10x sem juros"... Grade de 1 coluna no celular
+   (1fr = uma fração do espaço); vira 3 colunas no @media do tablet. */
 .features {
   display: grid;
   grid-template-columns: 1fr;
@@ -521,7 +657,9 @@ main > h1 {
   list-style: none;
 }
 
+/* cada vantagem é um cartão branco */
 .feature {
+  /* relative + isolation (no fim do arquivo) para a luz do mouse ficar dentro */
   position: relative;
   padding: 22px;
   text-align: center;
@@ -531,6 +669,7 @@ main > h1 {
   transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
 }
 
+/* hover: sobe 3px e a sombra fica maior (parece que "levantou") */
 .feature:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
@@ -547,6 +686,7 @@ main > h1 {
 }
 
 /* cards de categorias da página inicial */
+/* no celular um card embaixo do outro; no tablet ficam lado a lado */
 .categories {
   display: flex;
   flex-direction: column;
@@ -556,12 +696,16 @@ main > h1 {
   list-style: none;
 }
 
+/* o card inteiro é um link <a> (clicar em qualquer parte abre a categoria) */
 .category a {
   position: relative;
+  /* links são inline por padrão; block permite padding e altura */
   display: block;
+  /* height 100% = os dois cards ficam com a mesma altura lado a lado */
   height: 100%;
   box-sizing: border-box;
   padding: 14px;
+  /* o texto do card não fica azul de link */
   color: inherit;
   text-decoration: none;
   background-color: var(--surface);
@@ -570,6 +714,7 @@ main > h1 {
   transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
 }
 
+/* hover: o card sobe 5px com sombra maior */
 .category a:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-hover);
@@ -579,6 +724,7 @@ main > h1 {
   text-align: center;
 }
 
+/* nome da categoria ("TVs", "Acessórios") */
 .category h3 {
   margin: 14px 0 4px;
   font-size: 1.6rem;
@@ -590,11 +736,14 @@ main > h1 {
   color: var(--text-muted);
 }
 
+/* "Ver 6 produtos ›" com cara de link */
 .category-link {
   color: var(--link);
 }
 
 /* ---------- Listagem de produtos ---------- */
+/* barra com a busca, o "Ordenar por" e a contagem de produtos.
+   flex-wrap: no celular os itens quebram linha em vez de espremer. */
 .products-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -603,6 +752,8 @@ main > h1 {
   margin-bottom: 20px;
 }
 
+/* flex: 1 1 240px = cresce para ocupar o espaço livre, pode encolher,
+   e o tamanho base é 240px */
 .search {
   flex: 1 1 240px;
 }
@@ -612,6 +763,7 @@ main > h1 {
   box-sizing: border-box;
 }
 
+/* "Ordenar por" + caixa de seleção, lado a lado */
 .sort {
   display: flex;
   align-items: center;
@@ -620,6 +772,7 @@ main > h1 {
   color: var(--text-muted);
 }
 
+/* "6 produtos" */
 .products-count {
   margin: 0;
   font-size: 0.9rem;
@@ -629,10 +782,15 @@ main > h1 {
 /* dew_15 ct-tvs 1 e 2: container grid (1 coluna no celular) */
 .products-list {
   display: grid;
+  /* 10px entre as linhas e 20px entre as colunas */
   gap: 10px 20px;
+  /* os itens preenchem a grade linha por linha */
   grid-auto-flow: row;
   grid-template-columns: 1fr;
   /* dew_15 ct-tvs 3: alinhamentos */
+  /* justify-items: cada item centralizado na horizontal dentro da sua célula
+     align-items: stretch = cada item estica até a altura da linha
+     align-content: center = a grade inteira centralizada na vertical */
   justify-items: center;
   align-items: stretch;
   align-content: center;
@@ -640,10 +798,12 @@ main > h1 {
   padding: 0;
   list-style: none;
   /* dew_15 ct-tvs 5: evita quebra da listagem */
+  /* overflow: hidden corta qualquer coisa que tente sair da grade */
   overflow: hidden;
 }
 
 /* dew_14 ct 3: itens com texto centralizado */
+/* cada produto é uma coluna flex: imagem, nome, preço e botões */
 .product {
   position: relative;
   display: flex;
@@ -659,6 +819,8 @@ main > h1 {
 }
 
 /* o display flex acima anularia o atributo hidden usado na busca */
+/* (o atributo hidden do HTML é só um display: none "fraco"; uma regra com
+   display: flex ganharia dele, então reforçamos aqui) */
 .product[hidden] {
   display: none;
 }
@@ -668,24 +830,29 @@ main > h1 {
   box-shadow: var(--shadow-hover);
 }
 
+/* nome do produto. flex: 1 estica o nome, assim os preços e botões de
+   todos os cards ficam alinhados embaixo, mesmo com nomes de tamanhos diferentes */
 .product h3 {
   flex: 1;
   margin: 12px 0 6px;
   font-size: 1.05rem;
 }
 
+/* preço */
 .product h4 {
   margin: 0;
   font-size: 1.2rem;
   color: var(--text);
 }
 
+/* "à vista" pequeno ao lado do preço */
 .product h4 small {
   font-size: 0.8rem;
   font-weight: 400;
   color: var(--text-muted);
 }
 
+/* parcelamento ("ou 10x de ...") */
 .product h5 {
   margin: 2px 0 12px;
   font-weight: 400;
@@ -693,6 +860,8 @@ main > h1 {
 }
 
 /* selo "Novo" em laranja, como na Apple Store */
+/* fica em cima da imagem, centralizado: left: 50% leva o começo do selo
+   ao meio do card e translateX(-50%) volta metade da largura dele */
 .badge {
   position: absolute;
   top: 26px;
@@ -716,6 +885,7 @@ main > h1 {
   border-radius: 12px;
 }
 
+/* no modo escuro o selo fica escuro também */
 [data-theme="dark"] .badge {
   background-color: rgba(29, 29, 31, 0.75);
 }
@@ -726,6 +896,9 @@ main > h1 {
 }
 
 /* dew_14 ct 4: imagens responsivas */
+/* a imagem acompanha a largura do card (100%) sem distorcer (height: auto);
+   object-fit: cover corta as sobras se a imagem passar de 240px de altura.
+   display: block tira o espacinho que aparece embaixo de imagens inline. */
 .product-image img {
   display: block;
   width: 100%;
@@ -735,16 +908,19 @@ main > h1 {
   object-fit: cover;
 }
 
+/* botões do card um embaixo do outro */
 .product-actions {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+/* botão verde de "Adicionado!" (classe colocada pelo main.js) */
 .add-to-cart.added {
   background-color: var(--success);
 }
 
+/* "Nenhum produto encontrado" quando a busca não acha nada */
 .products-empty {
   padding: 40px;
   text-align: center;
@@ -752,6 +928,8 @@ main > h1 {
 }
 
 /* ---------- Continue navegando ---------- */
+/* caixa no fim de cada página com links para as outras (assim nenhuma
+   página "termina em nada") */
 .next-steps {
   padding: 20px;
   background-color: var(--surface);
@@ -789,6 +967,7 @@ footer .logo {
   font-size: 1rem;
 }
 
+/* no celular: logo e links empilhados; no tablet ficam lado a lado */
 .footer-inner {
   display: flex;
   flex-direction: column;
@@ -801,6 +980,7 @@ footer .logo {
   margin: 8px 0 0;
 }
 
+/* links do rodapé em linha, quebrando quando não cabem */
 .footer-nav {
   display: flex;
   flex-wrap: wrap;
@@ -815,6 +995,7 @@ footer .logo {
   text-decoration: none;
 }
 
+/* "© 2026 TelaMax" separado por uma linha */
 .copyright {
   max-width: 1200px;
   margin: 20px auto 0;
@@ -824,6 +1005,9 @@ footer .logo {
 }
 
 /* ---------- Carrinho lateral ---------- */
+/* fundo escuro e desfocado que cobre a página atrás do carrinho.
+   position: fixed + inset: 0 = cobre a janela inteira (top, right,
+   bottom e left = 0). Começa invisível; a classe "show" mostra. */
 .overlay {
   position: fixed;
   inset: 0;
@@ -832,6 +1016,7 @@ footer .logo {
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   opacity: 0;
+  /* visibility: hidden também impede de receber cliques quando escondido */
   visibility: hidden;
   transition: opacity 0.5s var(--ease), visibility 0.5s;
 }
@@ -841,14 +1026,19 @@ footer .logo {
   visibility: visible;
 }
 
+/* o painel do carrinho, preso na direita da tela.
+   translateX(100%) empurra ele para fora da tela (escondido);
+   com a classe "open" volta para translateX(0) deslizando. */
 .cart-drawer {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
+  /* z-index maior que o overlay (20): fica por cima dele */
   z-index: 30;
   display: flex;
   flex-direction: column;
+  /* min() escolhe o menor: 380px, ou a tela toda se ela for menor */
   width: min(380px, 100%);
   box-sizing: border-box;
   padding: 20px;
@@ -862,6 +1052,7 @@ footer .logo {
   transform: translateX(0);
 }
 
+/* título "Seu carrinho" e o botão de fechar, um em cada ponta */
 .cart-header {
   display: flex;
   align-items: center;
@@ -876,6 +1067,8 @@ footer .logo {
   background-color: var(--surface-alt);
 }
 
+/* lista de itens: ocupa o espaço do meio (flex: 1) e ganha rolagem
+   própria (overflow-y: auto) quando tem muitos itens */
 .cart-items {
   flex: 1;
   margin: 16px 0;
@@ -884,6 +1077,7 @@ footer .logo {
   list-style: none;
 }
 
+/* cada item em 3 colunas: imagem (64px) | nome e preço (resto) | botões (o necessário) */
 .cart-item {
   display: grid;
   grid-template-columns: 64px 1fr auto;
@@ -912,12 +1106,14 @@ footer .logo {
   color: var(--text-muted);
 }
 
+/* botões "-" e "+" com a quantidade no meio */
 .cart-qty {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
+/* botões redondos pequenos */
 .cart-qty button {
   width: 26px;
   height: 26px;
@@ -929,17 +1125,20 @@ footer .logo {
   cursor: pointer;
 }
 
+/* "Seu carrinho está vazio" */
 .cart-empty {
   flex: 1;
   color: var(--text-muted);
   text-align: center;
 }
 
+/* parte de baixo: total e "Finalizar compra" */
 .cart-footer {
   padding-top: 12px;
   border-top: 1px solid var(--border);
 }
 
+/* "Total" à esquerda e o valor à direita */
 .cart-total {
   display: flex;
   justify-content: space-between;
@@ -952,6 +1151,10 @@ footer .logo {
 }
 
 /* ---------- Voltar ao topo e avisos ---------- */
+/* botão redondo fixo no canto inferior direito.
+   Começa invisível e um pouco abaixo; o main.js coloca a classe "visible"
+   depois de rolar 400px. pointer-events: none = não dá para clicar
+   enquanto está invisível. */
 .back-to-top {
   position: fixed;
   right: 20px;
@@ -982,11 +1185,15 @@ footer .logo {
   transform: translateY(0);
 }
 
+/* aviso (toast) no rodapé da tela, centralizado.
+   translate(-50%, 20px): -50% centraliza na horizontal e 20px deixa ele um
+   pouco abaixo; com "show" ele sobe para o lugar e aparece. */
 .toast {
   position: fixed;
   left: 50%;
   bottom: 20px;
   z-index: 40;
+  /* nunca encosta nas bordas da tela */
   max-width: calc(100% - 40px);
   padding: 12px 20px;
   font-size: 0.9rem;
@@ -1008,15 +1215,20 @@ footer .logo {
 }
 
 /* ---------- Tablets (a partir de 768px) ---------- */
+/* @media (min-width: 768px): as regras aqui dentro só valem quando a
+   tela tem 768px de largura ou mais */
 @media (min-width: 768px) {
+  /* banner mais alto */
   .banner {
     padding: 80px 40px;
   }
 
+  /* vantagens em 3 colunas iguais (repeat(3, 1fr) = 1fr 1fr 1fr) */
   .features {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  /* cards de categoria lado a lado, cada um com metade do espaço */
   .categories {
     flex-direction: row;
   }
@@ -1030,6 +1242,7 @@ footer .logo {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* rodapé em linha: logo à esquerda e links à direita */
   .footer-inner {
     flex-direction: row;
     align-items: center;
@@ -1040,6 +1253,8 @@ footer .logo {
 /* ---------- Telas grandes (a partir de 1024px) ---------- */
 @media (min-width: 1024px) {
   /* menu volta a ficar lado a lado no cabeçalho */
+  /* desfaz o menu suspenso do celular: static = volta ao fluxo normal,
+     dentro da linha do cabeçalho */
   .main-nav {
     position: static;
     max-height: none;
@@ -1054,6 +1269,7 @@ footer .logo {
     gap: 6px;
   }
 
+  /* links pequenos e discretos, como o menu do site da Apple */
   .nav a {
     padding: 6px 12px;
     font-size: 0.8rem;
@@ -1068,12 +1284,14 @@ footer .logo {
     opacity: 1;
   }
 
+  /* página atual: em negrito */
   .nav a.active {
     color: var(--text);
     opacity: 1;
     font-weight: 600;
   }
 
+  /* o botão de hambúrguer não é necessário no computador */
   .menu-toggle {
     display: none;
   }
@@ -1083,11 +1301,13 @@ footer .logo {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
     /* dew_15 ct-tvs 4: teste com áreas de template */
+    /* dá um nome para cada célula da primeira linha da grade */
     grid-template-areas: "produto1 produto2 produto3";
   }
 }
 
 /* dew_15 all 1: oculta cabeçalho e rodapé ao imprimir */
+/* @media print: regras que só valem na hora de imprimir (ou salvar em PDF) */
 @media print {
   header,
   footer,
@@ -1099,12 +1319,18 @@ footer .logo {
 
 /* ---------- Scrollytelling: "Monte seu cinema em casa" ---------- */
 /* mobile first: a TV fica fixa no topo e os cartões passam por cima dela */
+/* Como funciona: o main.js muda o atributo data-step da .story-visual
+   (1 a 5) conforme a rolagem. As regras abaixo com [data-step="N"] mudam
+   o desenho da TV em cada passo, e as transições deixam a troca suave.
+   A TV toda é feita só com CSS (divs com bordas, sombras e degradês). */
 .story-intro {
   margin-top: -10px;
   color: var(--text-muted);
 }
 
 /* no celular a TV fica por cima dos cartões, que somem antes de chegar nela */
+/* sticky + top: a TV "gruda" logo abaixo do cabeçalho enquanto a seção
+   da história passa. z-index 3 deixa ela por cima dos cartões. */
 .story-visual {
   position: sticky;
   top: calc(var(--header-height) + 10px);
@@ -1112,18 +1338,25 @@ footer .logo {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* 42% da altura da tela (vh = altura da janela), mas no mínimo 260px */
   height: 42vh;
   min-height: 260px;
 }
 
+/* a "parede" da sala: o cartão onde a TV fica, com a TV e a soundbar
+   empilhadas e centralizadas */
 .story-wall {
+  /* relative: os elementos absolute de dentro (botões, legendas) se
+     posicionam em relação à parede */
   position: relative;
   display: flex;
+  /* flex: 1 = ocupa toda a altura que sobra (as bolinhas ficam embaixo) */
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 14px;
+  /* nada sai para fora da parede (ex.: a luz ambiente desfocada) */
   overflow: hidden;
   background-color: var(--surface);
   border-radius: var(--radius);
@@ -1131,6 +1364,7 @@ footer .logo {
   transition: background-color 0.8s var(--ease);
 }
 
+/* a TV (tela + pé). A largura muda nos passos e a transição anima isso. */
 .tv {
   position: relative;
   width: 55%;
@@ -1138,6 +1372,8 @@ footer .logo {
   transition: width 0.9s var(--ease);
 }
 
+/* a tela: proporção 16:9 (aspect-ratio calcula a altura sozinho),
+   moldura preta de 5px e um degradê escuro de "TV desligada" */
 .tv-screen {
   position: relative;
   display: flex;
@@ -1154,6 +1390,8 @@ footer .logo {
 }
 
 /* grade de pixels mostrada no passo da resolução */
+/* dois repeating-linear-gradient: linhas horizontais (0deg) e verticais
+   (90deg) de 1px a cada 6px, formando uma grade. Começa invisível. */
 .tv-screen::after {
   content: "";
   position: absolute;
@@ -1165,6 +1403,7 @@ footer .logo {
   transition: opacity 0.6s;
 }
 
+/* texto no meio da tela (55", 4K, Pronto!...), trocado pelo main.js */
 .tv-label {
   position: relative;
   z-index: 1;
@@ -1174,6 +1413,8 @@ footer .logo {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
+/* o pé da TV: uma barrinha com os cantos de baixo arredondados
+   (border-radius com 4 valores: cima-esq, cima-dir, baixo-dir, baixo-esq) */
 .tv-stand {
   width: 30%;
   height: 10px;
@@ -1183,7 +1424,9 @@ footer .logo {
   transition: opacity 0.4s;
 }
 
+/* a soundbar: começa invisível e 30px abaixo; "sobe" no passo 4 */
 .soundbar {
+  /* relative: as ondas de som (.sound-ring) saem do centro dela */
   position: relative;
   width: 40%;
   max-width: 380px;
@@ -1196,6 +1439,7 @@ footer .logo {
 }
 
 /* passo 2 em diante: TV maior */
+/* :not([data-step="1"]) = qualquer passo que não seja o 1 */
 .story-visual:not([data-step="1"]) .tv {
   width: 75%;
 }
@@ -1206,6 +1450,9 @@ footer .logo {
 }
 
 /* passo 3 em diante: cores vivas do QLED/OLED */
+/* :is(A, B, C) = vale para qualquer um da lista (passos 3, 4 ou 5).
+   O degradê é 3x maior que a tela (300%) e a animação move a posição
+   dele, então as cores ficam "passeando" pela tela. */
 .story-visual:is([data-step="3"], [data-step="4"], [data-step="5"]) .tv-screen {
   background: linear-gradient(135deg, #ff5f6d, #f5a524, #38d39f, #4c8dff, #a970ff);
   background-size: 300% 300%;
@@ -1225,10 +1472,12 @@ footer .logo {
 }
 
 /* passo 5: TV na parede (parede com textura listrada) */
+/* listras verticais finas e bem claras (2px a cada 40px) */
 .story-visual[data-step="5"] .story-wall {
   background-image: repeating-linear-gradient(90deg, transparent 0 38px, rgba(255, 255, 255, 0.035) 38px 40px);
 }
 
+/* na parede a TV não precisa do pé */
 .story-visual[data-step="5"] .tv-stand {
   opacity: 0;
 }
@@ -1239,15 +1488,20 @@ footer .logo {
 
 /* ---------- Passos 4 e 5: a sala escurece e a música toca ---------- */
 /* --beat (grave) e --level (volume) vêm do story-music.js, de 0 a 1 */
+/* isolation: isolate cria uma "camada" própria para a parede. Assim a
+   luz ambiente, com z-index -1, fica atrás da TV mas na frente do fundo
+   da parede (sem isso ela iria para trás da parede e sumiria). */
 .story-wall {
   isolation: isolate;
 }
 
+/* "apaga a luz": a parede fica quase preta */
 .story-visual:is([data-step="4"], [data-step="5"]) .story-wall {
   background-color: #050507;
 }
 
 /* visualizador na tela da TV */
+/* canvas por cima do degradê da tela, invisível até o passo 4 */
 .music-canvas {
   position: absolute;
   inset: 0;
@@ -1261,15 +1515,19 @@ footer .logo {
   opacity: 1;
 }
 
+/* no passo 4 o texto some para as barras aparecerem inteiras */
 .story-visual[data-step="4"] .tv-label {
   opacity: 0;
 }
 
+/* no passo 5 o "Pronto!" fica menor, para caber dentro do anel */
 .story-visual[data-step="5"] .tv-label {
   font-size: clamp(1rem, 3vw, 1.8rem);
 }
 
 /* luz ambiente: um brilho colorido e desfocado atrás da TV */
+/* inset negativo = fica MAIOR que a TV (16% para cima, 8% para os lados
+   e 10% para baixo), para o brilho sair pelas bordas */
 .ambilight {
   position: absolute;
   inset: -16% -8% -10%;
@@ -1279,6 +1537,10 @@ footer .logo {
   transition: opacity 1.2s var(--ease);
 }
 
+/* O brilho em si. conic-gradient gira as cores em volta do centro, como
+   uma roda de cores; "from var(--hue)" gira a roda (o JS muda --hue).
+   blur(34px) desfoca tudo virando uma luz. Opacidade e tamanho crescem
+   com --beat (o grave da música), então a luz pulsa no ritmo. */
 .ambilight::before {
   content: "";
   position: absolute;
@@ -1286,6 +1548,7 @@ footer .logo {
   background: conic-gradient(from var(--hue, 0deg), #0a84ff, #bf5af2, #ff375f, #ff9f0a, #30d158, #0a84ff);
   border-radius: 40%;
   filter: blur(34px);
+  /* calc() faz contas no CSS: com beat 0 fica 0.35; com beat 1 fica 1 */
   opacity: calc(0.35 + var(--beat, 0) * 0.65);
   transform: scale(calc(0.92 + var(--beat, 0) * 0.14));
 }
@@ -1295,6 +1558,8 @@ footer .logo {
 }
 
 /* faixa de luz da soundbar acompanha o volume */
+/* linha azul no meio da soundbar; scaleX cresce com --level (volume) e
+   o brilho em volta (box-shadow) cresce com --beat (grave) */
 .soundbar-light {
   position: absolute;
   top: 50%;
@@ -1308,11 +1573,15 @@ footer .logo {
   transform: translateY(-50%) scaleX(calc(0.1 + var(--level, 0) * 0.9));
 }
 
+/* com a música tocando (classe do story-music.js) a faixa acende */
 .story-visual.music-on .soundbar-light {
   opacity: 1;
 }
 
 /* ondas de som que saem da soundbar a cada batida */
+/* cada onda é um <span> criado pelo story-music.js a cada bumbo: uma
+   elipse com borda azul que cresce e some. "forwards" mantém o estado
+   final (invisível) até o JS remover o elemento. */
 .sound-ring {
   position: absolute;
   top: 50%;
@@ -1326,6 +1595,8 @@ footer .logo {
   animation: sound-ring 1.2s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
 }
 
+/* só "to": anima do estado normal até aqui. scale(1.7, 3.2) cresce mais
+   na altura, porque a soundbar é bem achatada */
 @keyframes sound-ring {
   to {
     opacity: 0;
@@ -1334,6 +1605,7 @@ footer .logo {
 }
 
 /* botão de tocar/pausar no canto da parede */
+/* invisível até o passo 4, vidro fosco branco por cima da parede escura */
 .music-toggle {
   position: absolute;
   top: 12px;
@@ -1369,6 +1641,7 @@ footer .logo {
   transform: translateY(0);
 }
 
+/* o ícone ▶ / ❚❚ com largura fixa, para o botão não mudar de tamanho */
 .music-icon {
   display: inline-flex;
   justify-content: center;
@@ -1381,12 +1654,15 @@ footer .logo {
   animation: music-nudge 1.8s ease-in-out infinite;
 }
 
+/* um anel azul cresce em volta do botão e some (box-shadow que vai
+   de 0 a 8px enquanto fica transparente) */
 @keyframes music-nudge {
   0%, 100% { box-shadow: 0 0 0 0 rgba(100, 181, 255, 0.5); }
   50% { box-shadow: 0 0 0 8px rgba(100, 181, 255, 0); }
 }
 
 /* ---------- Passo 3: zoom nos pixels (QLED x OLED) ---------- */
+/* no passo 3 a TV fica bem grande para os pixels aparecerem */
 .story-visual[data-step="3"] .tv {
   width: 88%;
 }
@@ -1400,6 +1676,8 @@ footer .logo {
 }
 
 /* a tela vira um canvas com milhares de pixels (desenhados pelo main.js) */
+/* camada que cobre a tela (inset: 0) com o canvas e as legendas.
+   Fora do passo 3 fica invisível e sem receber o mouse. */
 .tech-zoom {
   position: absolute;
   inset: 0;
@@ -1414,17 +1692,21 @@ footer .logo {
 .story-visual[data-step="3"] .tech-zoom {
   opacity: 1;
   pointer-events: auto;
+  /* cursor em forma de mira */
   cursor: crosshair;
   /* deslizar o dedo na horizontal apaga pixels; na vertical continua rolando */
   touch-action: pan-y;
 }
 
+/* display: block tira o espacinho embaixo (canvas é inline por padrão) */
 .tech-canvas {
   display: block;
   width: 100%;
   height: 100%;
 }
 
+/* legendas e dica: "pílulas" escuras centralizadas sobre a tela.
+   white-space: nowrap impede o texto de quebrar linha. */
 .tech-caption,
 .tech-hint {
   position: absolute;
@@ -1438,17 +1720,20 @@ footer .logo {
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-radius: 999px;
+  /* não atrapalham o mouse de apagar os pixels embaixo delas */
   pointer-events: none;
   transform: translateX(-50%);
   transition: opacity 0.5s var(--ease);
 }
 
+/* as duas legendas (QLED e OLED) ficam no mesmo lugar, invisíveis... */
 .tech-caption {
   bottom: 8%;
   opacity: 0;
 }
 
 /* a legenda acompanha o modelo escolhido */
+/* ...e só aparece a que tem o mesmo data-tech da TV */
 .story-visual[data-tech="qled"] .tech-caption[data-tech="qled"],
 .story-visual[data-tech="oled"] .tech-caption[data-tech="oled"] {
   opacity: 1;
@@ -1460,11 +1745,14 @@ footer .logo {
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* classe "touched" colocada pelo main.js no primeiro toque */
 .tech-zoom.touched .tech-hint {
   opacity: 0;
 }
 
 /* seletor QLED | OLED no estilo segmentado da Apple */
+/* uma "pílula" cinza com dois botões; o escolhido fica branco por cima.
+   Centralizado embaixo da parede com left 50% + translate(-50%). */
 .tech-switch {
   position: absolute;
   left: 50%;
@@ -1501,6 +1789,7 @@ footer .logo {
   transition: background-color 0.4s var(--ease), color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
+/* botão escolhido (aria-pressed="true", trocado pelo main.js) */
 .tech-switch button[aria-pressed="true"] {
   color: var(--text);
   background-color: var(--surface);
@@ -1518,6 +1807,8 @@ footer .logo {
 }
 
 /* cada bolinha é um botão; o padding aumenta a área de toque */
+/* O botão tem 20x20px (bom para o dedo), mas background-clip: content-box
+   pinta só a parte de dentro do padding: a bolinha visível tem 8px. */
 .story-progress button {
   display: block;
   width: 20px;
@@ -1535,10 +1826,12 @@ footer .logo {
   background-color: var(--text-muted);
 }
 
+/* passos que já passaram: bolinha cinza escuro */
 .story-progress li.done button {
   background-color: var(--text-muted);
 }
 
+/* passo atual: a bolinha estica e vira um tracinho */
 .story-progress li.active button {
   width: 36px;
   background-color: var(--text);
@@ -1550,11 +1843,15 @@ footer .logo {
 }
 
 /* o JS controla a opacidade do passo conforme ele chega perto da TV */
+/* will-change avisa o navegador que a opacidade vai mudar muito,
+   para ele preparar uma animação mais leve */
 .story-step {
   will-change: opacity;
 }
 
 /* no celular o cartão fica na parte de baixo, sem cobrir a TV */
+/* cada passo ocupa 70% da altura da tela; align-items: flex-end coloca o
+   cartão no fim desse espaço. Isso dá "tempo de rolagem" para cada passo. */
 .story-step {
   display: flex;
   align-items: flex-end;
@@ -1563,6 +1860,7 @@ footer .logo {
   box-sizing: border-box;
 }
 
+/* o cartão de texto: apagado e um pouco menor quando não é o passo atual */
 .story-card {
   width: 100%;
   padding: 24px;
@@ -1574,11 +1872,13 @@ footer .logo {
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
 
+/* passo atual: cartão aceso e no tamanho normal */
 .story-step.active .story-card {
   opacity: 1;
   transform: scale(1);
 }
 
+/* "PASSO 1 DE 5" em laranja e maiúsculas */
 .story-number {
   font-size: 0.8rem;
   font-weight: 600;
@@ -1597,6 +1897,7 @@ footer .logo {
   color: var(--text-muted);
 }
 
+/* botões do último passo ("Escolher minha TV" e "Ver acessórios") */
 .story-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1606,17 +1907,22 @@ footer .logo {
 
 /* telas grandes: texto à esquerda e TV fixa à direita */
 @media (min-width: 1024px) {
+  /* duas colunas: textos (1 parte) e TV (1,2 partes, um pouco maior) */
   .story-inner {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 40px;
   }
 
+  /* TV na coluna 2. As duas colunas ficam na mesma linha (grid-row: 1),
+     e align-self: start é necessário para o sticky funcionar dentro do
+     grid (senão a TV esticaria até a altura da coluna de textos). */
   .story-visual {
     grid-column: 2;
     grid-row: 1;
     align-self: start;
     top: calc(var(--header-height) + 30px);
+    /* no máximo 520px, ou a altura da tela menos o cabeçalho e uma folga */
     height: min(520px, calc(100vh - var(--header-height) - 60px));
   }
 
@@ -1625,6 +1931,7 @@ footer .logo {
     grid-row: 1;
   }
 
+  /* no computador o cartão fica no meio do seu espaço */
   .story-step {
     align-items: center;
     min-height: 62vh;
@@ -1638,6 +1945,8 @@ footer .logo {
 
 /* ---------- Seções aparecem ao rolar a página ---------- */
 /* só esconde enquanto não ficou visível, para não anular o hover dos cards */
+/* O main.js coloca .reveal nas seções e cards e depois .visible quando
+   eles entram na tela. Antes disso ficam invisíveis, 20px abaixo e borrados. */
 .reveal {
   transition: opacity 0.9s var(--ease), transform 0.9s var(--ease), filter 0.9s var(--ease), box-shadow 0.6s var(--ease);
 }
@@ -1649,6 +1958,8 @@ footer .logo {
 }
 
 /* ---------- Efeitos de fundo (criados pelo main.js) ---------- */
+/* camada presa na janela (fixed), atrás de tudo (z-index -1) e que não
+   recebe cliques (pointer-events: none) */
 .bg-effects {
   position: fixed;
   inset: 0;
@@ -1658,6 +1969,9 @@ footer .logo {
 }
 
 /* grade de pontinhos que desliza devagar com a rolagem */
+/* radial-gradient pequeno repetido a cada 26px = um ponto a cada 26px.
+   A máscara (mask-image) deixa os pontos visíveis só numa elipse no alto
+   da tela, sumindo nas bordas. */
 .bg-grid {
   position: absolute;
   inset: 0;
@@ -1668,6 +1982,9 @@ footer .logo {
 }
 
 /* manchas de cor desfocadas que seguem o mouse e a rolagem com inércia */
+/* vmax = % do maior lado da tela (40vmax = 40% do lado maior).
+   O JS move a .blob (transform); o ::before dela flutua sozinho com a
+   animação. Separar os dois evita que um transform apague o outro. */
 .blob {
   position: absolute;
   width: 40vmax;
@@ -1677,18 +1994,23 @@ footer .logo {
   will-change: transform;
 }
 
+/* o círculo colorido; --c é a cor de cada mancha (definida logo abaixo) */
 .blob::before {
   content: "";
   position: absolute;
   inset: 0;
   background-color: var(--c);
   border-radius: 50%;
+  /* "alternate" faz a animação ir e voltar, sem pulo */
   animation: blob-float 20s ease-in-out infinite alternate;
 }
 
+/* posição e cor de cada uma das 3 manchas (parte delas fica fora da tela) */
 .blob-1 { top: -14vmax; left: -10vmax; --c: var(--blob-1); }
 .blob-2 { top: 25vh; right: -16vmax; --c: var(--blob-2); }
 .blob-3 { bottom: -20vmax; left: 20vw; --c: var(--blob-3); }
+/* atraso negativo = a animação já começa "no meio", então as manchas
+   não se mexem todas iguais */
 .blob-2::before { animation-delay: -7s; }
 .blob-3::before { animation-delay: -14s; }
 
@@ -1699,6 +2021,9 @@ footer .logo {
 }
 
 /* brilho que acompanha o cursor */
+/* um círculo de 600px com degradê azul quase transparente. top/left -300px
+   colocam o centro dele no ponto (0, 0); o JS move com translate3d até a
+   posição do mouse. */
 .cursor-glow {
   position: absolute;
   top: -300px;
@@ -1712,6 +2037,7 @@ footer .logo {
   will-change: transform;
 }
 
+/* aparece quando o mouse se mexe na página (classe do main.js) */
 .cursor-glow.active {
   opacity: 1;
 }
@@ -1724,6 +2050,9 @@ footer .logo {
   isolation: isolate;
 }
 
+/* círculo de luz de 300px centralizado em --mx/--my (posição do mouse
+   dentro do card, atualizada pelo main.js). Se a variável não existir,
+   usa 50% (o centro). border-radius: inherit copia o arredondamento do card. */
 .product::after,
 .category a::after,
 .feature::after {
@@ -1745,6 +2074,8 @@ footer .logo {
 }
 
 /* respeita quem desativou animações no sistema */
+/* quando "reduzir movimento" está ligado, desliga todas as animações e
+   transições (!important ganha de qualquer outra regra) */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1753,6 +2084,7 @@ footer .logo {
     transition: none !important;
   }
 
+  /* sem animação, as seções precisam aparecer direto */
   .reveal:not(.visible) {
     opacity: 1;
     transform: none;

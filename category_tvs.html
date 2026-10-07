@@ -1,39 +1,67 @@
 <!DOCTYPE html>
+<!-- DOCTYPE avisa o navegador que esta página usa o HTML moderno (HTML5) -->
+<!-- lang="pt-BR": o conteúdo está em português do Brasil (ajuda leitores de tela e o tradutor) -->
 <html lang="pt-BR">
 <head>
+  <!-- UTF-8 permite usar acentos, ç e símbolos como › e ♪ -->
   <meta charset="UTF-8">
+  <!-- viewport: no celular a página usa a largura real da tela, sem "zoom out";
+       sem isso as media queries do CSS não funcionariam no celular -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- texto que aparece na aba do navegador -->
   <title>TelaMax - TVs</title>
+  <!-- preconnect: já abre a conexão com o Google Fonts para a fonte carregar mais rápido -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- fonte Inter (usada em quem não tem a fonte da Apple), nos pesos 400 a 700 -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- estilos usados em todas as páginas -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/category_tvs.css">
+  <!-- theme.js fica no <head> para aplicar o modo escuro ANTES da página aparecer
+       (se ficasse no fim, a página piscaria clara antes de escurecer) -->
   <script src="js/theme.js"></script>
 </head>
 <body>
 
+  <!-- ===================== CABEÇALHO =====================
+       Igual em todas as páginas. Fica "grudado" no topo ao rolar (position: sticky no CSS)
+       e tem efeito de vidro fosco. -->
   <header class="site-header">
+    <!-- .header-inner limita a largura em 1200px e centraliza o conteúdo -->
     <div class="header-inner">
+      <!-- logo: leva para a página inicial. O <span> deixa "Max" mais fino e cinza -->
       <a href="products.html" class="logo">Tela<span>Max</span></a>
 
+      <!-- menu principal. No celular fica escondido e abre pelo botão de menu;
+           no computador fica sempre visível ao lado do logo -->
       <nav id="main-nav" class="main-nav">
         <ul class="nav">
+          <!-- a página atual ganha class="active" (destaque) e aria-current="page"
+               (avisa leitores de tela que é a página em que a pessoa está) -->
           <li><a href="products.html">Início</a></li>
           <li><a href="category_tvs.html" class="active" aria-current="page">TVs</a></li>
           <li><a href="category_acessories.html">Acessórios</a></li>
+          <!-- #solicitacao leva direto ao formulário, que tem id="solicitacao" -->
           <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
         </ul>
       </nav>
 
+      <!-- botões só com ícone. aria-label dá um nome falado para quem usa leitor de tela,
+           já que o botão não tem texto visível. Os ícones são desenhos SVG (vetor) -->
       <div class="header-actions">
+        <!-- alterna claro/escuro (main.js) -->
         <button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         </button>
+        <!-- abre o carrinho lateral. A bolinha .cart-count mostra a quantidade
+             e começa escondida (hidden) até ter algum produto -->
         <button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg>
           <span class="cart-count" hidden>0</span>
         </button>
+        <!-- botão "hambúrguer" do celular. aria-controls diz qual elemento ele abre
+             e aria-expanded diz se está aberto (o main.js atualiza) -->
         <button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
@@ -41,21 +69,29 @@
     </div>
   </header>
 
+  <!-- ===================== CONTEÚDO PRINCIPAL ===================== -->
   <main>
+    <!-- "breadcrumb" (trilha): mostra onde a pessoa está e leva de volta ao início -->
     <nav class="breadcrumb" aria-label="Você está em">
       <a href="products.html">Início</a> <span>/</span> TVs
     </nav>
 
+    <!-- dew_16: o h1 entra deslizando e o h2 gira (animações no category_tvs.css) -->
     <h1>Categoria de produtos</h1>
     <h2 class="products-title">Tvs</h2>
 
+    <!-- barra de busca e ordenação (o main.js filtra e ordena a lista abaixo) -->
     <div class="products-toolbar">
+      <!-- o <label> envolve o campo: clicar no rótulo foca o campo.
+           O texto "Buscar produto" fica escondido na tela (visually-hidden),
+           mas é lido pelos leitores de tela -->
       <label class="search">
         <span class="visually-hidden">Buscar produto</span>
         <input type="search" class="products-search" placeholder="Buscar produto...">
       </label>
       <label class="sort">
         <span>Ordenar por</span>
+        <!-- o "value" de cada opção é o que o main.js usa para saber como ordenar -->
         <select class="products-sort">
           <option value="default">Relevância</option>
           <option value="price-asc">Menor preço</option>
@@ -63,9 +99,14 @@
           <option value="name">Nome (A-Z)</option>
         </select>
       </label>
+      <!-- quantidade de produtos visíveis (atualizada pelo main.js na busca) -->
       <p class="products-count">6 produtos</p>
     </div>
 
+    <!-- dew_15: lista de produtos em grid (1, 2 ou 3 colunas conforme a tela).
+         Cada <li class="product"> guarda os dados do produto em atributos data-*
+         (data-id, data-name, data-price, data-image), que o main.js lê para o
+         carrinho, a busca e a ordenação -->
     <ul class="products-list">
       <li class="product" data-id="tv-samsung-55" data-name="Samsung Crystal UHD 55&quot; CU7700" data-price="2699.00" data-image="https://placehold.co/600x400/f5f5f7/1d1d1f/png?text=Samsung+55">
         <span class="badge">Mais vendido</span>
@@ -169,25 +210,39 @@
       </li>
     </ul>
 
+    <!-- mensagem para quando a busca não encontra nada (começa escondida) -->
     <p class="products-empty" hidden>Nenhum produto encontrado.</p>
 
+    <!-- ===================== FORMULÁRIO =====================
+         dew_010 / dew_16: formulário com colunas em flex. A validação é feita pelo
+         category_tvs.js -->
     <section class="form-section">
+      <!-- id="solicitacao" é o destino dos links "Solicite sua TV" -->
       <h2 id="solicitacao">Solicite sua televisão</h2>
       <p>Não encontrou o modelo que procura? Conte para a gente e entraremos em contato.</p>
 
+      <!-- novalidate desliga os balões de erro padrão do navegador, porque
+           mostramos as nossas próprias mensagens embaixo de cada campo -->
       <form class="products-form" id="products-form" novalidate>
+        <!-- primeira coluna: dados de contato -->
         <div class="col">
+          <!-- for="name" liga o rótulo ao campo id="name": clicar no texto foca o campo -->
           <label for="name">Nome</label>
           <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+          <!-- espaço da mensagem de erro (preenchido pelo category_tvs.js) -->
           <span class="field-error" id="name-error"></span>
 
           <label for="email">Email</label>
+          <!-- type="email": o celular mostra o teclado com @ e o navegador sabe validar -->
           <input type="email" id="email" name="email" placeholder="voce@email.com" required>
           <span class="field-error" id="email-error"></span>
         </div>
 
+        <!-- segunda coluna: o que a pessoa procura -->
         <div class="col">
           <label for="brand">Marca de tv desejada</label>
+          <!-- list="brands" liga o campo à <datalist>: aparecem sugestões ao digitar,
+               mas a pessoa pode escrever qualquer marca -->
           <input type="text" id="brand" name="brand" list="brands" placeholder="Ex.: LG">
           <datalist id="brands">
             <option value="LG"></option>
@@ -198,6 +253,7 @@
           <textarea id="details" name="details" rows="3" placeholder="Tamanho, tecnologia, faixa de preço..."></textarea>
         </div>
 
+        <!-- botões: "submit" envia o formulário e "reset" limpa todos os campos -->
         <div class="products-form-buttons">
           <button type="submit" class="btn btn-primary">Enviar</button>
           <button type="reset" class="btn btn-ghost">Limpar campos</button>
@@ -205,6 +261,9 @@
       </form>
     </section>
 
+    <!-- ===================== PERGUNTAS FREQUENTES =====================
+         <details> + <summary> abrem e fecham sozinhos ao clicar, sem JavaScript:
+         o <summary> é a pergunta (sempre visível) e o resto é a resposta -->
     <section class="faq">
       <h2>Perguntas mais frequentes</h2>
 
@@ -224,6 +283,7 @@
       </details>
     </section>
 
+    <!-- "Continue navegando": links para as outras páginas no fim do conteúdo -->
     <section class="next-steps">
       <h2>Continue navegando</h2>
       <ul>
@@ -233,12 +293,15 @@
     </section>
   </main>
 
+  <!-- ===================== RODAPÉ =====================
+       Igual em todas as páginas, com links para todas elas (nenhuma página termina sem saída) -->
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="products.html" class="logo">Tela<span>Max</span></a>
         <p>TVs e acessórios para transformar a sua sala em um cinema.</p>
       </div>
+      <!-- aria-label diferencia este <nav> do menu principal para leitores de tela -->
       <nav aria-label="Rodapé">
         <ul class="footer-nav">
           <li><a href="products.html">Início</a></li>
@@ -248,11 +311,18 @@
         </ul>
       </nav>
     </div>
+    <!-- &copy; é o código HTML do símbolo © -->
     <p class="copyright">Produtos e acessórios para TVs &copy; 2026</p>
   </footer>
 
+  <!-- ===================== CARRINHO =====================
+       Os elementos abaixo ficam fora do <main> porque aparecem por cima da página. -->
+
+  <!-- fundo escuro atrás do carrinho aberto; clicar nele fecha o carrinho -->
   <div class="overlay"></div>
 
+  <!-- painel lateral do carrinho. <aside> é um conteúdo "à parte" da página.
+       aria-hidden="true" esconde dos leitores de tela enquanto está fechado (o main.js troca) -->
   <aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true">
     <div class="cart-header">
       <h2>Seu carrinho</h2>
@@ -260,21 +330,30 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
+    <!-- lista vazia: os itens são criados pelo main.js (função renderCart) -->
     <ul class="cart-items"></ul>
+    <!-- aparece só quando não tem nenhum item -->
     <p class="cart-empty">Seu carrinho está vazio.</p>
+    <!-- total e botão de finalizar (escondidos quando o carrinho está vazio) -->
     <div class="cart-footer">
       <p class="cart-total">Total: <strong>R$ 0,00</strong></p>
       <button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button>
     </div>
   </aside>
 
+  <!-- botão redondo que aparece depois de rolar a página e volta ao topo -->
   <button type="button" class="back-to-top" aria-label="Voltar ao topo">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
   </button>
 
+  <!-- aviso rápido ("toast") no rodapé da tela. O texto é colocado pelo main.js.
+       role="status" + aria-live="polite": o leitor de tela lê o aviso quando ele muda,
+       sem interromper o que estava lendo -->
   <div class="toast" role="status" aria-live="polite"></div>
 
+  <!-- validação do formulário (só existe nesta página) -->
   <script src="js/category_tvs.js"></script>
+  <!-- o JavaScript fica no fim do <body>: quando ele roda, todo o HTML acima já existe -->
   <script src="js/main.js"></script>
 </body>
 </html>

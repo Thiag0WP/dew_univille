@@ -1,38 +1,66 @@
 <!DOCTYPE html>
+<!-- DOCTYPE avisa o navegador que esta página usa o HTML moderno (HTML5) -->
+<!-- lang="pt-BR": o conteúdo está em português do Brasil (ajuda leitores de tela e o tradutor) -->
 <html lang="pt-BR">
 <head>
+  <!-- UTF-8 permite usar acentos, ç e símbolos como › e ♪ -->
   <meta charset="UTF-8">
+  <!-- viewport: no celular a página usa a largura real da tela, sem "zoom out";
+       sem isso as media queries do CSS não funcionariam no celular -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- texto que aparece na aba do navegador -->
   <title>TelaMax - Produtos e Acessórios para TVs</title>
+  <!-- preconnect: já abre a conexão com o Google Fonts para a fonte carregar mais rápido -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- fonte Inter (usada em quem não tem a fonte da Apple), nos pesos 400 a 700 -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- estilos usados em todas as páginas -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- theme.js fica no <head> para aplicar o modo escuro ANTES da página aparecer
+       (se ficasse no fim, a página piscaria clara antes de escurecer) -->
   <script src="js/theme.js"></script>
 </head>
 <body>
 
+  <!-- ===================== CABEÇALHO =====================
+       Igual em todas as páginas. Fica "grudado" no topo ao rolar (position: sticky no CSS)
+       e tem efeito de vidro fosco. -->
   <header class="site-header">
+    <!-- .header-inner limita a largura em 1200px e centraliza o conteúdo -->
     <div class="header-inner">
+      <!-- logo: leva para a página inicial. O <span> deixa "Max" mais fino e cinza -->
       <a href="products.html" class="logo">Tela<span>Max</span></a>
 
+      <!-- menu principal. No celular fica escondido e abre pelo botão de menu;
+           no computador fica sempre visível ao lado do logo -->
       <nav id="main-nav" class="main-nav">
         <ul class="nav">
+          <!-- a página atual ganha class="active" (destaque) e aria-current="page"
+               (avisa leitores de tela que é a página em que a pessoa está) -->
           <li><a href="products.html" class="active" aria-current="page">Início</a></li>
           <li><a href="category_tvs.html">TVs</a></li>
           <li><a href="category_acessories.html">Acessórios</a></li>
+          <!-- #solicitacao leva direto ao formulário, que tem id="solicitacao" -->
           <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
         </ul>
       </nav>
 
+      <!-- botões só com ícone. aria-label dá um nome falado para quem usa leitor de tela,
+           já que o botão não tem texto visível. Os ícones são desenhos SVG (vetor) -->
       <div class="header-actions">
+        <!-- alterna claro/escuro (main.js) -->
         <button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         </button>
+        <!-- abre o carrinho lateral. A bolinha .cart-count mostra a quantidade
+             e começa escondida (hidden) até ter algum produto -->
         <button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg>
           <span class="cart-count" hidden>0</span>
         </button>
+        <!-- botão "hambúrguer" do celular. aria-controls diz qual elemento ele abre
+             e aria-expanded diz se está aberto (o main.js atualiza) -->
         <button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
@@ -40,7 +68,9 @@
     </div>
   </header>
 
+  <!-- ===================== CONTEÚDO PRINCIPAL ===================== -->
   <main>
+    <!-- banner (dew_12 pd 1): fundo preto com imagem centralizada e sem repetição -->
     <div class="banner">
       <p class="banner-tag">Semana do cinema em casa</p>
       <h1>Produtos e acessórios para TVs</h1>
@@ -51,6 +81,7 @@
       </div>
     </div>
 
+    <!-- dew_12 pd 2: parágrafo escondido pela classe .hide (display: none) -->
     <p class="hide">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -58,6 +89,7 @@
       commodo consequat.
     </p>
 
+    <!-- vantagens da loja: 1 coluna no celular, 3 no tablet/computador -->
     <section>
       <ul class="features">
         <li class="feature">
@@ -75,12 +107,16 @@
       </ul>
     </section>
 
+    <!-- cards de categoria. Cada card inteiro é um link <a> -->
     <section>
       <h2 class="section-title">Categorias</h2>
 
       <ul class="categories">
         <li class="category">
           <a href="category_tvs.html">
+            <!-- <picture> escolhe a imagem pelo tamanho da tela: os <source> são
+                 testados em ordem e, se nenhum servir, usa o <img> (que também é
+                 o "plano B" para navegadores antigos). WebP é um formato mais leve -->
             <div class="product-image">
               <picture>
                 <source media="(max-width: 767px)" srcset="https://placehold.co/400x267/f5f5f7/1d1d1f/webp?text=TVs" type="image/webp">
@@ -110,13 +146,21 @@
       </ul>
     </section>
 
+    <!-- ===================== SCROLLYTELLING =====================
+         "Monte seu cinema em casa": conforme a pessoa rola, os cartões de texto passam
+         e a TV desenhada muda (o main.js troca o data-step e o CSS muda o desenho).
+         aria-labelledby liga a seção ao título dela (id="story-title") -->
     <section class="story" aria-labelledby="story-title">
       <h2 class="section-title" id="story-title">Monte seu cinema em casa</h2>
       <p class="story-intro">Role a página e descubra, passo a passo, como escolher o conjunto ideal.</p>
 
       <div class="story-inner">
+        <!-- a TV que fica "grudada" na tela (sticky).
+             data-step = passo atual (1 a 5); data-tech = tecnologia escolhida no passo 3 -->
         <div class="story-visual" data-step="1" data-tech="qled">
+          <!-- a "parede" da sala, onde ficam a TV, a soundbar e os botões -->
           <div class="story-wall">
+            <!-- a TV é só desenho, por isso aria-hidden (leitores de tela pulam) -->
             <div class="tv" aria-hidden="true">
               <!-- passos 4 e 5: luz ambiente atrás da TV, pulsando com a música -->
               <div class="ambilight"></div>
@@ -134,22 +178,29 @@
                   <span class="tech-hint">Passe o dedo ou o mouse para apagar pixels</span>
                 </div>
               </div>
+              <!-- pé da TV (some no passo 5, quando a TV vai para a parede) -->
               <div class="tv-stand"></div>
             </div>
+            <!-- soundbar: aparece no passo 4; a faixa de luz acompanha o volume da música -->
             <div class="soundbar" aria-hidden="true">
               <span class="soundbar-light"></span>
             </div>
 
+            <!-- tocar/pausar a música (passos 4 e 5). aria-pressed diz se está tocando -->
             <button type="button" class="music-toggle" aria-pressed="false">
               <span class="music-icon" aria-hidden="true">▶</span>
               <span class="music-text">Ouvir a soundbar</span>
             </button>
 
+            <!-- seletor QLED | OLED do passo 3. role="group" agrupa os dois botões
+                 e aria-pressed="true" marca o escolhido -->
             <div class="tech-switch" role="group" aria-label="Comparar tecnologias">
               <button type="button" data-tech="qled" aria-pressed="true">QLED</button>
               <button type="button" data-tech="oled" aria-pressed="false">OLED</button>
             </div>
           </div>
+          <!-- bolinhas de progresso: cada uma é um botão que leva ao seu passo.
+               <ol> é uma lista numerada (a ordem importa) -->
           <nav aria-label="Passos da história">
             <ol class="story-progress">
             <li data-step="1"><button type="button" aria-label="Ir para o passo 1: Escolha o tamanho certo"></button></li>
@@ -161,6 +212,8 @@
           </nav>
         </div>
 
+        <!-- os cartões de texto de cada passo; o data-step de cada um diz
+             qual passo a TV deve mostrar quando ele passa pelo meio da tela -->
         <div class="story-steps">
         <div class="story-step" data-step="1">
           <div class="story-card">
@@ -205,6 +258,7 @@
       </div>
     </section>
 
+    <!-- produtos em destaque, com a mesma estrutura dos cards das categorias -->
     <section>
       <h2 class="section-title">Destaques da semana</h2>
 
@@ -263,6 +317,7 @@
       </ul>
     </section>
 
+    <!-- "Continue navegando": links para as outras páginas no fim do conteúdo -->
     <section class="next-steps">
       <h2>Continue navegando</h2>
       <ul>
@@ -271,12 +326,15 @@
     </section>
   </main>
 
+  <!-- ===================== RODAPÉ =====================
+       Igual em todas as páginas, com links para todas elas (nenhuma página termina sem saída) -->
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="products.html" class="logo">Tela<span>Max</span></a>
         <p>TVs e acessórios para transformar a sua sala em um cinema.</p>
       </div>
+      <!-- aria-label diferencia este <nav> do menu principal para leitores de tela -->
       <nav aria-label="Rodapé">
         <ul class="footer-nav">
           <li><a href="products.html">Início</a></li>
@@ -286,11 +344,18 @@
         </ul>
       </nav>
     </div>
+    <!-- &copy; é o código HTML do símbolo © -->
     <p class="copyright">Produtos e acessórios para TVs &copy; 2026</p>
   </footer>
 
+  <!-- ===================== CARRINHO =====================
+       Os elementos abaixo ficam fora do <main> porque aparecem por cima da página. -->
+
+  <!-- fundo escuro atrás do carrinho aberto; clicar nele fecha o carrinho -->
   <div class="overlay"></div>
 
+  <!-- painel lateral do carrinho. <aside> é um conteúdo "à parte" da página.
+       aria-hidden="true" esconde dos leitores de tela enquanto está fechado (o main.js troca) -->
   <aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true">
     <div class="cart-header">
       <h2>Seu carrinho</h2>
@@ -298,21 +363,30 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
+    <!-- lista vazia: os itens são criados pelo main.js (função renderCart) -->
     <ul class="cart-items"></ul>
+    <!-- aparece só quando não tem nenhum item -->
     <p class="cart-empty">Seu carrinho está vazio.</p>
+    <!-- total e botão de finalizar (escondidos quando o carrinho está vazio) -->
     <div class="cart-footer">
       <p class="cart-total">Total: <strong>R$ 0,00</strong></p>
       <button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button>
     </div>
   </aside>
 
+  <!-- botão redondo que aparece depois de rolar a página e volta ao topo -->
   <button type="button" class="back-to-top" aria-label="Voltar ao topo">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
   </button>
 
+  <!-- aviso rápido ("toast") no rodapé da tela. O texto é colocado pelo main.js.
+       role="status" + aria-live="polite": o leitor de tela lê o aviso quando ele muda,
+       sem interromper o que estava lendo -->
   <div class="toast" role="status" aria-live="polite"></div>
 
+  <!-- música e visualizador dos passos 4 e 5 (só existe nesta página) -->
   <script src="js/story-music.js"></script>
+  <!-- o JavaScript fica no fim do <body>: quando ele roda, todo o HTML acima já existe -->
   <script src="js/main.js"></script>
 </body>
 </html>

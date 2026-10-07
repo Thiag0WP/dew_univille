@@ -1,31 +1,55 @@
+/* =====================================================================
+   category_tvs.css — estilos só da página de TVs (category_tvs.html)
+   =====================================================================
+   Esta página também usa o style.css (estilos gerais). Aqui ficam só as
+   coisas dela: as animações dos títulos, o formulário "Solicite sua TV"
+   e as perguntas frequentes.
+
+   "Mobile first": os estilos normais são para o celular, e os blocos
+   @media (min-width: ...) no fim acrescentam ajustes para telas maiores. */
+
 /* Estilos da página de categoria de TVs (mobile first) */
 
 /* dew_16 ct-tv 7: desloca o título principal */
+/* @keyframes define as "fotos" de uma animação: em 0% o título está fora
+   da tela à esquerda (translateX(-100%)) e invisível; em 100% está no lugar
+   e visível. O navegador cria o movimento entre uma foto e outra. */
 @keyframes slide-title {
   0% { transform: translateX(-100%); opacity: 0; }
   100% { transform: translateX(0%); opacity: 1; }
 }
 
 /* dew_16 ct-tv 6: rotaciona o título de produtos */
+/* rotateX gira em volta do eixo horizontal (como uma porta de garagem) e
+   rotateY em volta do eixo vertical (como uma porta comum).
+   Na metade ele dá meia volta em X; no fim completa a volta em X e em Y. */
 @keyframes rotate-title {
   0% { transform: rotateX(0deg) rotateY(0deg); }
   50% { transform: rotateX(180deg) rotateY(0deg); }
   100% { transform: rotateX(360deg) rotateY(360deg); }
 }
 
+/* título "Categoria de produtos": entra deslizando em 1 segundo.
+   var(--ease) é a curva de velocidade definida no style.css (freia no fim). */
 h1 {
   margin: 0;
   animation: slide-title 1s var(--ease);
 }
 
+/* subtítulo "Tvs": gira uma vez, começando 0,4s depois da página abrir.
+   inline-block é necessário porque transform não funciona direito em
+   elementos inline (como um texto solto). */
 .products-title {
   display: inline-block;
   animation: rotate-title 1.6s var(--ease) 0.4s;
 }
 
 /* ---------- Formulário de solicitação ---------- */
+/* a caixa branca em volta do formulário */
 .form-section {
   padding: 20px;
+  /* var(--surface) etc. são variáveis de cor do style.css; no modo escuro
+     elas mudam sozinhas, por isso não usamos cores fixas aqui */
   background-color: var(--surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -35,12 +59,17 @@ h1 {
   margin-top: 0;
 }
 
+/* "> p" pega só os parágrafos que são filhos diretos da seção (o texto
+   de introdução), e não os de dentro do formulário */
 .form-section > p {
   margin-top: 0;
   color: var(--text-muted);
 }
 
 /* dew_16 ct-tv 4 e 5: colunas do formulário em flex (coluna no celular) */
+/* display: flex coloca os filhos em fila; flex-direction: column empilha
+   um embaixo do outro. gap é o espaço entre eles (5px entre linhas,
+   10px entre colunas). */
 .products-form {
   display: flex;
   flex-direction: column;
@@ -48,10 +77,12 @@ h1 {
   margin: 10px;
 }
 
+/* cada .col é uma coluna de campos (label + input + erro) */
 .products-form .col {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  /* flex: 1 = as colunas dividem o espaço igualmente quando ficam lado a lado */
   flex: 1;
 }
 
@@ -60,14 +91,18 @@ h1 {
   font-weight: 500;
 }
 
+/* a caixa de mensagem só pode ser esticada na vertical */
 .products-form textarea {
   resize: vertical;
 }
 
+/* campo com erro (classe colocada pelo category_tvs.js): borda vermelha */
 .products-form .invalid {
   border-color: var(--danger);
 }
 
+/* mensagem de erro embaixo do campo. min-height reserva o espaço de uma
+   linha mesmo vazia, assim o formulário não "pula" quando o erro aparece */
 .field-error {
   min-height: 1.2em;
   font-size: 0.8rem;
@@ -75,6 +110,8 @@ h1 {
 }
 
 /* dew_16 ct-tv 2 e 3: botões centralizados em coluna, com 80% de largura */
+/* align-items: center centraliza os botões na horizontal (porque a
+   direção é coluna, o eixo "cruzado" é o horizontal) */
 .products-form-buttons {
   display: flex;
   flex-direction: column;
@@ -84,16 +121,22 @@ h1 {
   text-align: center;
 }
 
+/* flex-basis é o tamanho "base" do item na direção do flex.
+   width garante os 80% também na largura. */
 .products-form-buttons .btn {
   flex-basis: 80%;
   width: 80%;
 }
 
 /* ---------- Perguntas frequentes (linhas com "+" que gira) ---------- */
+/* Cada pergunta é um <details> com <summary>: o navegador já abre e fecha
+   sozinho ao clicar, sem JavaScript. Aqui só deixamos com cara de Apple. */
 .faq details {
   border-bottom: 1px solid var(--border);
 }
 
+/* a linha da pergunta: texto à esquerda e "+" à direita
+   (justify-content: space-between empurra um para cada ponta) */
 .faq summary {
   display: flex;
   justify-content: space-between;
@@ -101,26 +144,33 @@ h1 {
   padding: 18px 0;
   font-size: 1.1rem;
   font-weight: 600;
+  /* tira o triângulo padrão do <summary> */
   list-style: none;
   cursor: pointer;
 }
 
+/* tira o triângulo padrão no Safari/Chrome antigos */
 .faq summary::-webkit-details-marker {
   display: none;
 }
 
+/* ::after cria um elemento "fantasma" depois do texto: o sinal de "+" */
 .faq summary::after {
   content: "+";
   font-size: 1.6rem;
   font-weight: 300;
   color: var(--text-muted);
+  /* quando o transform mudar, anima em 0,5s */
   transition: transform 0.5s var(--ease);
 }
 
+/* [open] é o atributo que o <details> ganha quando está aberto.
+   Girando o "+" 45 graus, ele vira um "×" (fechar). */
 .faq details[open] summary::after {
   transform: rotate(45deg);
 }
 
+/* a resposta */
 .faq details p {
   margin: 0;
   padding: 0 0 18px;
@@ -129,17 +179,22 @@ h1 {
 
 /* tablets (a partir de 768px): formulário em linha */
 @media (min-width: 768px) {
+  /* as colunas ficam lado a lado; flex-wrap deixa quebrar linha
+     (os botões vão para uma linha só deles) */
   .products-form {
     flex-direction: row;
     flex-wrap: wrap;
   }
 
+  /* flex-basis: 100% faz a linha dos botões ocupar a largura inteira;
+     dentro dela os botões ficam lado a lado e centralizados */
   .products-form-buttons {
     flex-basis: 100%;
     flex-direction: row;
     justify-content: center;
   }
 
+  /* cada botão com 200px de base, sem os 80% do celular */
   .products-form-buttons .btn {
     flex-basis: 200px;
     width: auto;
