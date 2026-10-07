@@ -1184,6 +1184,7 @@ footer .logo {
 }
 
 .soundbar {
+  position: relative;
   width: 40%;
   max-width: 380px;
   height: 14px;
@@ -1225,12 +1226,164 @@ footer .logo {
 
 /* passo 5: TV na parede (parede com textura listrada) */
 .story-visual[data-step="5"] .story-wall {
-  background-color: var(--surface-alt);
-  background-image: repeating-linear-gradient(90deg, transparent 0 38px, rgba(30, 58, 95, 0.07) 38px 40px);
+  background-image: repeating-linear-gradient(90deg, transparent 0 38px, rgba(255, 255, 255, 0.035) 38px 40px);
 }
 
 .story-visual[data-step="5"] .tv-stand {
   opacity: 0;
+}
+
+.story-visual[data-step="5"] .tv {
+  width: 82%;
+}
+
+/* ---------- Passos 4 e 5: a sala escurece e a música toca ---------- */
+/* --beat (grave) e --level (volume) vêm do story-music.js, de 0 a 1 */
+.story-wall {
+  isolation: isolate;
+}
+
+.story-visual:is([data-step="4"], [data-step="5"]) .story-wall {
+  background-color: #050507;
+}
+
+/* visualizador na tela da TV */
+.music-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+
+.story-visual:is([data-step="4"], [data-step="5"]) .music-canvas {
+  opacity: 1;
+}
+
+.story-visual[data-step="4"] .tv-label {
+  opacity: 0;
+}
+
+.story-visual[data-step="5"] .tv-label {
+  font-size: clamp(1rem, 3vw, 1.8rem);
+}
+
+/* luz ambiente: um brilho colorido e desfocado atrás da TV */
+.ambilight {
+  position: absolute;
+  inset: -16% -8% -10%;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s var(--ease);
+}
+
+.ambilight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from var(--hue, 0deg), #0a84ff, #bf5af2, #ff375f, #ff9f0a, #30d158, #0a84ff);
+  border-radius: 40%;
+  filter: blur(34px);
+  opacity: calc(0.35 + var(--beat, 0) * 0.65);
+  transform: scale(calc(0.92 + var(--beat, 0) * 0.14));
+}
+
+.story-visual:is([data-step="4"], [data-step="5"]) .ambilight {
+  opacity: 1;
+}
+
+/* faixa de luz da soundbar acompanha o volume */
+.soundbar-light {
+  position: absolute;
+  top: 50%;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background-color: #64b5ff;
+  border-radius: 2px;
+  box-shadow: 0 0 calc(4px + var(--beat, 0) * 14px) rgba(100, 181, 255, 0.9);
+  opacity: 0.25;
+  transform: translateY(-50%) scaleX(calc(0.1 + var(--level, 0) * 0.9));
+}
+
+.story-visual.music-on .soundbar-light {
+  opacity: 1;
+}
+
+/* ondas de som que saem da soundbar a cada batida */
+.sound-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 260%;
+  border: 2px solid rgba(100, 181, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.4);
+  animation: sound-ring 1.2s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+}
+
+@keyframes sound-ring {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.7, 3.2);
+  }
+}
+
+/* botão de tocar/pausar no canto da parede */
+.music-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 10px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), background-color 0.3s;
+}
+
+.music-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+.story-visual:is([data-step="4"], [data-step="5"]) .music-toggle {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.music-icon {
+  display: inline-flex;
+  justify-content: center;
+  width: 1.1em;
+  font-size: 0.75rem;
+}
+
+/* enquanto a música não toca, o botão pulsa chamando atenção */
+.story-visual:not(.music-on):is([data-step="4"], [data-step="5"]) .music-toggle {
+  animation: music-nudge 1.8s ease-in-out infinite;
+}
+
+@keyframes music-nudge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(100, 181, 255, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(100, 181, 255, 0); }
 }
 
 /* ---------- Passo 3: zoom nos pixels (QLED x OLED) ---------- */

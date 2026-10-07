@@ -118,7 +118,11 @@
         <div class="story-visual" data-step="1" data-tech="qled">
           <div class="story-wall">
             <div class="tv" aria-hidden="true">
+              <!-- passos 4 e 5: luz ambiente atrás da TV, pulsando com a música -->
+              <div class="ambilight"></div>
               <div class="tv-screen">
+                <!-- passos 4 e 5: visualizador da música (desenhado pelo story-music.js) -->
+                <canvas class="music-canvas"></canvas>
                 <span class="tv-label">55"</span>
 
                 <!-- passo 3: zoom nos pixels, com comparação QLED x OLED
@@ -132,7 +136,14 @@
               </div>
               <div class="tv-stand"></div>
             </div>
-            <div class="soundbar" aria-hidden="true"></div>
+            <div class="soundbar" aria-hidden="true">
+              <span class="soundbar-light"></span>
+            </div>
+
+            <button type="button" class="music-toggle" aria-pressed="false">
+              <span class="music-icon" aria-hidden="true">▶</span>
+              <span class="music-text">Ouvir a soundbar</span>
+            </button>
 
             <div class="tech-switch" role="group" aria-label="Comparar tecnologias">
               <button type="button" data-tech="qled" aria-pressed="true">QLED</button>
@@ -176,14 +187,14 @@
           <div class="story-card">
             <span class="story-number">Passo 4 de 5</span>
             <h3>Som de cinema</h3>
-            <p>Os alto-falantes da TV são finos demais para graves de verdade. Uma soundbar transforma explosões e trilhas sonoras.</p>
+            <p>Aumente o volume! Os alto-falantes da TV são finos demais para graves de verdade. Uma soundbar enche a sala com trilhas sonoras e explosões.</p>
           </div>
         </div>
         <div class="story-step" data-step="5">
           <div class="story-card">
             <span class="story-number">Passo 5 de 5</span>
             <h3>Instalação na parede</h3>
-            <p>Com um suporte de parede, a TV fica na altura dos olhos, a sala ganha espaço e o visual fica limpo.</p>
+            <p>Com um suporte de parede, a TV fica na altura dos olhos e a sala ganha espaço. Apague a luz, deixe a luz ambiente brilhar e aproveite seu cinema.</p>
             <div class="story-actions">
               <a href="category_tvs.html" class="btn btn-primary">Escolher minha TV</a>
               <a href="category_acessories.html" class="btn btn-ghost">Ver acessórios</a>
@@ -301,6 +312,7 @@
 
   <div class="toast" role="status" aria-live="polite"></div>
 
+  <script src="js/story-music.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
