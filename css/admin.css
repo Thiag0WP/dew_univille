@@ -1,0 +1,30 @@
+/* Painel isolado do CSS da loja para ficar fácil estudar e alterar. */
+:root { color-scheme: light; --blue:#0066cc; --ink:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7; --bg:#f5f5f7; --danger:#b42318; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 Inter,system-ui,sans-serif; }
+button,input,select,textarea { font:inherit; }
+.admin-shell { width:min(1400px,calc(100% - 32px)); margin:32px auto; }
+.admin-card { background:#fff; border:1px solid var(--line); border-radius:18px; padding:24px; box-shadow:0 12px 36px #0000000d; }
+.login-card { width:min(440px,100%); margin:10vh auto; }
+.admin-logo { color:var(--ink); font-size:25px; font-weight:750; text-decoration:none; }.admin-logo span{color:var(--muted);font-weight:450}
+h1,h2,p { margin-top:0; } h1{margin-top:20px} h2{font-size:20px}.login-card>p,.admin-header p{color:var(--muted)}
+label { display:block; margin:15px 0 6px; font-weight:650; }
+input,select,textarea { width:100%; padding:11px 12px; color:var(--ink); background:#fff; border:1px solid var(--line); border-radius:9px; }
+input:focus,select:focus,textarea:focus { outline:3px solid #0066cc2b; border-color:var(--blue); }
+textarea { resize:vertical; }
+small { display:block; margin-top:5px; color:var(--muted); }
+.admin-button { display:inline-flex; align-items:center; justify-content:center; padding:10px 15px; color:var(--ink); background:#fff; border:1px solid var(--line); border-radius:9px; cursor:pointer; text-decoration:none; }
+.admin-button.primary { color:#fff; background:var(--blue); border-color:var(--blue); }.login-card .primary{width:100%;margin-top:20px}
+.admin-button.danger { color:var(--danger); }
+.form-message { min-height:24px; margin:12px 0 0; color:var(--danger); }.form-message.success{color:#08783e}
+.warning { margin-bottom:20px; border-color:#f1c21b; }.warning h1{margin:0 0 8px}
+.admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }.admin-header p{margin:2px 0 0}.header-buttons{display:flex;gap:8px}
+.dashboard-grid { display:grid; grid-template-columns:minmax(400px, .9fr) minmax(460px,1.1fr); gap:22px; align-items:start; }
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }.field-row.three{grid-template-columns:1fr 1fr .6fr}
+.check-row,.form-actions,.manager-title { display:flex; align-items:center; gap:16px; margin-top:18px; }.check-row label{margin:0}.check-row input{width:auto}.manager-title{justify-content:space-between;margin-top:0}.manager-title h2{margin:0}.manager-title span{color:var(--muted)}
+.image-preview { width:180px; aspect-ratio:3/2; object-fit:contain; margin-top:12px; border:1px solid var(--line); border-radius:10px; }
+.search-label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.admin-product-list { display:grid; gap:10px; margin-top:16px; max-height:780px; overflow:auto; }
+.admin-product { display:grid; grid-template-columns:72px 1fr auto; align-items:center; gap:12px; padding:10px; border:1px solid var(--line); border-radius:12px; }
+.admin-product img { width:72px; height:58px; object-fit:contain; border-radius:8px; background:var(--bg); }.admin-product h3{font-size:14px;margin:0}.admin-product p{color:var(--muted);margin:3px 0 0}.product-actions{display:flex;gap:5px}.product-actions .admin-button{padding:7px 9px}
+@media(max-width:900px){.dashboard-grid{grid-template-columns:1fr}.admin-header{align-items:flex-start}.field-row,.field-row.three{grid-template-columns:1fr}.admin-product{grid-template-columns:58px 1fr}.admin-product img{width:58px}.product-actions{grid-column:1/-1}.product-actions .admin-button{flex:1}}

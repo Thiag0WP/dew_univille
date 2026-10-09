@@ -1,4 +1,6 @@
 {
+  "buildCommand": "node scripts/gerar-config.js",
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/", "destination": "/products.html" }
   ]

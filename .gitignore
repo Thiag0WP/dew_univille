@@ -1,0 +1,4 @@
+# Configurações locais com as chaves do Supabase: nunca vão para o GitHub
+.env
+# gerado pelo scripts/gerar-config.js a partir do .env (ou das variáveis da Vercel)
+js/supabase-config.js

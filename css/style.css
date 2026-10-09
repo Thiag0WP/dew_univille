@@ -2096,3 +2096,9 @@ footer .logo {
     display: none;
   }
 }
+/* Página interna de produto, alimentada pelo cadastro do administrador. */
+.detail-layout { display:grid; grid-template-columns:minmax(280px,1fr) minmax(300px,1fr); gap:clamp(32px,6vw,80px); align-items:center; max-width:1100px; margin:40px auto 100px; }
+.detail-image { width:100%; aspect-ratio:4/3; object-fit:contain; background:var(--surface, #f5f5f7); border-radius:24px; }
+.detail-category { color:var(--accent, #06c); font-weight:600; }.detail-content h1{font-size:clamp(32px,5vw,56px);line-height:1.05;margin:10px 0 22px}.detail-description{font-size:18px;color:var(--text-secondary,#6e6e73)}.detail-price{font-size:30px;font-weight:700;margin:24px 0 0}.detail-specs{padding-left:20px;margin-bottom:28px}.detail-specs li{margin:7px 0}.detail-error{grid-column:1/-1;text-align:center;padding:80px 20px}
+@media(max-width:720px){.detail-layout{grid-template-columns:1fr;margin-top:20px}.detail-content h1{font-size:36px}}
+.product-description { min-height:44px; color:var(--text-muted); font-size:.9rem; }

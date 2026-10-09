@@ -281,8 +281,9 @@ document.querySelector('.cart-checkout').addEventListener('click', function () {
 // Cada <li class="product"> do HTML guarda os dados do produto em
 // atributos data-*: data-id, data-name, data-price e data-image.
 // No JavaScript eles aparecem em element.dataset (dataset.name etc.).
-document.querySelectorAll('.add-to-cart').forEach(function (button) {
-  button.addEventListener('click', function () {
+document.addEventListener('click', function (event) {
+  const button = event.target.closest('.add-to-cart');
+  if (button) {
     // o produto é o "pai" mais próximo do botão com a classe .product
     const product = button.closest('.product');
 
@@ -303,7 +304,7 @@ document.querySelectorAll('.add-to-cart').forEach(function (button) {
       button.textContent = 'Adicionar ao carrinho';
       button.classList.remove('added');
     }, 1200);
-  });
+  }
 });
 
 // desenha o carrinho salvo assim que a página abre
@@ -318,8 +319,9 @@ const sortSelect = document.querySelector('.products-sort');
 if (searchInput && sortSelect) {
   const list = document.querySelector('.products-list');
   // Array.from transforma a lista de elementos em um array de verdade,
-  // para podermos usar slice/sort. Guardamos a ordem ORIGINAL aqui.
-  const products = Array.from(list.querySelectorAll('.product'));
+  // para podermos usar slice/sort. Guardamos a ordem ORIGINAL aqui
+  // (é ela que volta quando a pessoa escolhe "Relevância").
+  let products = Array.from(list.querySelectorAll('.product'));
   const countText = document.querySelector('.products-count');
   // mensagem "Nenhum produto encontrado"
   const emptyText = document.querySelector('.products-empty');
@@ -364,6 +366,12 @@ if (searchInput && sortSelect) {
   // "input" dispara a cada letra digitada; "change" quando escolhe outra opção
   searchInput.addEventListener('input', updateProducts);
   sortSelect.addEventListener('change', updateProducts);
+  // quando o catalog.js troca os cards pelos do banco de dados, a ordem
+  // original passa a ser a dos produtos novos
+  document.addEventListener('catalog:rendered', function () {
+    products = Array.from(list.querySelectorAll('.product'));
+    updateProducts();
+  });
 }
 
 // ---------- Voltar ao topo ----------

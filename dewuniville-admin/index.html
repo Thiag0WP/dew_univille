@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- noindex é uma segunda barreira contra mecanismos de busca. -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Administração | TelaMax</title>
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/supabase-api.js"></script>
+</head>
+<body>
+  <!-- O endereço discreto não substitui autenticação; apenas reduz exposição. -->
+  <main class="admin-shell">
+    <section id="setup-warning" class="admin-card warning" hidden>
+      <h1>Falta configurar o Supabase</h1>
+      <p>Preencha o arquivo <strong>js/supabase-config.js</strong> e execute <strong>supabase/schema.sql</strong>.</p>
+    </section>
+
+    <!-- A tela de login aparece antes do painel e nunca guarda a senha. -->
+    <section id="login-view" class="login-card admin-card">
+      <a class="admin-logo" href="../products.html">Tela<span>Max</span></a>
+      <h1>Área administrativa</h1>
+      <p>Entre com a conta cadastrada como administradora.</p>
+      <form id="login-form">
+        <label for="login-username">Usuário</label>
+        <input id="login-username" name="username" type="text" autocomplete="username" value="thiago" required>
+        <label for="login-password">Senha</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="admin-button primary" type="submit">Entrar</button>
+        <p id="login-message" class="form-message" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- O painel só é revelado depois que o servidor confirma a permissão. -->
+    <section id="dashboard-view" hidden>
+      <header class="admin-header">
+        <div><a class="admin-logo" href="../products.html">Tela<span>Max</span></a><p>Gerenciamento de produtos</p></div>
+        <div class="header-buttons">
+          <a class="admin-button" href="../products.html">Ver loja</a>
+          <button id="logout-button" class="admin-button" type="button">Sair</button>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        <section class="admin-card editor">
+          <h2 id="form-title">Novo produto</h2>
+          <form id="product-form">
+            <!-- O id também vira o parâmetro da página interna do produto. -->
+            <div class="field-row">
+              <div><label for="product-id">Identificador</label><input id="product-id" placeholder="tv-lg-oled-55" pattern="[a-z0-9-]+" required></div>
+              <div><label for="product-category">Categoria</label><select id="product-category" required><option value="tvs">TVs</option><option value="acessorios">Acessórios</option></select></div>
+            </div>
+            <label for="product-name">Nome</label><input id="product-name" required>
+            <div class="field-row three">
+              <div><label for="product-price">Preço</label><input id="product-price" type="number" min="0" step="0.01" required></div>
+              <div><label for="product-old-price">Preço anterior</label><input id="product-old-price" type="number" min="0" step="0.01"></div>
+              <div><label for="product-order">Ordem</label><input id="product-order" type="number" value="0"></div>
+            </div>
+            <label for="product-installments">Parcelamento</label><input id="product-installments" placeholder="ou 10x de R$ 269,90 sem juros">
+            <label for="product-badge">Selo</label><input id="product-badge" placeholder="Mais vendido">
+            <label for="product-summary">Resumo do card</label><textarea id="product-summary" rows="2"></textarea>
+            <label for="product-description">Descrição completa</label><textarea id="product-description" rows="5"></textarea>
+            <label for="product-specifications">Especificações</label>
+            <textarea id="product-specifications" rows="5" placeholder="Uma especificação por linha"></textarea>
+
+            <label for="product-image">Imagem do produto</label>
+            <input id="product-image" type="file" accept="image/jpeg,image/png,image/webp">
+            <small>JPG, PNG ou WebP. A imagem será enviada ao Supabase.</small>
+            <label for="product-image-url">Ou endereço da imagem</label><input id="product-image-url" type="url" required>
+            <img id="image-preview" class="image-preview" alt="Prévia da imagem" hidden>
+
+            <div class="check-row">
+              <label><input id="product-featured" type="checkbox"> Mostrar nos destaques</label>
+              <label><input id="product-active" type="checkbox" checked> Produto ativo</label>
+            </div>
+            <div class="form-actions">
+              <button class="admin-button primary" type="submit">Salvar produto</button>
+              <button id="cancel-edit" class="admin-button" type="button">Limpar</button>
+            </div>
+            <p id="product-message" class="form-message" role="status"></p>
+          </form>
+        </section>
+
+        <section class="admin-card product-manager">
+          <div class="manager-title"><h2>Produtos cadastrados</h2><span id="admin-count">0 produtos</span></div>
+          <label class="search-label" for="admin-search">Buscar</label>
+          <input id="admin-search" type="search" placeholder="Digite o nome do produto">
+          <div id="admin-product-list" class="admin-product-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

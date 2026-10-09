@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do produto | TelaMax</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body>
+  <header class="site-header"><div class="header-inner">
+    <a href="products.html" class="logo">Tela<span>Max</span></a>
+    <nav class="main-nav" id="main-nav"><ul class="nav"><li><a href="products.html">Início</a></li><li><a href="category_tvs.html">TVs</a></li><li><a href="category_acessories.html">Acessórios</a></li></ul></nav>
+    <div class="header-actions"><button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg><span class="cart-count" hidden>0</span></button><button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button></div>
+  </div></header>
+  <main>
+    <nav class="breadcrumb" aria-label="Você está em"><a href="products.html">Início</a> <span>/</span> Produto</nav>
+    <section id="product-detail" class="detail-layout" aria-live="polite"><p>Carregando produto...</p></section>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="products.html" class="logo">Tela<span>Max</span></a><p>TVs e acessórios para transformar a sua sala em um cinema.</p></div></div></footer>
+  <div class="overlay"></div><aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true"><div class="cart-header"><h2>Seu carrinho</h2><button type="button" class="icon-button cart-close" aria-label="Fechar carrinho">×</button></div><ul class="cart-items"></ul><p class="cart-empty">Seu carrinho está vazio.</p><div class="cart-footer"><p class="cart-total">Total: <strong>R$ 0,00</strong></p><button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button></div></aside>
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button><div class="toast" role="status" aria-live="polite"></div>
+  <script src="js/supabase-config.js"></script><script src="js/supabase-api.js"></script><script src="js/product-detail.js"></script><script src="js/main.js"></script>
+</body>
+</html>
