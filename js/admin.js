@@ -67,19 +67,30 @@
   field('login-form').addEventListener('submit', async function (event) {
     event.preventDefault(); message(loginMessage,'Entrando...');
     try {
-      const typedUsername=field('login-username').value.trim();
+      // toLowerCase: "Thiago" e "thiago" valem igual
+      const typedUsername=field('login-username').value.trim().toLowerCase();
       const config=window.SUPABASE_CONFIG;
 
       // A interface mostra um nome de usuário simples, embora o serviço de
       // autenticação trabalhe internamente com endereço de e-mail.
-      if(typedUsername!==config.adminUsername){
-        throw new Error('Usuário ou senha inválidos.');
+      // Aceita o usuário curto ou o próprio e-mail (o navegador às vezes
+      // preenche o campo com o e-mail salvo).
+      const validUser=typedUsername===String(config.adminUsername).toLowerCase() ||
+        typedUsername===String(config.adminEmail).toLowerCase();
+      if(!validUser){
+        throw new Error('Usuário não encontrado. Use "'+config.adminUsername+'".');
       }
       await api.signIn(config.adminEmail,field('login-password').value);
       await openDashboard();
       message(loginMessage,'');
     }
-    catch(error){message(loginMessage,error.message);}
+    catch(error){
+      // o Supabase responde em inglês quando a senha não confere
+      const text=error.message==='Invalid login credentials'
+        ? 'Senha incorreta (ou o usuário não existe no Supabase).'
+        : error.message;
+      message(loginMessage,text);
+    }
   });
 
   field('logout-button').addEventListener('click', async function(){await api.signOut();location.reload();});
