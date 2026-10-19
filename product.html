@@ -1,25 +1,162 @@
 <!DOCTYPE html>
+<!-- DOCTYPE avisa o navegador que esta página usa o HTML moderno (HTML5) -->
+<!-- lang="pt-BR": o conteúdo está em português do Brasil (ajuda leitores de tela e o tradutor) -->
 <html lang="pt-BR">
 <head>
+  <!-- UTF-8 permite usar acentos, ç e símbolos como › e ♪ -->
   <meta charset="UTF-8">
+  <!-- viewport: no celular a página usa a largura real da tela, sem "zoom out";
+       sem isso as media queries do CSS não funcionariam no celular -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- texto da aba; o js/product-detail.js troca pelo nome do produto quando ele carrega -->
   <title>Detalhes do produto | TelaMax</title>
+  <!-- preconnect: já abre a conexão com o Google Fonts para a fonte carregar mais rápido -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- fonte Inter (usada em quem não tem a fonte da Apple), nos pesos 400 a 700 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- estilos usados em todas as páginas (a parte desta página fica em "Página de produto") -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- o tema é aplicado no <head>, antes de a página aparecer
+       (se ficasse no fim, a página piscaria clara antes de escurecer) -->
   <script src="js/theme.js"></script>
 </head>
 <body>
-  <header class="site-header"><div class="header-inner">
-    <a href="products.html" class="logo">Tela<span>Max</span></a>
-    <nav class="main-nav" id="main-nav"><ul class="nav"><li><a href="products.html">Início</a></li><li><a href="category_tvs.html">TVs</a></li><li><a href="category_acessories.html">Acessórios</a></li></ul></nav>
-    <div class="header-actions"><button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg><span class="cart-count" hidden>0</span></button><button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button></div>
-  </div></header>
+
+  <!-- ===================== CABEÇALHO =====================
+       Igual em todas as páginas. Fica "grudado" no topo ao rolar (position: sticky no CSS)
+       e tem efeito de vidro fosco. -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="products.html" class="logo">Tela<span>Max</span></a>
+
+      <!-- menu principal: no celular abre pelo botão de menu,
+           no computador fica sempre visível ao lado do logo -->
+      <nav id="main-nav" class="main-nav">
+        <ul class="nav">
+          <li><a href="products.html">Início</a></li>
+          <li><a href="category_tvs.html">TVs</a></li>
+          <li><a href="category_acessories.html">Acessórios</a></li>
+          <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        </ul>
+      </nav>
+
+      <!-- botões só com ícone: aria-label dá o nome para leitores de tela,
+           já que o botão não tem texto visível. Os ícones são desenhos SVG (vetor) -->
+      <div class="header-actions">
+        <button type="button" class="icon-button theme-toggle" aria-label="Alternar modo escuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <!-- a bolinha com a quantidade de itens fica dentro do botão do carrinho
+             e começa escondida (hidden) até ter algum produto -->
+        <button type="button" class="icon-button cart-toggle" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.5L22 7H6"/><circle cx="10" cy="20.5" r="1.5"/><circle cx="18" cy="20.5" r="1.5"/></svg>
+          <span class="cart-count" hidden>0</span>
+        </button>
+        <!-- aria-controls liga o botão ao menu que ele abre,
+             e aria-expanded diz se está aberto (o main.js atualiza) -->
+        <button type="button" class="icon-button menu-toggle" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
   <main>
-    <nav class="breadcrumb" aria-label="Você está em"><a href="products.html">Início</a> <span>/</span> Produto</nav>
-    <section id="product-detail" class="detail-layout" aria-live="polite"><p>Carregando produto...</p></section>
+    <!-- "breadcrumb" (trilha): mostra onde a pessoa está e leva de volta.
+         O link da categoria e o nome do produto são preenchidos pelo
+         js/product-detail.js; até lá, a trilha mostra só "Produto". -->
+    <nav class="breadcrumb" aria-label="Você está em">
+      <a href="products.html">Início</a> <span>/</span>
+      <a href="products.html" class="breadcrumb-category" hidden></a>
+      <span class="breadcrumb-category-sep" hidden>/</span>
+      <span class="breadcrumb-current">Produto</span>
+    </nav>
+
+    <!-- área do produto. Começa com o aviso de carregamento e é trocada
+         pelo produto (ou por uma mensagem de erro) pelo js/product-detail.js.
+         aria-busy="true" avisa leitores de tela que o conteúdo ainda está chegando;
+         aria-live="polite" faz o leitor anunciar quando ele chegar. -->
+    <section id="product-detail" class="detail-layout" aria-live="polite" aria-busy="true">
+      <p class="detail-status">Carregando produto…</p>
+    </section>
+
+    <!-- "Continue navegando": links para as outras páginas no fim do conteúdo -->
+    <section class="next-steps">
+      <h2>Continue navegando</h2>
+      <ul>
+        <li><a class="btn btn-primary" href="category_tvs.html">Ver todas as TVs</a></li>
+        <li><a class="btn btn-primary" href="category_acessories.html">Ver os acessórios</a></li>
+        <li><a class="btn btn-primary" href="products.html">Voltar para o início</a></li>
+      </ul>
+    </section>
   </main>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="products.html" class="logo">Tela<span>Max</span></a><p>TVs e acessórios para transformar a sua sala em um cinema.</p></div></div></footer>
-  <div class="overlay"></div><aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true"><div class="cart-header"><h2>Seu carrinho</h2><button type="button" class="icon-button cart-close" aria-label="Fechar carrinho">×</button></div><ul class="cart-items"></ul><p class="cart-empty">Seu carrinho está vazio.</p><div class="cart-footer"><p class="cart-total">Total: <strong>R$ 0,00</strong></p><button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button></div></aside>
-  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button><div class="toast" role="status" aria-live="polite"></div>
-  <script src="js/supabase-config.js"></script><script src="js/supabase-api.js"></script><script src="js/product-detail.js"></script><script src="js/main.js"></script>
+
+  <!-- ===================== RODAPÉ =====================
+       Igual em todas as páginas, com links para todas elas (nenhuma página termina sem saída) -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="products.html" class="logo">Tela<span>Max</span></a>
+        <p>TVs e acessórios para transformar a sua sala em um cinema.</p>
+      </div>
+      <!-- aria-label diferencia este <nav> do menu principal para leitores de tela -->
+      <nav aria-label="Rodapé">
+        <ul class="footer-nav">
+          <li><a href="products.html">Início</a></li>
+          <li><a href="category_tvs.html">TVs</a></li>
+          <li><a href="category_acessories.html">Acessórios</a></li>
+          <li><a href="category_tvs.html#solicitacao">Solicite sua TV</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- &copy; é o código HTML do símbolo © -->
+    <p class="copyright">Produtos e acessórios para TVs &copy; 2026</p>
+  </footer>
+
+  <!-- ===================== CARRINHO =====================
+       Os elementos abaixo ficam fora do <main> porque aparecem por cima da página. -->
+
+  <!-- fundo escuro atrás do carrinho aberto; clicar nele fecha o carrinho -->
+  <div class="overlay"></div>
+
+  <!-- painel lateral do carrinho. <aside> é um conteúdo "à parte" da página.
+       aria-hidden="true" esconde dos leitores de tela enquanto está fechado (o main.js troca) -->
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho" aria-hidden="true">
+    <div class="cart-header">
+      <h2>Seu carrinho</h2>
+      <button type="button" class="icon-button cart-close" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <!-- lista vazia: os itens são criados pelo main.js (função renderCart) -->
+    <ul class="cart-items"></ul>
+    <!-- aparece só quando não tem nenhum item -->
+    <p class="cart-empty">Seu carrinho está vazio.</p>
+    <!-- total e botão de finalizar (escondidos quando o carrinho está vazio) -->
+    <div class="cart-footer">
+      <p class="cart-total">Total: <strong>R$ 0,00</strong></p>
+      <button type="button" class="btn btn-primary cart-checkout">Finalizar pedido</button>
+    </div>
+  </aside>
+
+  <!-- botão redondo que aparece depois de rolar a página e volta ao topo -->
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </button>
+
+  <!-- aviso rápido ("toast") no rodapé da tela. O texto é colocado pelo main.js.
+       role="status" + aria-live="polite": o leitor de tela lê o aviso quando ele muda,
+       sem interromper o que estava lendo -->
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <!-- o JavaScript fica no fim do <body>: quando ele roda, todo o HTML acima já existe.
+       Ordem: configuração do Supabase (gerada pelo scripts/gerar-config.js),
+       cliente do Supabase, montagem do produto e, por último, o main.js
+       (carrinho, tema, menu), que já encontra o botão do produto pronto. -->
+  <script src="js/supabase-config.js"></script>
+  <script src="js/supabase-api.js"></script>
+  <script src="js/product-detail.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

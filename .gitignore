@@ -2,3 +2,11 @@
 .env
 # gerado pelo scripts/gerar-config.js a partir do .env (ou das variáveis da Vercel)
 js/supabase-config.js
+
+# pastas criadas por ferramentas/plugins de IA (não fazem parte do site)
+.agents/
+.claude/
+.codex/
+.cursor/
+.gemini/
+.impeccable/

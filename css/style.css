@@ -2096,9 +2096,200 @@ footer .logo {
     display: none;
   }
 }
-/* Página interna de produto, alimentada pelo cadastro do administrador. */
-.detail-layout { display:grid; grid-template-columns:minmax(280px,1fr) minmax(300px,1fr); gap:clamp(32px,6vw,80px); align-items:center; max-width:1100px; margin:40px auto 100px; }
-.detail-image { width:100%; aspect-ratio:4/3; object-fit:contain; background:var(--surface, #f5f5f7); border-radius:24px; }
-.detail-category { color:var(--accent, #06c); font-weight:600; }.detail-content h1{font-size:clamp(32px,5vw,56px);line-height:1.05;margin:10px 0 22px}.detail-description{font-size:18px;color:var(--text-secondary,#6e6e73)}.detail-price{font-size:30px;font-weight:700;margin:24px 0 0}.detail-specs{padding-left:20px;margin-bottom:28px}.detail-specs li{margin:7px 0}.detail-error{grid-column:1/-1;text-align:center;padding:80px 20px}
-@media(max-width:720px){.detail-layout{grid-template-columns:1fr;margin-top:20px}.detail-content h1{font-size:36px}}
+/* ---------- Página de produto (product.html) ---------- */
+/* Montada pelo js/product-detail.js com os dados do cadastro do admin.
+   Mobile first: no celular a imagem fica em cima e o texto embaixo;
+   a partir de 768px viram duas colunas (imagem à esquerda). */
+.detail-layout {
+  display: grid;
+  gap: 28px;
+  margin-top: 12px;
+}
+
+/* moldura branca da imagem, igual ao fundo dos cards das listas.
+   position: relative serve de referência para o selo (.badge) */
+.detail-media {
+  position: relative;
+  padding: 14px;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* a imagem ocupa a largura da moldura sem distorcer.
+   aspect-ratio: 3 / 2 reserva o espaço certo antes de a imagem chegar;
+   object-fit: contain mostra a foto inteira, sem cortar o produto */
+.detail-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  background-color: var(--surface-alt);
+  border-radius: 12px;
+}
+
+/* no modo escuro a imagem clara fica menos ofuscante (igual aos cards) */
+[data-theme="dark"] .detail-image {
+  filter: brightness(0.85);
+}
+
+/* nome do produto: maior título da página.
+   text-wrap: balance divide as linhas com tamanhos parecidos */
+.detail-content h1 {
+  margin: 0 0 12px;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+/* descrição em cinza, com no máximo ~60 letras por linha (leitura confortável) */
+.detail-description {
+  max-width: 60ch;
+  margin: 0 0 24px;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* bloco do preço entre duas linhas finas, separado do resto */
+.detail-prices {
+  margin-bottom: 20px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* preço antigo riscado (o <s> já risca o texto) */
+.detail-old-price {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* preço atual em destaque.
+   tabular-nums: todos os números com a mesma largura (alinham melhor) */
+.detail-price {
+  margin: 2px 0 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "à vista" pequeno ao lado do preço, como nos cards */
+.detail-price small {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: var(--text-muted);
+}
+
+/* parcelamento ("ou 10x de ...") */
+.detail-installments {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* botão de compra maior que o dos cards; no celular ocupa a largura toda
+   (alvo grande para o dedo) */
+.detail-content .add-to-cart {
+  width: 100%;
+  padding: 13px 28px;
+  font-size: 1rem;
+}
+
+.detail-specs-title {
+  margin: 40px 0 4px;
+  font-size: 1.15rem;
+}
+
+/* especificações: cada linha é "nome | valor" em duas colunas,
+   separadas por uma linha fina */
+.detail-specs {
+  margin: 0;
+}
+
+.detail-spec {
+  display: grid;
+  grid-template-columns: minmax(110px, 40%) 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* nome da especificação em cinza */
+.detail-spec dt {
+  color: var(--text-muted);
+}
+
+/* valor da especificação (o <dd> tem margem à esquerda por padrão) */
+.detail-spec dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* linha sem ":" ocupa as duas colunas */
+.detail-spec .detail-spec-full {
+  grid-column: 1 / -1;
+}
+
+/* "Carregando produto…" e as mensagens de erro, centralizados.
+   grid-column: 1 / -1 faz ocupar todas as colunas da grade */
+.detail-status {
+  grid-column: 1 / -1;
+  padding: 64px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.detail-status p {
+  margin: 0 0 8px;
+}
+
+.detail-status-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* botões "TVs" e "Acessórios" da mensagem de erro, lado a lado */
+.detail-status-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* tablet e computador: duas colunas, a da imagem um pouco maior */
+@media (min-width: 768px) {
+  .detail-layout {
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+    margin-top: 24px;
+  }
+
+  /* sticky: a imagem "gruda" abaixo do cabeçalho enquanto a pessoa
+     rola pelas especificações, então o produto continua à vista */
+  .detail-media {
+    position: sticky;
+    top: calc(var(--header-height) + 20px);
+  }
+
+  /* com espaço sobrando, o botão volta ao tamanho do texto */
+  .detail-content .add-to-cart {
+    width: auto;
+    min-width: 260px;
+  }
+}
+
+/* na impressão o botão de compra não faz sentido */
+@media print {
+  .detail-content .add-to-cart {
+    display: none;
+  }
+}
 .product-description { min-height:44px; color:var(--text-muted); font-size:.9rem; }

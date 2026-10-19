@@ -285,7 +285,8 @@ document.addEventListener('click', function (event) {
   const button = event.target.closest('.add-to-cart');
   if (button) {
     // o produto é o "pai" mais próximo do botão com a classe .product
-    const product = button.closest('.product');
+    // (nos cards) ou a área .detail-layout (na página de um produto)
+    const product = button.closest('.product, .detail-layout');
 
     addToCart({
       id: product.dataset.id,
