@@ -70,18 +70,52 @@ const toast = document.querySelector('.toast');
 // guarda o "timer" do setTimeout para poder cancelar se vier outro aviso
 let toastTimer;
 
-function showToast(message) {
-  toast.textContent = message;
-  // a classe "show" faz o toast subir e aparecer (transição no CSS)
-  toast.classList.add('show');
+// tempo que o aviso fica na tela (com botão, um pouco mais, para dar
+// tempo de ler e clicar)
+let toastDelay = 2500;
+
+function hideToastLater() {
   // se já havia um aviso esperando para sumir, cancela aquele timer,
   // senão o aviso novo sumiria antes da hora
   clearTimeout(toastTimer);
-  // depois de 2,5 segundos (2500 ms) o aviso some
   toastTimer = setTimeout(function () {
     toast.classList.remove('show');
-  }, 2500);
+  }, toastDelay);
 }
+
+// message: o texto do aviso.
+// action (opcional): { label: 'Ver carrinho', onClick: função } cria um
+// botão dentro do aviso, para a pessoa agir na hora sem procurar o ícone.
+function showToast(message, action) {
+  // limpa o aviso anterior e escreve o novo (textContent = texto puro)
+  toast.innerHTML = '';
+  const text = document.createElement('span');
+  text.textContent = message;
+  toast.appendChild(text);
+
+  if (action) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'toast-action';
+    button.textContent = action.label;
+    button.addEventListener('click', function () {
+      toast.classList.remove('show');
+      action.onClick();
+    });
+    toast.appendChild(button);
+  }
+
+  toastDelay = action ? 4500 : 2500;
+  // a classe "show" faz o toast subir e aparecer (transição no CSS)
+  toast.classList.add('show');
+  hideToastLater();
+}
+
+// com o mouse em cima, o aviso espera; ao sair, volta a contar o tempo
+toast.addEventListener('mouseenter', function () {
+  clearTimeout(toastTimer);
+});
+toast.addEventListener('mouseleave', hideToastLater);
 
 // ---------- Menu do celular ----------
 // No celular os links do menu ficam escondidos e aparecem ao tocar no
@@ -89,12 +123,18 @@ function showToast(message) {
 const menuToggle = document.querySelector('.menu-toggle');
 const mainNav = document.getElementById('main-nav');
 
-menuToggle.addEventListener('click', function () {
-  // toggle coloca a classe se não tiver e tira se tiver;
-  // ele devolve true se a classe ficou colocada (menu aberto)
-  const open = mainNav.classList.toggle('open');
-  // aria-expanded avisa leitores de tela (pessoas cegas) se o menu está aberto
+// abre (open = true) ou fecha (open = false) o menu
+function setMenu(open) {
+  mainNav.classList.toggle('open', open);
+  // aria-expanded avisa leitores de tela (pessoas cegas) se o menu está
+  // aberto; o CSS também usa ele para trocar o ícone (três linhas / X)
   menuToggle.setAttribute('aria-expanded', open);
+  menuToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+}
+
+menuToggle.addEventListener('click', function () {
+  // se está aberto, fecha; se está fechado, abre
+  setMenu(!mainNav.classList.contains('open'));
 });
 
 // fecha o menu ao escolher um link
@@ -102,9 +142,14 @@ menuToggle.addEventListener('click', function () {
 // o clique "sobe" do link até o nav (isso se chama delegação de eventos).
 // event.target é o elemento exato que foi clicado.
 mainNav.addEventListener('click', function (event) {
-  if (event.target.tagName === 'A') {
-    mainNav.classList.remove('open');
-    menuToggle.setAttribute('aria-expanded', false);
+  if (event.target.tagName === 'A') setMenu(false);
+});
+
+// fecha o menu ao tocar fora dele (em qualquer lugar da página)
+document.addEventListener('click', function (event) {
+  if (mainNav.classList.contains('open') &&
+      !mainNav.contains(event.target) && !menuToggle.contains(event.target)) {
+    setMenu(false);
   }
 });
 
@@ -112,23 +157,96 @@ mainNav.addEventListener('click', function (event) {
 // O tema escuro funciona pelo atributo data-theme="dark" na tag <html>:
 // o CSS tem um bloco [data-theme="dark"] { ... } que troca as variáveis
 // de cor. O theme.js já aplicou o tema salvo; aqui é só o botão da lua/sol.
-document.querySelector('.theme-toggle').addEventListener('click', function () {
-  // document.documentElement = a tag <html>
-  const root = document.documentElement;
-  // se agora NÃO está escuro, então o clique vai deixar escuro
-  const dark = root.getAttribute('data-theme') !== 'dark';
+// document.documentElement = a tag <html>
+const root = document.documentElement;
+const themeToggle = document.querySelector('.theme-toggle');
+// "o sistema (Windows, celular...) está no modo escuro?"
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
+// tema escolhido pela pessoa no botão ('dark', 'light' ou null se nunca escolheu)
+function savedTheme() {
+  try {
+    return localStorage.getItem('theme');
+  } catch (e) {
+    return null;
+  }
+}
+
+// O nome do botão diz o que ele FAZ, não o tema atual:
+// no claro "Ativar modo escuro", no escuro "Ativar modo claro".
+// title mostra o mesmo texto ao parar o mouse em cima.
+function updateThemeButton() {
+  const label = root.getAttribute('data-theme') === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro';
+  themeToggle.setAttribute('aria-label', label);
+  themeToggle.title = label;
+}
+
+// Aplica o tema de uma vez só. A classe "theme-switching" desliga todas as
+// transições do CSS por um instante; assim tudo troca de cor junto, sem
+// partes da tela mudando em velocidades diferentes.
+function applyTheme(dark) {
+  root.classList.add('theme-switching');
   if (dark) {
     root.setAttribute('data-theme', 'dark');
   } else {
     root.removeAttribute('data-theme');
   }
+  updateThemeButton();
+  // ler getComputedStyle obriga o navegador a aplicar as cores novas agora,
+  // ainda com as transições desligadas
+  void getComputedStyle(root).backgroundColor;
+  // dois quadros depois (requestAnimationFrame = "no próximo desenho da
+  // tela"), as transições voltam a funcionar normalmente
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      root.classList.remove('theme-switching');
+    });
+  });
+}
+
+// Troca com animação: a página nova aparece num círculo que cresce a partir
+// do botão (x, y = centro do botão). Usa a View Transitions API, que existe
+// no Chrome, Edge e Safari recentes. Sem ela (ou com "reduzir movimento"),
+// a troca é instantânea.
+function switchTheme(dark, x, y) {
+  if (!document.startViewTransition || reduceMotion) {
+    applyTheme(dark);
+    return;
+  }
+  const transition = document.startViewTransition(function () {
+    applyTheme(dark);
+  });
+  // ready = as "fotos" de antes e depois estão prontas para animar
+  transition.ready.then(function () {
+    // raio até o canto mais distante da tela, para o círculo cobrir tudo
+    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    root.animate(
+      { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)'] },
+      { duration: 650, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' }
+    );
+  });
+}
+
+updateThemeButton();
+
+themeToggle.addEventListener('click', function () {
+  // se agora NÃO está escuro, então o clique vai deixar escuro
+  const dark = root.getAttribute('data-theme') !== 'dark';
+  // centro do botão na tela (getBoundingClientRect = posição e tamanho)
+  const box = themeToggle.getBoundingClientRect();
+  switchTheme(dark, box.left + box.width / 2, box.top + box.height / 2);
   // salva a escolha para as outras páginas e para a próxima visita
   try {
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   } catch (e) {
     // tema não fica salvo, mas continua funcionando
   }
+});
+
+// Se a pessoa nunca clicou no botão, o site segue o sistema: quando o
+// celular/computador muda sozinho para o escuro à noite, o site acompanha.
+systemDark.addEventListener('change', function (event) {
+  if (!savedTheme()) applyTheme(event.matches);
 });
 
 // ---------- Carrinho ----------
@@ -158,6 +276,15 @@ function openCart() {
 }
 
 function closeCart() {
+  // a confirmação de pedido só aparece uma vez; ao fechar, o carrinho
+  // volta ao normal (ela some depois da animação de fechar, 0,6s)
+  // (cartDone é criado mais abaixo, mas esta função só roda depois de um clique)
+  if (!cartDone.hidden) {
+    setTimeout(function () {
+      cartDone.hidden = true;
+      renderCart();
+    }, 600);
+  }
   cartDrawer.classList.remove('open');
   cartDrawer.setAttribute('aria-hidden', true);
   overlay.classList.remove('show');
@@ -188,15 +315,20 @@ function renderCart() {
       '<div>' +
       '  <p class="cart-item-name"></p>' +
       '  <p class="cart-item-price">' + formatMoney(item.price) + '</p>' +
+      '  <button type="button" class="cart-remove" data-action="remove">Remover</button>' +
       '</div>' +
       '<div class="cart-qty">' +
-      '  <button type="button" data-action="decrease" aria-label="Diminuir quantidade">-</button>' +
+      '  <button type="button" data-action="decrease">−</button>' +
       '  <span>' + item.qty + '</span>' +
-      '  <button type="button" data-action="increase" aria-label="Aumentar quantidade">+</button>' +
+      '  <button type="button" data-action="increase">+</button>' +
       '</div>';
     // o nome entra com textContent (e não dentro do innerHTML) por
     // segurança: textContent nunca é interpretado como HTML
     li.querySelector('.cart-item-name').textContent = item.name;
+    // nomes completos para leitores de tela ("Aumentar quantidade de LG OLED...")
+    li.querySelector('[data-action="decrease"]').setAttribute('aria-label', 'Diminuir quantidade de ' + item.name);
+    li.querySelector('[data-action="increase"]').setAttribute('aria-label', 'Aumentar quantidade de ' + item.name);
+    li.querySelector('[data-action="remove"]').setAttribute('aria-label', 'Remover ' + item.name + ' do carrinho');
     // dataset.id vira o atributo data-id="..." no <li>
     li.dataset.id = item.id;
     cartItems.appendChild(li);
@@ -204,7 +336,8 @@ function renderCart() {
 
   // hidden = true esconde o elemento (igual a display: none)
   // carrinho vazio: mostra "Seu carrinho está vazio" e esconde o total
-  cartEmpty.hidden = cart.length > 0;
+  // (enquanto a confirmação de pedido aparece, a frase de vazio fica escondida)
+  cartEmpty.hidden = cart.length > 0 || !cartDone.hidden;
   cartFooter.hidden = cart.length === 0;
   // a bolinha do contador só aparece se tiver pelo menos 1 item
   cartCount.hidden = count === 0;
@@ -243,16 +376,19 @@ document.querySelector('.cart-toggle').addEventListener('click', openCart);
 document.querySelector('.cart-close').addEventListener('click', closeCart);
 overlay.addEventListener('click', closeCart);
 
-// a tecla Esc também fecha o carrinho
+// a tecla Esc também fecha o carrinho e o menu
 document.addEventListener('keydown', function (event) {
-  if (event.key === 'Escape') closeCart();
+  if (event.key === 'Escape') {
+    closeCart();
+    setMenu(false);
+  }
 });
 
 // botões + e - dentro do carrinho
 // Os itens são recriados toda hora pelo renderCart, então usamos de novo
 // a delegação de eventos: um único evento na lista inteira.
 cartItems.addEventListener('click', function (event) {
-  // data-action="increase" ou "decrease"; se clicou em outra coisa, ignora
+  // data-action="increase", "decrease" ou "remove"; se clicou em outra coisa, ignora
   const action = event.target.dataset.action;
   if (!action) return;
 
@@ -260,7 +396,8 @@ cartItems.addEventListener('click', function (event) {
   const id = event.target.closest('.cart-item').dataset.id;
   const item = cart.find(function (i) { return i.id === id; });
 
-  item.qty += action === 'increase' ? 1 : -1;
+  if (action === 'remove') item.qty = 0;
+  else item.qty += action === 'increase' ? 1 : -1;
   // quantidade zerou: tira o produto do carrinho
   // (filter cria uma lista nova só com os itens que passam na condição)
   if (item.qty <= 0) {
@@ -269,12 +406,29 @@ cartItems.addEventListener('click', function (event) {
   renderCart();
 });
 
-// "Finalizar compra": esvazia o carrinho e agradece (compra simulada)
+// "Finalizar pedido": a compra é simulada (o site é um trabalho de
+// faculdade). Em vez de fechar o painel e sumir, mostramos a confirmação
+// dentro do próprio carrinho, com o valor, e um botão para continuar.
+const cartDone = document.createElement('div');
+cartDone.className = 'cart-done';
+cartDone.hidden = true;
+cartDone.innerHTML =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6"/></svg>' +
+  '<p class="cart-done-title">Pedido recebido!</p>' +
+  '<p class="cart-done-text"></p>' +
+  '<button type="button" class="btn btn-primary">Continuar comprando</button>';
+// coloca a confirmação logo depois da lista de itens
+cartItems.after(cartDone);
+cartDone.querySelector('button').addEventListener('click', closeCart);
+
 document.querySelector('.cart-checkout').addEventListener('click', function () {
+  // guarda o total antes de esvaziar o carrinho
+  const total = cartTotal.textContent;
   cart = [];
+  cartDone.hidden = false;
   renderCart();
-  closeCart();
-  showToast('Pedido finalizado! Obrigado pela compra.');
+  cartDone.querySelector('.cart-done-text').textContent =
+    'Total de ' + total + '. Como este é um site de demonstração, nada foi cobrado.';
 });
 
 // botões "Adicionar ao carrinho" dos produtos
@@ -296,7 +450,8 @@ document.addEventListener('click', function (event) {
       image: product.dataset.image,
       qty: 1
     });
-    showToast(product.dataset.name + ' adicionado ao carrinho');
+    // o aviso já traz o atalho para abrir o carrinho
+    showToast(product.dataset.name + ' está no carrinho.', { label: 'Ver carrinho', onClick: openCart });
 
     // o botão vira "Adicionado!" (verde, pelo CSS) por 1,2 segundo
     button.textContent = 'Adicionado!';
@@ -310,6 +465,19 @@ document.addEventListener('click', function (event) {
 
 // desenha o carrinho salvo assim que a página abre
 renderCart();
+
+// Outra aba do site aberta ao mesmo tempo: o evento "storage" avisa quando
+// ela muda o localStorage. Assim o carrinho e o tema ficam iguais em todas
+// as abas, sem precisar recarregar.
+window.addEventListener('storage', function (event) {
+  if (event.key === 'cart') {
+    cart = readStorage('cart', []);
+    renderCart();
+  }
+  if (event.key === 'theme') {
+    applyTheme(event.newValue === 'dark' || (!event.newValue && systemDark.matches));
+  }
+});
 
 // ---------- Busca e ordenação dos produtos ----------
 // Só existe nas páginas de categoria (TVs e Acessórios). Na página inicial
@@ -326,6 +494,23 @@ if (searchInput && sortSelect) {
   const countText = document.querySelector('.products-count');
   // mensagem "Nenhum produto encontrado"
   const emptyText = document.querySelector('.products-empty');
+
+  // A mensagem ganha a palavra buscada e um botão "Limpar busca", para a
+  // pessoa não ficar presa numa lista vazia.
+  const emptyMessage = document.createElement('span');
+  const clearSearch = document.createElement('button');
+  clearSearch.type = 'button';
+  clearSearch.className = 'btn btn-ghost';
+  clearSearch.textContent = 'Limpar busca';
+  emptyText.innerHTML = '';
+  emptyText.append(emptyMessage, document.createElement('br'), clearSearch);
+
+  clearSearch.addEventListener('click', function () {
+    searchInput.value = '';
+    updateProducts();
+    // devolve o cursor para o campo, pronto para outra busca
+    searchInput.focus();
+  });
 
   function updateProducts() {
     // texto buscado, sem espaços nas pontas e em minúsculas
@@ -362,6 +547,7 @@ if (searchInput && sortSelect) {
     // "1 produto" no singular, "2 produtos" no plural
     countText.textContent = visible + (visible === 1 ? ' produto' : ' produtos');
     emptyText.hidden = visible > 0;
+    emptyMessage.textContent = 'Nenhum produto com "' + searchInput.value.trim() + '".';
   }
 
   // "input" dispara a cada letra digitada; "change" quando escolhe outra opção

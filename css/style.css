@@ -17,13 +17,18 @@
      vantagens, categorias, produtos) · Continue navegando · Carrinho ·
      Toast · Voltar ao topo · Rodapé · Scrollytelling (TV, pixels,
      música) · Telas maiores (@media) · Impressão · Animação ao rolar ·
-     Efeitos de fundo · Reduzir movimento */
+     Efeitos de fundo · Reduzir movimento · Página de produto ·
+     Troca de tema · Detalhes de uso */
 
 /* ---------- Cores e medidas ---------- */
 /* paleta inspirada no site da Apple: cinzas neutros e um único azul de ação */
 /* :root é a tag <html>. Variáveis CSS começam com "--" e são usadas com
    var(--nome). Elas "descem" para todos os elementos da página. */
 :root {
+  /* color-scheme avisa o navegador qual tema a página usa. Assim as partes
+     que ele mesmo desenha (barra de rolagem, lista do <select>, campos
+     preenchidos automaticamente) também ficam claras ou escuras */
+  color-scheme: light;
   /* azul dos botões principais e cor do hover */
   --primary: #0071e3;
   --primary-hover: #0077ed;
@@ -70,6 +75,7 @@
    theme.js/main.js), estas variáveis substituem as de cima. Como todo o
    site usa var(--...), tudo escurece de uma vez. */
 [data-theme="dark"] {
+  color-scheme: dark;
   --primary: #0071e3;
   --primary-hover: #0077ed;
   --link: #2997ff;
@@ -483,14 +489,20 @@ header.scrolled {
   right: 0;
   max-height: 0;
   overflow: hidden;
-  background-color: var(--header-bg);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-  transition: max-height 0.6s var(--ease);
+  /* fundo sólido: o cabeçalho já tem o efeito de vidro, e um segundo vidro
+     dentro dele não desfoca nada (o texto da página aparecia por trás
+     dos links). Com a cor do fundo da página, o menu fica legível. */
+  background-color: var(--bg);
+  transition: max-height 0.6s var(--ease), box-shadow 0.6s var(--ease);
 }
 
+/* aberto: desce até no máximo a altura da tela (rola se não couber)
+   e ganha uma sombra embaixo, separando o menu da página */
 .main-nav.open {
-  max-height: 100vh;
+  max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* a lista <ul> do menu: um link embaixo do outro, sem bolinhas */
@@ -1115,8 +1127,11 @@ footer .logo {
 
 /* botões redondos pequenos */
 .cart-qty button {
-  width: 26px;
-  height: 26px;
+  /* 32px: tamanho confortável para tocar com o dedo */
+  width: 32px;
+  height: 32px;
+  font-size: 1.1rem;
+  line-height: 1;
   font: inherit;
   color: var(--text);
   background-color: var(--surface-alt);
@@ -1125,11 +1140,31 @@ footer .logo {
   cursor: pointer;
 }
 
-/* "Seu carrinho está vazio" */
+/* "Seu carrinho está vazio" com sugestões de onde começar */
 .cart-empty {
   flex: 1;
+  padding-top: 40px;
   color: var(--text-muted);
   text-align: center;
+}
+
+/* o atributo hidden precisa vencer o display das regras acima */
+.cart-empty[hidden] {
+  display: none;
+}
+
+.cart-empty p {
+  margin: 0 0 6px;
+}
+
+.cart-empty-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cart-empty .btn {
+  margin-top: 14px;
 }
 
 /* parte de baixo: total e "Finalizar compra" */
@@ -1212,6 +1247,32 @@ footer .logo {
 .toast.show {
   opacity: 1;
   transform: translate(-50%, 0);
+  /* visível: aceita cliques (por causa do botão "Ver carrinho") */
+  pointer-events: auto;
+}
+
+/* texto e botão do aviso lado a lado */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* botão de ação dentro do aviso ("Ver carrinho"): azul claro, sem fundo,
+   que aparece bem no fundo escuro do aviso nos dois temas */
+.toast-action {
+  flex-shrink: 0;
+  padding: 4px 0;
+  font: inherit;
+  font-weight: 600;
+  color: #2997ff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.toast-action:hover {
+  text-decoration: underline;
 }
 
 /* ---------- Tablets (a partir de 768px) ---------- */
@@ -2293,3 +2354,120 @@ footer .logo {
   }
 }
 .product-description { min-height:44px; color:var(--text-muted); font-size:.9rem; }
+
+/* ---------- Troca de tema ---------- */
+/* Ícones do botão de tema: no claro aparece a lua ("ir para o escuro"),
+   no escuro aparece o sol ("voltar para o claro"). Como o theme.js já
+   coloca data-theme no <html> antes da página aparecer, o ícone certo
+   aparece desde o início, sem piscar. */
+.theme-toggle .icon-sun,
+[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+/* Ícones do botão de menu: três linhas fechado, X aberto.
+   O main.js troca o aria-expanded, e o CSS usa ele para escolher o ícone. */
+.menu-toggle .icon-close,
+.menu-toggle[aria-expanded="true"] .icon-menu {
+  display: none;
+}
+
+.menu-toggle[aria-expanded="true"] .icon-close {
+  display: block;
+}
+
+/* Durante a troca de tema (classe colocada pelo main.js por um instante)
+   todas as transições ficam desligadas. Sem isso, cada parte do site
+   mudava de cor numa velocidade diferente (o fundo em 0,5s, os cards na
+   hora, o cabeçalho no meio do caminho) e a tela ficava "manchada". */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+/* Animação da troca de tema (navegadores com View Transitions API).
+   O navegador tira uma "foto" da página antes e outra depois da troca;
+   o main.js revela a foto nova num círculo que cresce a partir do botão.
+   Aqui desligamos o efeito padrão (um fade) para só o círculo aparecer. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* ---------- Detalhes de uso ---------- */
+/* Contorno de foco para quem navega pelo teclado (tecla Tab).
+   :focus-visible só aparece no teclado, não no clique do mouse.
+   Os campos de formulário já têm o próprio anel azul (regra input:focus). */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* cor do texto selecionado com o mouse, no azul do site */
+::selection {
+  color: var(--text);
+  background-color: rgba(0, 113, 227, 0.22);
+}
+
+/* botão "Remover" de cada item do carrinho: discreto, só texto */
+.cart-remove {
+  margin-top: 4px;
+  padding: 0;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-remove:hover {
+  color: var(--danger);
+  text-decoration: underline;
+}
+
+/* mensagem depois de finalizar o pedido, no lugar da lista */
+.cart-done {
+  flex: 1;
+  padding-top: 40px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.cart-done[hidden] {
+  display: none;
+}
+
+/* o "check" verde dentro de um círculo */
+.cart-done svg {
+  width: 56px;
+  height: 56px;
+  fill: none;
+  stroke: var(--success);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cart-done-title {
+  margin: 12px 0 6px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cart-done .btn {
+  margin-top: 16px;
+}
+
+/* busca sem resultado: o botão "Limpar busca" fica embaixo da frase */
+.products-empty .btn {
+  margin-top: 10px;
+}
